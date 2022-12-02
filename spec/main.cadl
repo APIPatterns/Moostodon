@@ -1,0 +1,29 @@
+
+// import CADL http package
+
+import "@cadl-lang/rest";
+import "./lib.cadl";
+import "./resources/auth.cadl";
+import "./resources/apps.cadl";
+import "./resources/accounts.cadl";
+
+@service({
+  title: "Mastodon",
+  description: "Mastodon API",
+  version: "1.0.0",
+  termsOfService: "https://docs.joinmastodon.org/api/",
+  contact: {
+    name: "Mastodon",
+    url: "https://joinmastodon.org/"
+  }
+})
+
+//import "ActivityPub"
+//import "ActivityStreams"
+
+@server("https://mastodon.social/api/v1", "Single server endpoint")
+@route("/api/v1/")
+namespace Mastodon;
+using Cadl.Http;
+
+

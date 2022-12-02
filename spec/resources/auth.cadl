@@ -1,0 +1,53 @@
+
+
+using Cadl.Http;
+
+namespace Mastodon;
+
+@route("/oauth")
+interface OAuthService {
+  @route("/authorize")
+  @get authorize(
+    @query client_id: string,
+    @query redirect_uri: string,
+    @query response_type: string,
+    @query scope: string,
+    @query force_login: boolean,
+    @query lang: string
+  ): AuthorizeResponse | BadRequestResponse;
+
+  @route("/token")
+  @post token(@body body: TokenBody): TokenResponse | BadRequestResponse | UnauthorizedResponse;
+
+  @route("/revoke")
+  @post revoke(@body body: RevokeBody): OkResponse | ForbiddenResponse;
+}
+
+model RevokeBody {
+  @header contentType: "application/form-data";
+  client_id: string;
+  client_secret: string;
+  token: string;
+}
+
+model TokenBody {
+  @header contentType: "application/form-data";
+  grant_type: string;
+  client_id: string;
+  client_secret: string;
+  redirect_uri: string;
+  scopes: string;
+  code: string;
+}
+
+model TokenResponse {
+  access_token: string;
+  token_type: string;
+  scope: string;
+  created_at: integer;
+}
+
+model AuthorizeResponse {
+  @statusCode statusCode: 302;
+  @header location: string;
+}

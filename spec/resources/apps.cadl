@@ -1,0 +1,30 @@
+import "../lib.cadl";
+import "@cadl-lang/rest";
+using Cadl.Http;
+
+namespace Mastodon;
+
+@route("apps")
+interface AppsService {
+  @post createApp(@body body: CreateAppBody): Application | UnprocessableContentError;
+  @route("verify_credentials") 
+  @get verifyCredentials(): Application | UnauthorizedError;
+}
+
+model CreateAppBody {
+  @header contentType: "application/form-data";
+  client_name: string;
+  redirect_uris: string;
+  scopes: string;
+  website: string;
+}
+
+model Application {
+  id: string;
+  name: string;
+  website: string;
+  redirect_uri: string;
+  client_id: string;
+  client_secret: string;
+  vapid_key: string;
+}

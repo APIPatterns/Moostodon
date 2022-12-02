@@ -1,0 +1,611 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Mastodon",
+    "version": "1.0.0"
+  },
+  "tags": [],
+  "paths": {
+    "/api/v1/oauth/authorize": {
+      "get": {
+        "operationId": "OAuthService_authorize",
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "redirect_uri",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "response_type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "force_login",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Redirection",
+            "headers": {
+              "location": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax."
+          }
+        }
+      }
+    },
+    "/api/v1/oauth/token": {
+      "post": {
+        "operationId": "OAuthService_token",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax."
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenBody"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/oauth/revoke": {
+      "post": {
+        "operationId": "OAuthService_revoke",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded."
+          },
+          "403": {
+            "description": "Access is forbidden"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/RevokeBody"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/apps": {
+      "post": {
+        "operationId": "AppsService_createApp",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Application"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableContentError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppBody"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/apps/verify_credentials": {
+      "get": {
+        "operationId": "AppsService_verifyCredentials",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Account"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts": {
+      "post": {
+        "operationId": "AccountsService_createAccount",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Account"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAccountBody"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{id}": {
+      "get": {
+        "operationId": "AccountService_getAccount",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Account"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        }
+      },
+      "patch": {
+        "operationId": "AccountService_updateAccount",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Account"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "403": {
+            "description": "Access is forbidden"
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Account"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TokenBody": {
+        "type": "object",
+        "properties": {
+          "grant_type": {
+            "type": "string"
+          },
+          "client_id": {
+            "type": "string"
+          },
+          "client_secret": {
+            "type": "string"
+          },
+          "redirect_uri": {
+            "type": "string"
+          },
+          "scopes": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "grant_type",
+          "client_id",
+          "client_secret",
+          "redirect_uri",
+          "scopes",
+          "code"
+        ]
+      },
+      "TokenResponse": {
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "type": "string"
+          },
+          "token_type": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "created_at": {
+            "$ref": "#/components/schemas/integer"
+          }
+        },
+        "required": [
+          "access_token",
+          "token_type",
+          "scope",
+          "created_at"
+        ]
+      },
+      "RevokeBody": {
+        "type": "object",
+        "properties": {
+          "client_id": {
+            "type": "string"
+          },
+          "client_secret": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "client_id",
+          "client_secret",
+          "token"
+        ]
+      },
+      "CreateAppBody": {
+        "type": "object",
+        "properties": {
+          "client_name": {
+            "type": "string"
+          },
+          "redirect_uris": {
+            "type": "string"
+          },
+          "scopes": {
+            "type": "string"
+          },
+          "website": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "client_name",
+          "redirect_uris",
+          "scopes",
+          "website"
+        ]
+      },
+      "Application": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "website": {
+            "type": "string"
+          },
+          "redirect_uri": {
+            "type": "string"
+          },
+          "client_id": {
+            "type": "string"
+          },
+          "client_secret": {
+            "type": "string"
+          },
+          "vapid_key": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "website",
+          "redirect_uri",
+          "client_id",
+          "client_secret",
+          "vapid_key"
+        ]
+      },
+      "UnprocessableContentError": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "error_description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "error",
+          "error_description"
+        ]
+      },
+      "Account": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "acct": {
+            "type": "string"
+          },
+          "display_name": {
+            "type": "string"
+          },
+          "locked": {
+            "type": "boolean"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "followers_count": {
+            "$ref": "#/components/schemas/integer"
+          },
+          "following_count": {
+            "$ref": "#/components/schemas/integer"
+          },
+          "statuses_count": {
+            "$ref": "#/components/schemas/integer"
+          },
+          "note": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "avatar": {
+            "type": "string"
+          },
+          "avatar_static": {
+            "type": "string"
+          },
+          "header": {
+            "type": "string"
+          },
+          "header_static": {
+            "type": "string"
+          },
+          "emojis": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-cadl-name": "string[]"
+          },
+          "moved": {
+            "type": "string"
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-cadl-name": "string[]"
+          },
+          "bot": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "username",
+          "acct",
+          "display_name",
+          "locked",
+          "created_at",
+          "followers_count",
+          "following_count",
+          "statuses_count",
+          "note",
+          "url",
+          "avatar",
+          "avatar_static",
+          "header",
+          "header_static",
+          "emojis",
+          "moved",
+          "fields",
+          "bot"
+        ]
+      },
+      "UnauthorizedError": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "error_description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "error",
+          "error_description"
+        ]
+      },
+      "CreateAccountBody": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "agreement": {
+            "type": "boolean"
+          },
+          "locale": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "username",
+          "email",
+          "password",
+          "agreement",
+          "locale",
+          "reason"
+        ]
+      },
+      "AuthorizeResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "Status": {
+        "type": "object",
+        "properties": {}
+      },
+      "integer": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://mastodon.social/api/v1",
+      "description": "Single server endpoint",
+      "variables": {}
+    }
+  ]
+}

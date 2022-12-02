@@ -1,0 +1,25 @@
+import "@cadl-lang/rest";
+import "./lib.cadl";
+
+using Cadl.Http;
+
+interface ReadOnlyList<T> {
+
+}
+
+interface ReadOnlyItem<T> {
+
+}
+
+model UnprocessableContentError is Error {
+    @statusCode statusCode: 422;
+  }
+
+model UnauthorizedError is Error {
+    @statusCode statusCode: 401;
+  }
+  
+model Error {
+  error: string;
+  error_description: string;
+}
