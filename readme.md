@@ -32,4 +32,7 @@ dotnet build
 dotnet run
 ```
 
-[![Moose with Canadian flag](moostodon.png)]
+
+[![Moose with Canadian flag](./Moostodon.png)]
+    
+
