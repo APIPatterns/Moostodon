@@ -688,9 +688,9 @@
           "fields": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/v1.field"
             },
-            "x-cadl-name": "string[]"
+            "x-cadl-name": "v1.field[]"
           },
           "bot": {
             "type": "boolean"
@@ -900,6 +900,25 @@
         "required": [
           "error",
           "error_description"
+        ]
+      },
+      "v1.field": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "verified_at": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "value",
+          "verified_at"
         ]
       },
       "v1.Tag": {

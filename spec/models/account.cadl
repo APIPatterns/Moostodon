@@ -18,6 +18,12 @@ model Account {
     header_static: string;
     emojis: string[];
     moved: string;
-    fields: string[];
+    fields: field[];
     bot: boolean;
+  }
+
+  model field {
+    name: string;
+    value: string;
+    verified_at: string;
   }

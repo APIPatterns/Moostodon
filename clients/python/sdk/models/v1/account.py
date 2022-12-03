@@ -2,6 +2,8 @@ from __future__ import annotations
 from kiota_abstractions.serialization import AdditionalDataHolder, Parsable, ParseNode, SerializationWriter
 from typing import Any, Callable, Dict, List, Optional, Union
 
+from . import field
+
 class Account(AdditionalDataHolder, Parsable):
     @property
     def acct(self,) -> Optional[str]:
@@ -110,7 +112,7 @@ class Account(AdditionalDataHolder, Parsable):
         # The emojis property
         self._emojis: Optional[List[str]] = None
         # The fields property
-        self._fields: Optional[List[str]] = None
+        self._fields: Optional[List[field.Field]] = None
         # The followers_count property
         self._followers_count: Optional[int] = None
         # The following_count property
@@ -198,15 +200,15 @@ class Account(AdditionalDataHolder, Parsable):
         self._emojis = value
     
     @property
-    def fields(self,) -> Optional[List[str]]:
+    def fields(self,) -> Optional[List[field.Field]]:
         """
         Gets the fields property value. The fields property
-        Returns: Optional[List[str]]
+        Returns: Optional[List[field.Field]]
         """
         return self._fields
     
     @fields.setter
-    def fields(self,value: Optional[List[str]] = None) -> None:
+    def fields(self,value: Optional[List[field.Field]] = None) -> None:
         """
         Sets the fields property value. The fields property
         Args:
@@ -261,7 +263,7 @@ class Account(AdditionalDataHolder, Parsable):
             "created_at": lambda n : setattr(self, 'created_at', n.get_str_value()),
             "display_name": lambda n : setattr(self, 'display_name', n.get_str_value()),
             "emojis": lambda n : setattr(self, 'emojis', n.get_collection_of_primitive_values(str)),
-            "fields": lambda n : setattr(self, 'fields', n.get_collection_of_primitive_values(str)),
+            "fields": lambda n : setattr(self, 'fields', n.get_collection_of_object_values(field.Field)),
             "followers_count": lambda n : setattr(self, 'followers_count', n.get_int_value()),
             "following_count": lambda n : setattr(self, 'following_count', n.get_int_value()),
             "header": lambda n : setattr(self, 'header', n.get_str_value()),
@@ -393,7 +395,7 @@ class Account(AdditionalDataHolder, Parsable):
         writer.write_str_value("created_at", self.created_at)
         writer.write_str_value("display_name", self.display_name)
         writer.write_collection_of_primitive_values("emojis", self.emojis)
-        writer.write_collection_of_primitive_values("fields", self.fields)
+        writer.write_collection_of_object_values("fields", self.fields)
         writer.write_int_value("followers_count", self.followers_count)
         writer.write_int_value("following_count", self.following_count)
         writer.write_str_value("header", self.header)
