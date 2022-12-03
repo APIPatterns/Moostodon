@@ -31,8 +31,5 @@ dotnet restore
 dotnet build
 dotnet run
 ```
-<div style="text-align: center;">
 
 [![Moose with Canadian flag](moostodon.png)]
-
-</div>
