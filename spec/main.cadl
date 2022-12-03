@@ -1,11 +1,13 @@
-
 // import CADL http package
 
 import "@cadl-lang/rest";
-import "./lib.cadl";
 import "./resources/auth.cadl";
 import "./resources/apps.cadl";
 import "./resources/accounts.cadl";
+import "./resources/timelines.cadl";
+import "./resources/search.cadl";
+
+using Cadl.Http;
 
 @service({
   title: "Mastodon",
@@ -17,13 +19,20 @@ import "./resources/accounts.cadl";
     url: "https://joinmastodon.org/"
   }
 })
+@server("https://mastodon.example/", "Actual server to be set during client setup")
+@route("api")
+namespace Mastodon {
 
-//import "ActivityPub"
-//import "ActivityStreams"
+  @route("v1")
+  namespace v1 {
+  
+  }
 
-@server("https://mastodon.social/api/v1", "Single server endpoint")
-@route("/api/v1/")
-namespace Mastodon;
-using Cadl.Http;
+  @route("v2")
+  namespace v2 {
+
+  }
+
+}
 
 

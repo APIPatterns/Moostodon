@@ -87,7 +87,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TokenResponse"
+                  "$ref": "#/components/schemas/v1.TokenResponse"
                 }
               }
             }
@@ -103,7 +103,7 @@
           "content": {
             "application/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/TokenBody"
+                "$ref": "#/components/schemas/v1.TokenBody"
               }
             }
           }
@@ -126,7 +126,7 @@
           "content": {
             "application/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/RevokeBody"
+                "$ref": "#/components/schemas/v1.RevokeBody"
               }
             }
           }
@@ -143,7 +143,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Application"
+                  "$ref": "#/components/schemas/v1.Application"
                 }
               }
             }
@@ -153,7 +153,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UnprocessableContentError"
+                  "$ref": "#/components/schemas/v1.UnprocessableContentError"
                 }
               }
             }
@@ -161,9 +161,9 @@
         },
         "requestBody": {
           "content": {
-            "application/form-data": {
+            "application/x-www-form-urlencoded": {
               "schema": {
-                "$ref": "#/components/schemas/CreateAppBody"
+                "$ref": "#/components/schemas/v1.CreateAppBody"
               }
             }
           }
@@ -180,7 +180,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Account"
+                  "$ref": "#/components/schemas/v1.Application"
                 }
               }
             }
@@ -190,7 +190,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UnauthorizedError"
+                  "$ref": "#/components/schemas/v1.UnauthorizedError"
                 }
               }
             }
@@ -208,7 +208,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Account"
+                  "$ref": "#/components/schemas/v1.Account"
                 }
               }
             }
@@ -221,7 +221,7 @@
           "content": {
             "application/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/CreateAccountBody"
+                "$ref": "#/components/schemas/v1.CreateAccountBody"
               }
             }
           }
@@ -247,7 +247,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Account"
+                  "$ref": "#/components/schemas/v1.Account"
                 }
               }
             }
@@ -275,7 +275,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Account"
+                  "$ref": "#/components/schemas/v1.Account"
                 }
               }
             }
@@ -294,7 +294,134 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Account"
+                "$ref": "#/components/schemas/v1.Account"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{id}/statuses": {
+      "get": {
+        "operationId": "AccountStatusesService_getStatuses",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/v1.Status"
+                  },
+                  "x-cadl-name": "v1.Status[]"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        }
+      }
+    },
+    "/api/v1/timelines/public": {
+      "get": {
+        "operationId": "PublicTimelines_items",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/v1.Status"
+                  },
+                  "x-cadl-name": "v1.Status[]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/timelines/tag/{tag}": {
+      "get": {
+        "operationId": "TagTimeline_getStatusByTag",
+        "parameters": [
+          {
+            "name": "tag",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/v1.Status"
+                  },
+                  "x-cadl-name": "v1.Status[]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/search": {
+      "get": {
+        "operationId": "SearchService_search",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "accounts",
+                "hashtags",
+                "statuses"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v2.SearchResult"
+                }
               }
             }
           }
@@ -304,7 +431,7 @@
   },
   "components": {
     "schemas": {
-      "TokenBody": {
+      "v1.TokenBody": {
         "type": "object",
         "properties": {
           "grant_type": {
@@ -335,7 +462,7 @@
           "code"
         ]
       },
-      "TokenResponse": {
+      "v1.TokenResponse": {
         "type": "object",
         "properties": {
           "access_token": {
@@ -348,7 +475,8 @@
             "type": "string"
           },
           "created_at": {
-            "$ref": "#/components/schemas/integer"
+            "type": "integer",
+            "format": "int32"
           }
         },
         "required": [
@@ -358,7 +486,7 @@
           "created_at"
         ]
       },
-      "RevokeBody": {
+      "v1.RevokeBody": {
         "type": "object",
         "properties": {
           "client_id": {
@@ -377,7 +505,7 @@
           "token"
         ]
       },
-      "CreateAppBody": {
+      "v1.CreateAppBody": {
         "type": "object",
         "properties": {
           "client_name": {
@@ -400,7 +528,7 @@
           "website"
         ]
       },
-      "Application": {
+      "v1.Application": {
         "type": "object",
         "properties": {
           "id": {
@@ -435,7 +563,7 @@
           "vapid_key"
         ]
       },
-      "UnprocessableContentError": {
+      "v1.UnprocessableContentError": {
         "type": "object",
         "properties": {
           "error": {
@@ -450,7 +578,53 @@
           "error_description"
         ]
       },
-      "Account": {
+      "v1.UnauthorizedError": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "error_description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "error",
+          "error_description"
+        ]
+      },
+      "v1.CreateAccountBody": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "agreement": {
+            "type": "boolean"
+          },
+          "locale": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "username",
+          "email",
+          "password",
+          "agreement",
+          "locale",
+          "reason"
+        ]
+      },
+      "v1.Account": {
         "type": "object",
         "properties": {
           "id": {
@@ -472,13 +646,16 @@
             "type": "string"
           },
           "followers_count": {
-            "$ref": "#/components/schemas/integer"
+            "type": "integer",
+            "format": "int32"
           },
           "following_count": {
-            "$ref": "#/components/schemas/integer"
+            "type": "integer",
+            "format": "int32"
           },
           "statuses_count": {
-            "$ref": "#/components/schemas/integer"
+            "type": "integer",
+            "format": "int32"
           },
           "note": {
             "type": "string"
@@ -541,7 +718,176 @@
           "bot"
         ]
       },
-      "UnauthorizedError": {
+      "v1.Status": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "uri": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "account": {
+            "$ref": "#/components/schemas/v1.Account"
+          },
+          "in_reply_to_id": {
+            "type": "string"
+          },
+          "in_reply_to_account_id": {
+            "type": "string"
+          },
+          "reblog": {
+            "$ref": "#/components/schemas/v1.Status"
+          },
+          "content": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "emojis": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-cadl-name": "string[]"
+          },
+          "replies_count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "reblogs_count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "favourites_count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "reblogged": {
+            "type": "boolean"
+          },
+          "favourited": {
+            "type": "boolean"
+          },
+          "muted": {
+            "type": "boolean"
+          },
+          "sensitive": {
+            "type": "boolean"
+          },
+          "spoiler_text": {
+            "type": "string"
+          },
+          "visibility": {
+            "type": "string"
+          },
+          "media_attachments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-cadl-name": "string[]"
+          },
+          "mentions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-cadl-name": "string[]"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-cadl-name": "string[]"
+          },
+          "card": {
+            "type": "string"
+          },
+          "poll": {
+            "type": "string"
+          },
+          "application": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          },
+          "pinned": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "uri",
+          "url",
+          "account",
+          "in_reply_to_id",
+          "in_reply_to_account_id",
+          "reblog",
+          "content",
+          "created_at",
+          "emojis",
+          "replies_count",
+          "reblogs_count",
+          "favourites_count",
+          "reblogged",
+          "favourited",
+          "muted",
+          "sensitive",
+          "spoiler_text",
+          "visibility",
+          "media_attachments",
+          "mentions",
+          "tags",
+          "card",
+          "poll",
+          "application",
+          "language",
+          "pinned"
+        ]
+      },
+      "v2.SearchResult": {
+        "type": "object",
+        "properties": {
+          "accounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/v1.Account"
+            },
+            "x-cadl-name": "v1.Account[]"
+          },
+          "hashtags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/v1.Tag"
+            },
+            "x-cadl-name": "v1.Tag[]"
+          },
+          "statuses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/v1.Status"
+            },
+            "x-cadl-name": "v1.Status[]"
+          }
+        },
+        "required": [
+          "accounts",
+          "hashtags",
+          "statuses"
+        ]
+      },
+      "v1.AuthorizeResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "v1.Error": {
         "type": "object",
         "properties": {
           "error": {
@@ -556,55 +902,66 @@
           "error_description"
         ]
       },
-      "CreateAccountBody": {
+      "v1.Tag": {
         "type": "object",
         "properties": {
-          "username": {
+          "name": {
             "type": "string"
           },
-          "email": {
+          "url": {
             "type": "string"
           },
-          "password": {
-            "type": "string"
+          "history": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/v1.HistoryItem"
+            },
+            "x-cadl-name": "v1.HistoryItem[]"
           },
-          "agreement": {
+          "following": {
             "type": "boolean"
-          },
-          "locale": {
+          }
+        },
+        "required": [
+          "name",
+          "url",
+          "history",
+          "following"
+        ]
+      },
+      "v1.HistoryItem": {
+        "type": "object",
+        "properties": {
+          "day": {
             "type": "string"
           },
-          "reason": {
+          "uses": {
+            "type": "string"
+          },
+          "accounts": {
             "type": "string"
           }
         },
         "required": [
-          "username",
-          "email",
-          "password",
-          "agreement",
-          "locale",
-          "reason"
+          "day",
+          "uses",
+          "accounts"
         ]
       },
-      "AuthorizeResponse": {
-        "type": "object",
-        "properties": {}
-      },
-      "Status": {
-        "type": "object",
-        "properties": {}
-      },
-      "integer": {
-        "type": "object",
-        "properties": {}
+      "v2.SearchType": {
+        "type": "string",
+        "enum": [
+          "accounts",
+          "hashtags",
+          "statuses"
+        ]
       }
     }
   },
   "servers": [
     {
-      "url": "https://mastodon.social/api/v1",
-      "description": "Single server endpoint",
+      "url": "https://mastodon.example/",
+      "description": "Actual server to be set during client setup",
       "variables": {}
     }
   ]

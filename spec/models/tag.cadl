@@ -1,0 +1,14 @@
+namespace Mastodon.v1;
+
+model Tag {
+    name: string;
+    url: string;
+    history: HistoryItem[];
+    following: boolean;
+}
+
+model HistoryItem {
+    day: string;
+    uses: string;
+    accounts:string;
+}

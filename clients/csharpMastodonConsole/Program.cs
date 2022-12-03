@@ -1,4 +1,28 @@
 ﻿
-var mtdnService = new MastodonService();
+var mtdnService = new MastodonService("https://mastodon.social");
 
+// Get user's account details by id
+var accounts = await mtdnService.SearchAccounts("darrel");
+// list account names
+foreach (var account in accounts.OrderBy(a => a.Followers_count))
+{
+    Console.WriteLine($"{account.Id} {account.Username} ({account.Note})");
+}
+
+var myaccount = await mtdnService.GetAccount("108192895578262114");
+// Write account details to console
+Console.WriteLine($"Account: {myaccount.Display_name}");
+
+// Read tag statuses associated to a tag
+//var statuses = await mtdnService.ReadTagTimeline("openapi");
+
+
+// read public timeline and print the first 10 statuses
+//var statuses = await mtdnService.ReadPublicTimeline();
+
+
+// foreach (var status in statuses.Take(10))
+// {
+//     Console.WriteLine(status.Account.Display_name + ":" + status.Content.Substring(0, 20));
+// }
 

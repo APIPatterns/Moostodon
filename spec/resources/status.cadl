@@ -1,0 +1,3 @@
+import "./common.cadl";
+namespace Mastodon.v1;
+using Cadl.Http;

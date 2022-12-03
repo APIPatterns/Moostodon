@@ -1,4 +1,10 @@
-namespace Mastodon;
+// import "../models/common.cadl";
+import "../models/account.cadl";
+import "../models/status.cadl";
+// import "./common.cadl";
+
+
+namespace Mastodon.v1;
 using Cadl.Http;
 
 @route("accounts")
@@ -15,27 +21,6 @@ model CreateAccountBody {
   locale: string;
   reason: string;
 }
-model Account {
-  id: string;
-  username: string;
-  acct: string;
-  display_name: string;
-  locked: boolean;
-  created_at: string;
-  followers_count: integer;
-  following_count: integer;
-  statuses_count: integer;
-  note: string;
-  url: string;
-  avatar: string;
-  avatar_static: string;
-  header: string;
-  header_static: string;
-  emojis: string[];
-  moved: string;
-  fields: string[];
-  bot: boolean;
-}
 
 @route("accounts/{id}")
 interface AccountService {
@@ -44,15 +29,13 @@ interface AccountService {
 }
 
 @route("accounts/{id}/statuses")
-interface AccountStatusesService extends ReadOnlyList<Status> {
-}
-
-model Status {
-
+interface AccountStatusesService  {
+  @get getStatuses(@path id: string): Status[] | NotFoundResponse;
 }
 
 @route("accounts/{id}/following")
 interface AccountFollowingService {
+
 }
 
 @route("accounts/{id}/followers")

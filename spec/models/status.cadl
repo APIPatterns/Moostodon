@@ -1,0 +1,32 @@
+namespace Mastodon.v1;
+
+model Status {
+    id: string;
+    uri: string;
+    url: string;
+    account: Account;
+    in_reply_to_id: string;
+    in_reply_to_account_id: string;
+    reblog: Status;
+    content: string;
+    created_at: string;
+    emojis: string[];
+    replies_count: int32;
+    reblogs_count: int32;
+    favourites_count: int32;
+    reblogged: boolean;
+    favourited: boolean;
+    muted: boolean;
+    sensitive: boolean;
+    spoiler_text: string;
+    visibility: string;
+    media_attachments: string[];
+    mentions: string[];
+    tags: string[];
+    card: string;
+    poll: string;
+    application: string;
+    language: string;
+    pinned: boolean;
+  }
+  

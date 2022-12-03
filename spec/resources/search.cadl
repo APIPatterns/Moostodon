@@ -1,0 +1,27 @@
+import "./common.cadl";
+import "../models/account.cadl";
+import "../models/status.cadl";
+import "../models/tag.cadl";
+import "@cadl-lang/openapi3";
+
+namespace Mastodon.v2;
+using Mastodon.v1;
+using Cadl.Http;
+using OpenAPI;
+
+enum SearchType {
+    accounts,
+    hashtags,
+    statuses
+}
+
+model SearchResult { 
+    accounts : Account[];
+    hashtags : Tag[];
+    statuses : Status[];
+}
+
+@route("search")
+interface SearchService {
+    @get search(@query q:string, @query type:SearchType ) : SearchResult;
+}

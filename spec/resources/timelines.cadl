@@ -1,0 +1,15 @@
+import "./common.cadl";
+namespace Mastodon.v1;
+using Cadl.Http;
+
+
+@route("timelines/public")
+interface PublicTimelines extends ReadOnlyList<Status> {
+
+}
+
+@route("timelines/tag/{tag}")
+interface TagTimeline  {
+  @get getStatusByTag(@path tag:string) : Status[];
+}
+

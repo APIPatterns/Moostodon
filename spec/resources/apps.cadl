@@ -1,8 +1,6 @@
-import "../lib.cadl";
-import "@cadl-lang/rest";
+import "../models/common.cadl";
+namespace Mastodon.v1;
 using Cadl.Http;
-
-namespace Mastodon;
 
 @route("apps")
 interface AppsService {
@@ -12,7 +10,7 @@ interface AppsService {
 }
 
 model CreateAppBody {
-  @header contentType: "application/form-data";
+  @header contentType: "application/x-www-form-urlencoded";
   client_name: string;
   redirect_uris: string;
   scopes: string;

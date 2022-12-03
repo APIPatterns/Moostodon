@@ -1,0 +1,28 @@
+{
+  "descriptionHash": "AACD7275AEE7B01D8E3A2FEB7C4CBC06DB8DF1655378BB4E2B4C04FEF44C0942E3B9377FCBAAA906CABB1B759DE40F6A331960A4FD7688F63D0565A21AAB515B",
+  "descriptionLocation": "C:\\Users\\darrmi\\src\\github\\APIPatterns\\Moostodon\\clients\\csharpMastodonConsole\\..\\..\\spec\\cadl-output\\openapi.json",
+  "lockFileVersion": "1.0.0",
+  "kiotaVersion": "0.8.3.0",
+  "clientClassName": "MastodonClient",
+  "clientNamespaceName": "MastodonClientLib",
+  "language": "CSharp",
+  "usesBackingStore": false,
+  "includeAdditionalData": true,
+  "serializers": [
+    "Microsoft.Kiota.Serialization.Json.JsonSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Text.TextSerializationWriterFactory"
+  ],
+  "deserializers": [
+    "Microsoft.Kiota.Serialization.Json.JsonParseNodeFactory",
+    "Microsoft.Kiota.Serialization.Text.TextParseNodeFactory"
+  ],
+  "structuredMimeTypes": [
+    "application/json",
+    "application/xml",
+    "text/plain",
+    "text/xml",
+    "text/yaml"
+  ],
+  "includePatterns": [],
+  "excludePatterns": []
+}

@@ -1,8 +1,5 @@
-
-
+namespace Mastodon.v1;
 using Cadl.Http;
-
-namespace Mastodon;
 
 @route("/oauth")
 interface OAuthService {
@@ -44,7 +41,7 @@ model TokenResponse {
   access_token: string;
   token_type: string;
   scope: string;
-  created_at: integer;
+  created_at: int32;
 }
 
 model AuthorizeResponse {
