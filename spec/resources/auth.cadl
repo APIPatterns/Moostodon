@@ -1,7 +1,6 @@
-namespace Mastodon.v1;
+using Mastodon;
 using Cadl.Http;
 
-@route("/oauth")
 interface OAuthService {
   @route("/authorize")
   @get authorize(

@@ -4,8 +4,10 @@ import "../models/status.cadl";
 import "../models/tag.cadl";
 import "@cadl-lang/openapi3";
 
-namespace Mastodon.v2;
-using Mastodon.v1;
+// using Mastodon.v1;
+// using Mastodon.v2;
+using Mastodon;
+
 using Cadl.Http;
 using OpenAPI;
 
@@ -21,7 +23,7 @@ model SearchResult {
     statuses : Status[];
 }
 
-@route("search")
+
 interface SearchService {
     @get search(@query q:string, @query type:SearchType ) : SearchResult;
 }

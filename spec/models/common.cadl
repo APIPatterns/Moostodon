@@ -1,34 +1,10 @@
-
-namespace Mastodon.v1;
+namespace Mastodon;
 using Cadl.Http;
-
-model UnprocessableContentError is Error {
-    @statusCode statusCode: 422;
-  }
-
-model UnauthorizedError is Error {
-    @statusCode statusCode: 401;
-  }
   
 model Error {
   error: string;
   error_description: string;
 }
 
+model GoneResponse is Response<410>;
 
-// model MyForm {
-//     @header contentType: "multipart/form-data";
-//     name: nameObject;
-//     email: emailObject;
-// }
-
-// model nameObject {
-//     @header contentType: "text/plain";
-//     @header contentDisposition: "name";
-//     name: string;
-// }
-
-// model emailObject {
-//     @header contentType: "text/plain";
-//     email: string;
-// }

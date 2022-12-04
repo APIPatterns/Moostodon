@@ -1,0 +1,10 @@
+import "./common.cadl";
+import "../models/instance.cadl";
+
+using Mastodon;
+using Cadl.Http;
+
+interface InstanceService {
+    @route("instance")
+    @get getInstance(): Instance;
+}

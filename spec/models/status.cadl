@@ -1,32 +1,109 @@
-namespace Mastodon.v1;
+namespace Mastodon;
 
 model Status {
     id: string;
     uri: string;
-    url: string;
-    account: Account;
-    in_reply_to_id: string;
-    in_reply_to_account_id: string;
-    reblog: Status;
-    content: string;
     created_at: string;
-    emojis: string[];
-    replies_count: int32;
-    reblogs_count: int32;
-    favourites_count: int32;
-    reblogged: boolean;
-    favourited: boolean;
-    muted: boolean;
+    account: Account;
+    content: string;
+    visibility: string;
     sensitive: boolean;
     spoiler_text: string;
-    visibility: string;
-    media_attachments: string[];
-    mentions: string[];
-    tags: string[];
-    card: string;
-    poll: string;
-    application: string;
-    language: string;
+    media_attachments: MediaAttachment[];
+
+    // Rendering attributes
+    mentions: Mention[];
+    tags: Tag[];
+    emojis: Emoji[];
+
+    // Information attributes
+    reblogs_count: int32;
+    favourites_count: int32;
+    replies_count: int32;
+
+    // Nullable attributes
+    url?: string;
+    in_reply_to_id?: string;
+    in_reply_to_account_id?: string;
+    reblog?: Status;
+    poll?: Poll;
+    card?: Card;
+    language?: string;
+    text?: string;
+
+    // Authorized user attributes
+    favourited: boolean;
+    reblogged: boolean;
+    muted: boolean;
+    bookmarked: boolean;
     pinned: boolean;
+
   }
   
+  model Card {
+    url: string;
+    title: string;
+    description: string;
+    image: string;
+  }
+
+  model Poll {
+    id: string;
+    expires_at: string;
+    expired: boolean;
+    multiple: boolean;
+    votes_count: int32;
+    voters_count: int32;
+    options: PollOption[];
+    emojis: Emoji[];
+    voted: boolean;
+    own_votes: int32[];
+  }
+
+  model PollOption {
+    title: string;
+    votes_count: int32;
+  }
+
+  model Emoji {
+    shortcode: string;
+    static_url: string;
+    url: string;
+    visible_in_picker: boolean;
+  }
+
+  model Mention {
+    id: string;
+    url: string;
+    username: string;
+    acct: string;
+  }
+
+  model MediaAttachment {
+    id: string;
+    type: string;
+    url: string;
+    preview_url: string;
+    remote_url: string;
+    text_url: string;
+    meta: MediaAttachmentMeta;
+    description: string;
+  }
+
+  model MediaAttachmentMeta {
+    original: MediaAttachmentMetaOriginal;
+    small: MediaAttachmentMetaSmall;
+  }
+
+  model MediaAttachmentMetaOriginal {
+    width: int32;
+    height: int32;
+    size: string;
+    aspect: float32;
+  }
+  model MediaAttachmentMetaSmall {
+    width: int32;
+    height: int32;
+    size: string;
+    aspect: float32;
+  }

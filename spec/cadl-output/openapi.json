@@ -6,9 +6,74 @@
   },
   "tags": [],
   "paths": {
+    "/api/v1/apps": {
+      "post": {
+        "operationId": "appResource_createApp",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Application"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableContentError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAppBody"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/apps/verify_credentials": {
+      "get": {
+        "operationId": "appResource_verifyCredentials",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Application"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/oauth/authorize": {
       "get": {
-        "operationId": "OAuthService_authorize",
+        "operationId": "oauthResource_authorize",
         "parameters": [
           {
             "name": "client_id",
@@ -79,7 +144,7 @@
     },
     "/api/v1/oauth/token": {
       "post": {
-        "operationId": "OAuthService_token",
+        "operationId": "oauthResource_token",
         "parameters": [],
         "responses": {
           "200": {
@@ -87,7 +152,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/v1.TokenResponse"
+                  "$ref": "#/components/schemas/TokenResponse"
                 }
               }
             }
@@ -103,7 +168,7 @@
           "content": {
             "application/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/v1.TokenBody"
+                "$ref": "#/components/schemas/TokenBody"
               }
             }
           }
@@ -112,7 +177,7 @@
     },
     "/api/v1/oauth/revoke": {
       "post": {
-        "operationId": "OAuthService_revoke",
+        "operationId": "oauthResource_revoke",
         "parameters": [],
         "responses": {
           "200": {
@@ -126,72 +191,7 @@
           "content": {
             "application/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/v1.RevokeBody"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/apps": {
-      "post": {
-        "operationId": "AppsService_createApp",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/v1.Application"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Client Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/v1.UnprocessableContentError"
-                }
-              }
-            }
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/v1.CreateAppBody"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/apps/verify_credentials": {
-      "get": {
-        "operationId": "AppsService_verifyCredentials",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/v1.Application"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Access is unauthorized.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/v1.UnauthorizedError"
-                }
+                "$ref": "#/components/schemas/RevokeBody"
               }
             }
           }
@@ -200,7 +200,7 @@
     },
     "/api/v1/accounts": {
       "post": {
-        "operationId": "AccountsService_createAccount",
+        "operationId": "AccountsResource_createAccount",
         "parameters": [],
         "responses": {
           "200": {
@@ -208,7 +208,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/v1.Account"
+                  "$ref": "#/components/schemas/Mastodon.Account"
                 }
               }
             }
@@ -221,23 +221,109 @@
           "content": {
             "application/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/v1.CreateAccountBody"
+                "$ref": "#/components/schemas/Mastodon.CreateAccountBody"
               }
             }
           }
         }
       }
     },
-    "/api/v1/accounts/{id}": {
+    "/api/v1/accounts/verify_credentials": {
       "get": {
-        "operationId": "AccountService_getAccount",
+        "operationId": "AccountsResource_verifyCredentials",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Account"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/update_credentials": {
+      "patch": {
+        "operationId": "AccountsResource_updateCredentials",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Account"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableContentError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mastodon.UpdateCredentialsBody"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/search": {
+      "get": {
+        "operationId": "AccountsResource_search",
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
+            "name": "q",
+            "in": "query",
             "required": true,
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "following",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "resolve",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean"
             }
           }
         ],
@@ -247,7 +333,49 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/v1.Account"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mastodon.Account"
+                  },
+                  "x-cadl-name": "Mastodon.Account[]"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/lookup": {
+      "get": {
+        "operationId": "AccountsResource_lookup",
+        "parameters": [
+          {
+            "name": "acct",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "skip_webfinger",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Account"
                 }
               }
             }
@@ -256,9 +384,105 @@
             "description": "The server cannot find the requested resource."
           }
         }
-      },
-      "patch": {
-        "operationId": "AccountService_updateAccount",
+      }
+    },
+    "/api/v1/accounts/relationships": {
+      "get": {
+        "operationId": "AccountsResource_getRelationships",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mastodon.Relationship"
+                  },
+                  "x-cadl-name": "Mastodon.Relationship[]"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableContentError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/familiar_followers": {
+      "get": {
+        "operationId": "AccountsResource_getFamiliarFollowers",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mastodon.FamiliarFollowers"
+                  },
+                  "x-cadl-name": "Mastodon.FamiliarFollowers[]"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableContentError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{id}": {
+      "get": {
+        "operationId": "AccountResource_getAccount",
         "parameters": [
           {
             "name": "id",
@@ -275,7 +499,41 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/v1.Account"
+                  "$ref": "#/components/schemas/Mastodon.Account"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          },
+          "410": {
+            "description": "Client Error"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "AccountResource_updateAccount",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Account"
                 }
               }
             }
@@ -294,7 +552,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/v1.Account"
+                "$ref": "#/components/schemas/Mastodon.Account"
               }
             }
           }
@@ -303,7 +561,179 @@
     },
     "/api/v1/accounts/{id}/statuses": {
       "get": {
-        "operationId": "AccountStatusesService_getStatuses",
+        "operationId": "AccountResource_getStatuses",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.max_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.sinceId"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.min_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.limit"
+          },
+          {
+            "name": "exclude_reblogs",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "tagged",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mastodon.Status"
+                  },
+                  "x-cadl-name": "Mastodon.Status[]"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          },
+          "410": {
+            "description": "Client Error"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{id}/followers": {
+      "get": {
+        "operationId": "AccountResource_getFollowers",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.max_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.sinceId"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.min_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mastodon.Account"
+                  },
+                  "x-cadl-name": "Mastodon.Account[]"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          },
+          "410": {
+            "description": "Client Error"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{id}/following": {
+      "get": {
+        "operationId": "AccountResource_getFollowing",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.max_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.sinceId"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.min_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mastodon.Account"
+                  },
+                  "x-cadl-name": "Mastodon.Account[]"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          },
+          "410": {
+            "description": "Client Error"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{id}/featured_tags": {
+      "get": {
+        "operationId": "AccountResource_getFeaturedTags",
         "parameters": [
           {
             "name": "id",
@@ -322,47 +752,31 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/v1.Status"
+                    "$ref": "#/components/schemas/Mastodon.FeaturedTag"
                   },
-                  "x-cadl-name": "v1.Status[]"
+                  "x-cadl-name": "Mastodon.FeaturedTag[]"
                 }
               }
             }
           },
+          "401": {
+            "description": "Access is unauthorized."
+          },
           "404": {
             "description": "The server cannot find the requested resource."
+          },
+          "410": {
+            "description": "Client Error"
           }
         }
       }
     },
-    "/api/v1/timelines/public": {
+    "/api/v1/accounts/{id}/lists": {
       "get": {
-        "operationId": "PublicTimelines_items",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/v1.Status"
-                  },
-                  "x-cadl-name": "v1.Status[]"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/timelines/tag/{tag}": {
-      "get": {
-        "operationId": "TagTimeline_getStatusByTag",
+        "operationId": "AccountResource_getLists",
         "parameters": [
           {
-            "name": "tag",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
@@ -378,9 +792,1615 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/v1.Status"
+                    "$ref": "#/components/schemas/Mastodon.AccountList"
                   },
-                  "x-cadl-name": "v1.Status[]"
+                  "x-cadl-name": "Mastodon.AccountList[]"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          },
+          "410": {
+            "description": "Client Error"
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableContentError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{id}/follow": {
+      "post": {
+        "operationId": "AccountResource_follow",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Relationship"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          },
+          "410": {
+            "description": "Client Error"
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableContentError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mastodon.FollowBody"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{id}/unfollow": {
+      "post": {
+        "operationId": "AccountResource_unfollow",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Relationship"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableContentError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{id}/remove_from_followers": {
+      "post": {
+        "operationId": "AccountResource_removeFromFollowers",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Relationship"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableContentError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{id}/block": {
+      "post": {
+        "operationId": "AccountResource_block",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Relationship"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableContentError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{id}/unblock": {
+      "post": {
+        "operationId": "AccountResource_unblock",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Relationship"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableContentError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{id}/mute": {
+      "post": {
+        "operationId": "AccountResource_mute",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Relationship"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableContentError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mastodon.MuteBody"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{id}/unmute": {
+      "post": {
+        "operationId": "AccountResource_unmute",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Relationship"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableContentError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{id}/pin": {
+      "post": {
+        "operationId": "AccountResource_pin",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Relationship"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "403": {
+            "description": "Access is forbidden"
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableContentError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{id}/unpin": {
+      "post": {
+        "operationId": "AccountResource_unpin",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Relationship"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "403": {
+            "description": "Access is forbidden"
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableContentError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{id}/note": {
+      "post": {
+        "operationId": "AccountResource_setNote",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Relationship"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableContentError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mastodon.SetNoteBody"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/bookmarks": {
+      "get": {
+        "operationId": "BookmarksResource_items",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RangeParameters.max_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.sinceId"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.min_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mastodon.Status"
+                  },
+                  "x-cadl-name": "Mastodon.Status[]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/favourites": {
+      "get": {
+        "operationId": "FavouritesResource_items",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RangeParameters.max_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.sinceId"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.min_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mastodon.Status"
+                  },
+                  "x-cadl-name": "Mastodon.Status[]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mutes": {
+      "get": {
+        "operationId": "MutesResource_items",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RangeParameters.max_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.sinceId"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.min_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mastodon.Account"
+                  },
+                  "x-cadl-name": "Mastodon.Account[]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/blocks": {
+      "get": {
+        "operationId": "BlocksResource_items",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RangeParameters.max_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.sinceId"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.min_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mastodon.Account"
+                  },
+                  "x-cadl-name": "Mastodon.Account[]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/endorsements": {
+      "get": {
+        "operationId": "EndorsementsResource_items",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RangeParameters.max_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.sinceId"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.min_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mastodon.Account"
+                  },
+                  "x-cadl-name": "Mastodon.Account[]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/timelines/public": {
+      "get": {
+        "operationId": "TimelinesResource_publicTimeline",
+        "parameters": [
+          {
+            "name": "local",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "only_media",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.max_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.sinceId"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.min_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mastodon.Status"
+                  },
+                  "x-cadl-name": "Mastodon.Status[]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/timelines/home": {
+      "get": {
+        "operationId": "TimelinesResource_getHomeTimeline",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RangeParameters.max_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.sinceId"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.min_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mastodon.Status"
+                  },
+                  "x-cadl-name": "Mastodon.Status[]"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        }
+      }
+    },
+    "/api/v1/timelines/tag/{tag}": {
+      "get": {
+        "operationId": "TimelinesResource_getStatusByTag",
+        "parameters": [
+          {
+            "name": "tag",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "local",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "only_media",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.max_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.sinceId"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.min_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mastodon.Status"
+                  },
+                  "x-cadl-name": "Mastodon.Status[]"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        }
+      }
+    },
+    "/api/v1/timelines/list/{id}": {
+      "get": {
+        "operationId": "TimelinesResource_getStatusByList",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.max_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.sinceId"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.min_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mastodon.Status"
+                  },
+                  "x-cadl-name": "Mastodon.Status[]"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        }
+      }
+    },
+    "/api/v1/statuses": {
+      "post": {
+        "operationId": "StatusesResource_publishStatus",
+        "parameters": [
+          {
+            "name": "contenType",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/x-www-form-urlencoded"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Status"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStatusBody"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/statuses/{id}": {
+      "get": {
+        "operationId": "StatusResource_getStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Status"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        }
+      },
+      "delete": {
+        "operationId": "StatusResource_deleteStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Status"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        }
+      },
+      "put": {
+        "operationId": "StatusResource_editStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Status"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/EditStatusForm"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/statuses/{id}/context": {
+      "get": {
+        "operationId": "StatusResource_getContext",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Context"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        }
+      }
+    },
+    "/api/v1/statuses/{id}/reblogged_by": {
+      "get": {
+        "operationId": "StatusResource_getRebloggedBy",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mastodon.Account"
+                  },
+                  "x-cadl-name": "Mastodon.Account[]"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        }
+      }
+    },
+    "/api/v1/statuses/{id}/favourited_by": {
+      "get": {
+        "operationId": "StatusResource_getFavouritedBy",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mastodon.Account"
+                  },
+                  "x-cadl-name": "Mastodon.Account[]"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        }
+      }
+    },
+    "/api/v1/statuses/{id}/favourite": {
+      "post": {
+        "operationId": "StatusResource_favouriteStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Status"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        }
+      }
+    },
+    "/api/v1/statuses/{id}/unfavourite": {
+      "post": {
+        "operationId": "StatusResource_unfavouriteStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Status"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        }
+      }
+    },
+    "/api/v1/statuses/{id}/reblog": {
+      "post": {
+        "operationId": "StatusResource_reblogStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Status"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        }
+      }
+    },
+    "/api/v1/statuses/{id}/unreblog": {
+      "post": {
+        "operationId": "StatusResource_unreblogStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Status"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        }
+      }
+    },
+    "/api/v1/statuses/{id}/bookmark": {
+      "post": {
+        "operationId": "StatusResource_bookmarkStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Status"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        }
+      }
+    },
+    "/api/v1/statuses/{id}/unbookmark": {
+      "post": {
+        "operationId": "StatusResource_unbookmarkStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Status"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        }
+      }
+    },
+    "/api/v1/statuses/{id}/mute": {
+      "post": {
+        "operationId": "StatusResource_muteStatusNotifications",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Status"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        }
+      }
+    },
+    "/api/v1/statuses/{id}/unmute": {
+      "post": {
+        "operationId": "StatusResource_unmuteStatusNotifications",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Status"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        }
+      }
+    },
+    "/api/v1/statuses/{id}/pin": {
+      "post": {
+        "operationId": "StatusResource_pinStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Status"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        }
+      }
+    },
+    "/api/v1/statuses/{id}/unpin": {
+      "post": {
+        "operationId": "StatusResource_unpinStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Status"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        }
+      }
+    },
+    "/api/v1/statuses/{id}/history": {
+      "get": {
+        "operationId": "StatusResource_getStatusHistory",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StatusEdit"
+                  },
+                  "x-cadl-name": "StatusEdit[]"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        }
+      }
+    },
+    "/api/v1/statuses/{id}/source": {
+      "get": {
+        "operationId": "StatusResource_getStatusSource",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusSource"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        }
+      }
+    },
+    "/api/v1/instance/instance": {
+      "get": {
+        "operationId": "InstanceResource_getInstance",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mastodon.Instance"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/domain_blocks": {
+      "get": {
+        "operationId": "DomainBlocksResource_getDomainBlocks",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RangeParameters.max_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.sinceId"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.min_Id"
+          },
+          {
+            "$ref": "#/components/parameters/RangeParameters.limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "x-cadl-name": "string[]"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          }
+        }
+      },
+      "post": {
+        "operationId": "DomainBlocksResource_blockDomain",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableContentError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/BlockDomainBody"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "DomainBlocksResource_unblockDomain",
+        "parameters": [
+          {
+            "name": "domain",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableContentError"
                 }
               }
             }
@@ -390,7 +2410,7 @@
     },
     "/api/v2/search": {
       "get": {
-        "operationId": "SearchService_search",
+        "operationId": "SearchResource_search",
         "parameters": [
           {
             "name": "q",
@@ -420,7 +2440,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/v2.SearchResult"
+                  "$ref": "#/components/schemas/SearchResult"
                 }
               }
             }
@@ -430,82 +2450,43 @@
     }
   },
   "components": {
+    "parameters": {
+      "RangeParameters.max_Id": {
+        "name": "max_Id",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "RangeParameters.sinceId": {
+        "name": "sinceId",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "RangeParameters.min_Id": {
+        "name": "min_Id",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "RangeParameters.limit": {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
     "schemas": {
-      "v1.TokenBody": {
-        "type": "object",
-        "properties": {
-          "grant_type": {
-            "type": "string"
-          },
-          "client_id": {
-            "type": "string"
-          },
-          "client_secret": {
-            "type": "string"
-          },
-          "redirect_uri": {
-            "type": "string"
-          },
-          "scopes": {
-            "type": "string"
-          },
-          "code": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "grant_type",
-          "client_id",
-          "client_secret",
-          "redirect_uri",
-          "scopes",
-          "code"
-        ]
-      },
-      "v1.TokenResponse": {
-        "type": "object",
-        "properties": {
-          "access_token": {
-            "type": "string"
-          },
-          "token_type": {
-            "type": "string"
-          },
-          "scope": {
-            "type": "string"
-          },
-          "created_at": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "required": [
-          "access_token",
-          "token_type",
-          "scope",
-          "created_at"
-        ]
-      },
-      "v1.RevokeBody": {
-        "type": "object",
-        "properties": {
-          "client_id": {
-            "type": "string"
-          },
-          "client_secret": {
-            "type": "string"
-          },
-          "token": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "client_id",
-          "client_secret",
-          "token"
-        ]
-      },
-      "v1.CreateAppBody": {
+      "CreateAppBody": {
         "type": "object",
         "properties": {
           "client_name": {
@@ -528,7 +2509,7 @@
           "website"
         ]
       },
-      "v1.Application": {
+      "Mastodon.Application": {
         "type": "object",
         "properties": {
           "id": {
@@ -563,7 +2544,7 @@
           "vapid_key"
         ]
       },
-      "v1.UnprocessableContentError": {
+      "UnprocessableContentError": {
         "type": "object",
         "properties": {
           "error": {
@@ -578,7 +2559,7 @@
           "error_description"
         ]
       },
-      "v1.UnauthorizedError": {
+      "UnauthorizedError": {
         "type": "object",
         "properties": {
           "error": {
@@ -593,7 +2574,81 @@
           "error_description"
         ]
       },
-      "v1.CreateAccountBody": {
+      "TokenBody": {
+        "type": "object",
+        "properties": {
+          "grant_type": {
+            "type": "string"
+          },
+          "client_id": {
+            "type": "string"
+          },
+          "client_secret": {
+            "type": "string"
+          },
+          "redirect_uri": {
+            "type": "string"
+          },
+          "scopes": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "grant_type",
+          "client_id",
+          "client_secret",
+          "redirect_uri",
+          "scopes",
+          "code"
+        ]
+      },
+      "TokenResponse": {
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "type": "string"
+          },
+          "token_type": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "access_token",
+          "token_type",
+          "scope",
+          "created_at"
+        ]
+      },
+      "RevokeBody": {
+        "type": "object",
+        "properties": {
+          "client_id": {
+            "type": "string"
+          },
+          "client_secret": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "client_id",
+          "client_secret",
+          "token"
+        ]
+      },
+      "Mastodon.CreateAccountBody": {
         "type": "object",
         "properties": {
           "username": {
@@ -624,7 +2679,7 @@
           "reason"
         ]
       },
-      "v1.Account": {
+      "Mastodon.Account": {
         "type": "object",
         "properties": {
           "id": {
@@ -636,31 +2691,13 @@
           "acct": {
             "type": "string"
           },
+          "url": {
+            "type": "string"
+          },
           "display_name": {
             "type": "string"
           },
-          "locked": {
-            "type": "boolean"
-          },
-          "created_at": {
-            "type": "string"
-          },
-          "followers_count": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "following_count": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "statuses_count": {
-            "type": "integer",
-            "format": "int32"
-          },
           "note": {
-            "type": "string"
-          },
-          "url": {
             "type": "string"
           },
           "avatar": {
@@ -675,50 +2712,221 @@
           "header_static": {
             "type": "string"
           },
+          "locked": {
+            "type": "boolean"
+          },
           "emojis": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/Mastodon.Emoji"
             },
-            "x-cadl-name": "string[]"
+            "x-cadl-name": "Mastodon.Emoji[]"
+          },
+          "discoverable": {
+            "type": "boolean"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "last_status_at": {
+            "type": "string"
+          },
+          "statuses_count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "followers_count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "following_count": {
+            "type": "integer",
+            "format": "int32"
           },
           "moved": {
-            "type": "string"
+            "$ref": "#/components/schemas/Mastodon.Account"
           },
           "fields": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/v1.field"
+              "$ref": "#/components/schemas/Mastodon.Field"
             },
-            "x-cadl-name": "v1.field[]"
+            "x-cadl-name": "Mastodon.Field[]"
           },
           "bot": {
             "type": "boolean"
+          },
+          "souce": {
+            "$ref": "#/components/schemas/Mastodon.Source"
+          },
+          "suspended": {
+            "type": "boolean"
+          },
+          "mute_expires_at": {
+            "type": "string"
           }
         },
         "required": [
           "id",
           "username",
           "acct",
-          "display_name",
-          "locked",
-          "created_at",
-          "followers_count",
-          "following_count",
-          "statuses_count",
-          "note",
           "url",
+          "display_name",
+          "note",
           "avatar",
           "avatar_static",
           "header",
           "header_static",
+          "locked",
           "emojis",
+          "discoverable",
+          "created_at",
+          "last_status_at",
+          "statuses_count",
+          "followers_count",
+          "following_count",
           "moved",
           "fields",
-          "bot"
+          "bot",
+          "souce",
+          "suspended",
+          "mute_expires_at"
         ]
       },
-      "v1.Status": {
+      "Mastodon.UpdateCredentialsBody": {
+        "type": "object",
+        "properties": {
+          "discoverable": {
+            "type": "boolean"
+          },
+          "bot": {
+            "type": "boolean"
+          },
+          "display_name": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "avatar": {
+            "type": "string"
+          },
+          "header": {
+            "type": "string"
+          },
+          "locked": {
+            "type": "boolean"
+          },
+          "source": {
+            "$ref": "#/components/schemas/Mastodon.Source"
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mastodon.Field"
+            },
+            "x-cadl-name": "Mastodon.Field[]"
+          }
+        },
+        "required": [
+          "discoverable",
+          "bot",
+          "display_name",
+          "note",
+          "avatar",
+          "header",
+          "locked",
+          "source",
+          "fields"
+        ]
+      },
+      "Mastodon.Relationship": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "following": {
+            "type": "boolean"
+          },
+          "showing_reblogs": {
+            "type": "boolean"
+          },
+          "notifying": {
+            "type": "boolean"
+          },
+          "languages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-cadl-name": "string[]"
+          },
+          "followed_by": {
+            "type": "boolean"
+          },
+          "blocking": {
+            "type": "boolean"
+          },
+          "blocked_by": {
+            "type": "boolean"
+          },
+          "muting": {
+            "type": "boolean"
+          },
+          "muting_notifications": {
+            "type": "boolean"
+          },
+          "requested": {
+            "type": "boolean"
+          },
+          "domain_blocking": {
+            "type": "boolean"
+          },
+          "endorsed": {
+            "type": "boolean"
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "following",
+          "showing_reblogs",
+          "notifying",
+          "languages",
+          "followed_by",
+          "blocking",
+          "blocked_by",
+          "muting",
+          "muting_notifications",
+          "requested",
+          "domain_blocking",
+          "endorsed",
+          "note"
+        ]
+      },
+      "Mastodon.FamiliarFollowers": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "followers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mastodon.Account"
+            },
+            "x-cadl-name": "Mastodon.Account[]"
+          }
+        },
+        "required": [
+          "id",
+          "followers"
+        ]
+      },
+      "Mastodon.Status": {
         "type": "object",
         "properties": {
           "id": {
@@ -727,37 +2935,51 @@
           "uri": {
             "type": "string"
           },
-          "url": {
+          "created_at": {
             "type": "string"
           },
           "account": {
-            "$ref": "#/components/schemas/v1.Account"
-          },
-          "in_reply_to_id": {
-            "type": "string"
-          },
-          "in_reply_to_account_id": {
-            "type": "string"
-          },
-          "reblog": {
-            "$ref": "#/components/schemas/v1.Status"
+            "$ref": "#/components/schemas/Mastodon.Account"
           },
           "content": {
             "type": "string"
           },
-          "created_at": {
+          "visibility": {
             "type": "string"
+          },
+          "sensitive": {
+            "type": "boolean"
+          },
+          "spoiler_text": {
+            "type": "string"
+          },
+          "media_attachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mastodon.MediaAttachment"
+            },
+            "x-cadl-name": "Mastodon.MediaAttachment[]"
+          },
+          "mentions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mastodon.Mention"
+            },
+            "x-cadl-name": "Mastodon.Mention[]"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mastodon.Tag"
+            },
+            "x-cadl-name": "Mastodon.Tag[]"
           },
           "emojis": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/Mastodon.Emoji"
             },
-            "x-cadl-name": "string[]"
-          },
-          "replies_count": {
-            "type": "integer",
-            "format": "int32"
+            "x-cadl-name": "Mastodon.Emoji[]"
           },
           "reblogs_count": {
             "type": "integer",
@@ -767,56 +2989,45 @@
             "type": "integer",
             "format": "int32"
           },
-          "reblogged": {
-            "type": "boolean"
+          "replies_count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "url": {
+            "type": "string"
+          },
+          "in_reply_to_id": {
+            "type": "string"
+          },
+          "in_reply_to_account_id": {
+            "type": "string"
+          },
+          "reblog": {
+            "$ref": "#/components/schemas/Mastodon.Status"
+          },
+          "poll": {
+            "$ref": "#/components/schemas/Mastodon.Poll"
+          },
+          "card": {
+            "$ref": "#/components/schemas/Mastodon.Card"
+          },
+          "language": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
           },
           "favourited": {
+            "type": "boolean"
+          },
+          "reblogged": {
             "type": "boolean"
           },
           "muted": {
             "type": "boolean"
           },
-          "sensitive": {
+          "bookmarked": {
             "type": "boolean"
-          },
-          "spoiler_text": {
-            "type": "string"
-          },
-          "visibility": {
-            "type": "string"
-          },
-          "media_attachments": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "x-cadl-name": "string[]"
-          },
-          "mentions": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "x-cadl-name": "string[]"
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "x-cadl-name": "string[]"
-          },
-          "card": {
-            "type": "string"
-          },
-          "poll": {
-            "type": "string"
-          },
-          "application": {
-            "type": "string"
-          },
-          "language": {
-            "type": "string"
           },
           "pinned": {
             "type": "boolean"
@@ -825,56 +3036,417 @@
         "required": [
           "id",
           "uri",
-          "url",
-          "account",
-          "in_reply_to_id",
-          "in_reply_to_account_id",
-          "reblog",
-          "content",
           "created_at",
-          "emojis",
-          "replies_count",
-          "reblogs_count",
-          "favourites_count",
-          "reblogged",
-          "favourited",
-          "muted",
+          "account",
+          "content",
+          "visibility",
           "sensitive",
           "spoiler_text",
-          "visibility",
           "media_attachments",
           "mentions",
           "tags",
-          "card",
-          "poll",
-          "application",
-          "language",
+          "emojis",
+          "reblogs_count",
+          "favourites_count",
+          "replies_count",
+          "favourited",
+          "reblogged",
+          "muted",
+          "bookmarked",
           "pinned"
         ]
       },
-      "v2.SearchResult": {
+      "Mastodon.FeaturedTag": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "statuses_count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "last_status_at": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "url",
+          "statuses_count",
+          "last_status_at"
+        ]
+      },
+      "Mastodon.AccountList": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title"
+        ]
+      },
+      "Mastodon.FollowBody": {
+        "type": "object",
+        "properties": {
+          "reblogs": {
+            "type": "boolean"
+          },
+          "notify": {
+            "type": "boolean"
+          },
+          "lanuages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-cadl-name": "string[]"
+          }
+        },
+        "required": [
+          "reblogs",
+          "notify",
+          "lanuages"
+        ]
+      },
+      "Mastodon.MuteBody": {
+        "type": "object",
+        "properties": {
+          "notifications": {
+            "type": "boolean"
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "notifications",
+          "duration"
+        ]
+      },
+      "Mastodon.SetNoteBody": {
+        "type": "object",
+        "properties": {
+          "comment": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "comment"
+        ]
+      },
+      "CreateStatusBody": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "media_Ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-cadl-name": "string[]"
+          },
+          "poll[options]": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-cadl-name": "string[]"
+          },
+          "poll[expires_in]": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "poll[multiple]": {
+            "type": "boolean"
+          },
+          "poll[hide_totals]": {
+            "type": "boolean"
+          },
+          "in_reply_to_id": {
+            "type": "string"
+          },
+          "sensitive": {
+            "type": "boolean"
+          },
+          "spoiler_text": {
+            "type": "string"
+          },
+          "visibility": {
+            "$ref": "#/components/schemas/Visibility"
+          },
+          "language": {
+            "type": "string"
+          },
+          "scheduled_at": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "media_Ids",
+          "poll[options]",
+          "poll[expires_in]",
+          "poll[multiple]",
+          "poll[hide_totals]",
+          "in_reply_to_id",
+          "sensitive",
+          "spoiler_text",
+          "visibility",
+          "language",
+          "scheduled_at"
+        ]
+      },
+      "Context": {
+        "type": "object",
+        "properties": {
+          "ancestors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mastodon.Status"
+            },
+            "x-cadl-name": "Mastodon.Status[]"
+          },
+          "descendants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mastodon.Status"
+            },
+            "x-cadl-name": "Mastodon.Status[]"
+          }
+        },
+        "required": [
+          "ancestors",
+          "descendants"
+        ]
+      },
+      "EditStatusForm": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "spoiler_text": {
+            "type": "string"
+          },
+          "sensitive": {
+            "type": "boolean"
+          },
+          "media_Ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-cadl-name": "string[]"
+          },
+          "poll[options]": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-cadl-name": "string[]"
+          },
+          "poll[expires_in]": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "poll[multiple]": {
+            "type": "boolean"
+          },
+          "poll[hide_totals]": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "status",
+          "spoiler_text",
+          "sensitive",
+          "media_Ids",
+          "poll[options]",
+          "poll[expires_in]",
+          "poll[multiple]",
+          "poll[hide_totals]"
+        ]
+      },
+      "StatusEdit": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "spoiler_text": {
+            "type": "string"
+          },
+          "sensitive": {
+            "type": "boolean"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "account": {
+            "$ref": "#/components/schemas/Mastodon.Account"
+          },
+          "poll": {
+            "$ref": "#/components/schemas/Mastodon.Poll"
+          },
+          "media_attachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mastodon.MediaAttachment"
+            },
+            "x-cadl-name": "Mastodon.MediaAttachment[]"
+          },
+          "emojis": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mastodon.Emoji"
+            },
+            "x-cadl-name": "Mastodon.Emoji[]"
+          }
+        },
+        "required": [
+          "content",
+          "spoiler_text",
+          "sensitive",
+          "created_at",
+          "account",
+          "poll",
+          "media_attachments",
+          "emojis"
+        ]
+      },
+      "StatusSource": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "spoiler_text": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "text",
+          "spoiler_text"
+        ]
+      },
+      "Mastodon.Instance": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "source_url": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "usage": {
+            "$ref": "#/components/schemas/Mastodon.Usage"
+          },
+          "thumbnail": {
+            "$ref": "#/components/schemas/Mastodon.Thumbnail"
+          },
+          "languages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-cadl-name": "string[]"
+          },
+          "configuration": {
+            "$ref": "#/components/schemas/Mastodon.Configuration"
+          },
+          "registrations": {
+            "$ref": "#/components/schemas/Mastodon.Registrations"
+          },
+          "contact": {
+            "$ref": "#/components/schemas/Mastodon.Contact"
+          },
+          "rules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mastodon.Rule"
+            },
+            "x-cadl-name": "Mastodon.Rule[]"
+          }
+        },
+        "required": [
+          "domain",
+          "title",
+          "version",
+          "source_url",
+          "description",
+          "usage",
+          "thumbnail",
+          "languages",
+          "configuration",
+          "registrations",
+          "contact",
+          "rules"
+        ]
+      },
+      "BlockDomainBody": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "domain"
+        ]
+      },
+      "SearchResult": {
         "type": "object",
         "properties": {
           "accounts": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/v1.Account"
+              "$ref": "#/components/schemas/Mastodon.Account"
             },
-            "x-cadl-name": "v1.Account[]"
+            "x-cadl-name": "Mastodon.Account[]"
           },
           "hashtags": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/v1.Tag"
+              "$ref": "#/components/schemas/Mastodon.Tag"
             },
-            "x-cadl-name": "v1.Tag[]"
+            "x-cadl-name": "Mastodon.Tag[]"
           },
           "statuses": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/v1.Status"
+              "$ref": "#/components/schemas/Mastodon.Status"
             },
-            "x-cadl-name": "v1.Status[]"
+            "x-cadl-name": "Mastodon.Status[]"
           }
         },
         "required": [
@@ -883,26 +3455,30 @@
           "statuses"
         ]
       },
-      "v1.AuthorizeResponse": {
-        "type": "object",
-        "properties": {}
-      },
-      "v1.Error": {
+      "Mastodon.Emoji": {
         "type": "object",
         "properties": {
-          "error": {
+          "shortcode": {
             "type": "string"
           },
-          "error_description": {
+          "static_url": {
             "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "visible_in_picker": {
+            "type": "boolean"
           }
         },
         "required": [
-          "error",
-          "error_description"
+          "shortcode",
+          "static_url",
+          "url",
+          "visible_in_picker"
         ]
       },
-      "v1.field": {
+      "Mastodon.Field": {
         "type": "object",
         "properties": {
           "name": {
@@ -921,7 +3497,105 @@
           "verified_at"
         ]
       },
-      "v1.Tag": {
+      "Mastodon.Source": {
+        "type": "object",
+        "properties": {
+          "privacy": {
+            "type": "string"
+          },
+          "sensitive": {
+            "type": "boolean"
+          },
+          "language": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mastodon.Field"
+            },
+            "x-cadl-name": "Mastodon.Field[]"
+          },
+          "follower_requests_count": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "privacy",
+          "sensitive",
+          "language",
+          "note",
+          "fields",
+          "follower_requests_count"
+        ]
+      },
+      "Mastodon.MediaAttachment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "preview_url": {
+            "type": "string"
+          },
+          "remote_url": {
+            "type": "string"
+          },
+          "text_url": {
+            "type": "string"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Mastodon.MediaAttachmentMeta"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "url",
+          "preview_url",
+          "remote_url",
+          "text_url",
+          "meta",
+          "description"
+        ]
+      },
+      "Mastodon.Mention": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "acct": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "url",
+          "username",
+          "acct"
+        ]
+      },
+      "Mastodon.Tag": {
         "type": "object",
         "properties": {
           "name": {
@@ -933,9 +3607,9 @@
           "history": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/v1.HistoryItem"
+              "$ref": "#/components/schemas/Mastodon.HistoryItem"
             },
-            "x-cadl-name": "v1.HistoryItem[]"
+            "x-cadl-name": "Mastodon.HistoryItem[]"
           },
           "following": {
             "type": "boolean"
@@ -948,7 +3622,235 @@
           "following"
         ]
       },
-      "v1.HistoryItem": {
+      "Mastodon.Poll": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "expires_at": {
+            "type": "string"
+          },
+          "expired": {
+            "type": "boolean"
+          },
+          "multiple": {
+            "type": "boolean"
+          },
+          "votes_count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "voters_count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mastodon.PollOption"
+            },
+            "x-cadl-name": "Mastodon.PollOption[]"
+          },
+          "emojis": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mastodon.Emoji"
+            },
+            "x-cadl-name": "Mastodon.Emoji[]"
+          },
+          "voted": {
+            "type": "boolean"
+          },
+          "own_votes": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-cadl-name": "int32[]"
+          }
+        },
+        "required": [
+          "id",
+          "expires_at",
+          "expired",
+          "multiple",
+          "votes_count",
+          "voters_count",
+          "options",
+          "emojis",
+          "voted",
+          "own_votes"
+        ]
+      },
+      "Mastodon.Card": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "url",
+          "title",
+          "description",
+          "image"
+        ]
+      },
+      "Visibility": {
+        "type": "string",
+        "enum": [
+          "public",
+          "unlisted",
+          "private",
+          "direct"
+        ]
+      },
+      "Mastodon.Usage": {
+        "type": "object",
+        "properties": {
+          "users": {
+            "$ref": "#/components/schemas/Mastodon.UserUsage"
+          },
+          "local_posts": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "federation": {
+            "$ref": "#/components/schemas/Mastodon.FederationUsage"
+          }
+        },
+        "required": [
+          "users",
+          "local_posts",
+          "federation"
+        ]
+      },
+      "Mastodon.Thumbnail": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "blurhash": {
+            "type": "string"
+          },
+          "versions": {
+            "$ref": "#/components/schemas/Mastodon.ThumnailVersion"
+          }
+        },
+        "required": [
+          "url",
+          "blurhash",
+          "versions"
+        ]
+      },
+      "Mastodon.Configuration": {
+        "type": "object",
+        "properties": {
+          "urls": {
+            "$ref": "#/components/schemas/Mastodon.ConfigurationUrls"
+          },
+          "accounts": {
+            "$ref": "#/components/schemas/Mastodon.ConfigurationAccounts"
+          },
+          "statuses": {
+            "$ref": "#/components/schemas/Mastodon.ConfigurationStatuses"
+          },
+          "media_attachments": {
+            "$ref": "#/components/schemas/Mastodon.ConfigurationMediaAttachments"
+          },
+          "polls": {
+            "$ref": "#/components/schemas/Mastodon.ConfigurationPolls"
+          },
+          "translation": {
+            "$ref": "#/components/schemas/Mastodon.ConfigurationTranslation"
+          }
+        },
+        "required": [
+          "urls",
+          "accounts",
+          "statuses",
+          "media_attachments",
+          "polls",
+          "translation"
+        ]
+      },
+      "Mastodon.Registrations": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "approval_required": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "enabled",
+          "approval_required",
+          "message"
+        ]
+      },
+      "Mastodon.Contact": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "account": {
+            "$ref": "#/components/schemas/Mastodon.Account"
+          }
+        },
+        "required": [
+          "email",
+          "account"
+        ]
+      },
+      "Mastodon.Rule": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "text"
+        ]
+      },
+      "Mastodon.MediaAttachmentMeta": {
+        "type": "object",
+        "properties": {
+          "original": {
+            "$ref": "#/components/schemas/Mastodon.MediaAttachmentMetaOriginal"
+          },
+          "small": {
+            "$ref": "#/components/schemas/Mastodon.MediaAttachmentMetaSmall"
+          }
+        },
+        "required": [
+          "original",
+          "small"
+        ]
+      },
+      "Mastodon.HistoryItem": {
         "type": "object",
         "properties": {
           "day": {
@@ -967,12 +3869,249 @@
           "accounts"
         ]
       },
-      "v2.SearchType": {
-        "type": "string",
-        "enum": [
-          "accounts",
-          "hashtags",
-          "statuses"
+      "Mastodon.PollOption": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "votes_count": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "title",
+          "votes_count"
+        ]
+      },
+      "Mastodon.UserUsage": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "active_halfyear": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "active_month": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": [
+          "total",
+          "active_halfyear",
+          "active_month"
+        ]
+      },
+      "Mastodon.FederationUsage": {
+        "type": "object",
+        "properties": {
+          "active": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "receiving": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "sending": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": [
+          "active",
+          "receiving",
+          "sending"
+        ]
+      },
+      "Mastodon.ThumnailVersion": {
+        "type": "object",
+        "properties": {
+          "@1x": {
+            "type": "string"
+          },
+          "@2x": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "@1x",
+          "@2x"
+        ]
+      },
+      "Mastodon.ConfigurationUrls": {
+        "type": "object",
+        "properties": {
+          "streaming_api": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "streaming_api"
+        ]
+      },
+      "Mastodon.ConfigurationAccounts": {
+        "type": "object",
+        "properties": {
+          "max_feature_tags": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "max_feature_tags"
+        ]
+      },
+      "Mastodon.ConfigurationStatuses": {
+        "type": "object",
+        "properties": {
+          "max_characters": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "max_media_attachments": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "characters_reserved_per_url": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "max_characters",
+          "max_media_attachments",
+          "characters_reserved_per_url"
+        ]
+      },
+      "Mastodon.ConfigurationMediaAttachments": {
+        "type": "object",
+        "properties": {
+          "image_size_limit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "supported_mime_types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-cadl-name": "string[]"
+          },
+          "image_matrix_limit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "video_size_limit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "video_matrix_limit": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "image_size_limit",
+          "supported_mime_types",
+          "image_matrix_limit",
+          "video_size_limit",
+          "video_matrix_limit"
+        ]
+      },
+      "Mastodon.ConfigurationPolls": {
+        "type": "object",
+        "properties": {
+          "max_options": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "max_characters_per_option": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "min_expiration": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "max_expiration": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "max_options",
+          "max_characters_per_option",
+          "min_expiration",
+          "max_expiration"
+        ]
+      },
+      "Mastodon.ConfigurationTranslation": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "enabled"
+        ]
+      },
+      "Mastodon.MediaAttachmentMetaOriginal": {
+        "type": "object",
+        "properties": {
+          "width": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "height": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "size": {
+            "type": "string"
+          },
+          "aspect": {
+            "type": "number",
+            "format": "float"
+          }
+        },
+        "required": [
+          "width",
+          "height",
+          "size",
+          "aspect"
+        ]
+      },
+      "Mastodon.MediaAttachmentMetaSmall": {
+        "type": "object",
+        "properties": {
+          "width": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "height": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "size": {
+            "type": "string"
+          },
+          "aspect": {
+            "type": "number",
+            "format": "float"
+          }
+        },
+        "required": [
+          "width",
+          "height",
+          "size",
+          "aspect"
         ]
       }
     }

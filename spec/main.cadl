@@ -6,8 +6,14 @@ import "./resources/apps.cadl";
 import "./resources/accounts.cadl";
 import "./resources/timelines.cadl";
 import "./resources/search.cadl";
+import "./resources/instance.cadl";
+import "./resources/domain_blocks.cadl";
+import "./resources/statuses.cadl";
+import "./resources/status.cadl";
+
 
 using Cadl.Http;
+
 
 @service({
   title: "Mastodon",
@@ -21,16 +27,62 @@ using Cadl.Http;
 })
 @server("https://mastodon.example/", "Actual server to be set during client setup")
 @route("api")
-namespace Mastodon {
+namespace MastodonApi {  // This namespace actually generates operations
+
+  using Mastodon;  // This namespace contains all models and interfaces
 
   @route("v1")
   namespace v1 {
   
+    @route("apps")
+    interface appResource extends AppsService {}
+
+    @route("oauth")
+    interface oauthResource extends OAuthService {}
+
+    @route("accounts")
+    interface AccountsResource extends AccountsService {}
+
+    @route("accounts/{id}")
+    interface AccountResource extends AccountService {}
+
+    @route("bookmarks")
+    interface BookmarksResource extends NamedSet<Status>{ }
+
+    @route("favourites")
+    interface FavouritesResource extends NamedSet<Status>{ }
+
+    @route("mutes")
+    interface MutesResource extends NamedSet<Account>{ }
+
+    @route("blocks")
+    interface BlocksResource extends NamedSet<Account>{ }
+
+    @route("endorsements")
+    interface EndorsementsResource extends NamedSet<Account>{ }
+
+    @route("timelines")
+    interface TimelinesResource extends TimelinesService {}
+
+    @route("statuses")
+    interface StatusesResource extends StatusesService {}
+
+    @route("statuses/{id}")
+    interface StatusResource extends StatusService {}
+
+    @route("instance")
+    interface InstanceResource extends InstanceService {}
+
+    @route("domain_blocks")
+    interface DomainBlocksResource extends DomainBlocksService{ }
+
   }
 
   @route("v2")
   namespace v2 {
 
+    @route("search")
+    interface SearchResource extends SearchService {}
   }
 
 }

@@ -1,4 +1,4 @@
-namespace Mastodon.v1;
+namespace Mastodon;
 
 model Tag {
     name: string;
@@ -12,3 +12,11 @@ model HistoryItem {
     uses: string;
     accounts:string;
 }
+
+model FeaturedTag {
+    id: string;
+    name: string;
+    url: string;
+    statuses_count: int32;
+    last_status_at: string;
+  }
