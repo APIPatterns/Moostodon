@@ -1,4 +1,4 @@
-import {MuteBody, Relationship, UnprocessableContentError} from '../../../../../models/';
+import {Relationship, UnprocessableContentError} from '../../../../../models/';
 import {createRelationshipFromDiscriminatorValue} from '../../../../../models/createRelationshipFromDiscriminatorValue';
 import {createUnprocessableContentErrorFromDiscriminatorValue} from '../../../../../models/createUnprocessableContentErrorFromDiscriminatorValue';
 import {MuteRequestBuilderPostRequestConfiguration} from './muteRequestBuilderPostRequestConfiguration';
@@ -25,7 +25,7 @@ export class MuteRequestBuilder {
         this.pathParameters = urlTplParams;
         this.requestAdapter = requestAdapter;
     };
-    public createPostRequestInformation(body: MuteBody | undefined, requestConfiguration?: MuteRequestBuilderPostRequestConfiguration | undefined) : RequestInformation {
+    public createPostRequestInformation(body: ArrayBuffer | undefined, requestConfiguration?: MuteRequestBuilderPostRequestConfiguration | undefined) : RequestInformation {
         if(!body) throw new Error("body cannot be undefined");
         const requestInfo = new RequestInformation();
         requestInfo.urlTemplate = this.urlTemplate;
@@ -36,10 +36,10 @@ export class MuteRequestBuilder {
             requestInfo.addRequestHeaders(requestConfiguration.headers);
             requestInfo.addRequestOptions(requestConfiguration.options);
         }
-        requestInfo.setContentFromParsable(this.requestAdapter, "application/json", body);
+        requestInfo.setStreamContent(body);
         return requestInfo;
     };
-    public post(body: MuteBody | undefined, requestConfiguration?: MuteRequestBuilderPostRequestConfiguration | undefined, responseHandler?: ResponseHandler | undefined) : Promise<Relationship | undefined> {
+    public post(body: ArrayBuffer | undefined, requestConfiguration?: MuteRequestBuilderPostRequestConfiguration | undefined, responseHandler?: ResponseHandler | undefined) : Promise<Relationship | undefined> {
         if(!body) throw new Error("body cannot be undefined");
         const requestInfo = this.createPostRequestInformation(
             body, requestConfiguration

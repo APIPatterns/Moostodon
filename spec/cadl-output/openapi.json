@@ -36,7 +36,7 @@
           "content": {
             "application/x-www-form-urlencoded": {
               "schema": {
-                "$ref": "#/components/schemas/CreateAppBody"
+                "$ref": "#/components/schemas/CreateAppForm"
               }
             }
           }
@@ -166,9 +166,9 @@
         },
         "requestBody": {
           "content": {
-            "application/form-data": {
+            "application/x-www-form-urlencoded": {
               "schema": {
-                "$ref": "#/components/schemas/TokenBody"
+                "$ref": "#/components/schemas/TokenForm"
               }
             }
           }
@@ -189,9 +189,9 @@
         },
         "requestBody": {
           "content": {
-            "application/form-data": {
+            "application/x-www-form-urlencoded": {
               "schema": {
-                "$ref": "#/components/schemas/RevokeBody"
+                "$ref": "#/components/schemas/RevokeForm"
               }
             }
           }
@@ -219,9 +219,9 @@
         },
         "requestBody": {
           "content": {
-            "application/form-data": {
+            "application/x-www-form-urlencoded": {
               "schema": {
-                "$ref": "#/components/schemas/Mastodon.CreateAccountBody"
+                "$ref": "#/components/schemas/Mastodon.CreateAccountForm"
               }
             }
           }
@@ -280,9 +280,9 @@
         },
         "requestBody": {
           "content": {
-            "application/json": {
+            "application/x-www-form-urlencoded": {
               "schema": {
-                "$ref": "#/components/schemas/Mastodon.UpdateCredentialsBody"
+                "$ref": "#/components/schemas/Mastodon.UpdateCredentialsForm"
               }
             }
           }
@@ -1076,9 +1076,9 @@
         },
         "requestBody": {
           "content": {
-            "application/json": {
+            "application/x-www-form-urlencoded": {
               "schema": {
-                "$ref": "#/components/schemas/Mastodon.MuteBody"
+                "$ref": "#/components/schemas/Mastodon.MuteForm"
               }
             }
           }
@@ -1251,9 +1251,9 @@
         },
         "requestBody": {
           "content": {
-            "application/json": {
+            "application/x-www-form-urlencoded": {
               "schema": {
-                "$ref": "#/components/schemas/Mastodon.SetNoteBody"
+                "$ref": "#/components/schemas/Mastodon.SetNoteForm"
               }
             }
           }
@@ -2276,7 +2276,7 @@
         }
       }
     },
-    "/api/v1/instance/instance": {
+    "/api/v1/instance": {
       "get": {
         "operationId": "InstanceResource_getInstance",
         "parameters": [],
@@ -2486,7 +2486,7 @@
       }
     },
     "schemas": {
-      "CreateAppBody": {
+      "CreateAppForm": {
         "type": "object",
         "properties": {
           "client_name": {
@@ -2574,7 +2574,7 @@
           "error_description"
         ]
       },
-      "TokenBody": {
+      "TokenForm": {
         "type": "object",
         "properties": {
           "grant_type": {
@@ -2629,7 +2629,7 @@
           "created_at"
         ]
       },
-      "RevokeBody": {
+      "RevokeForm": {
         "type": "object",
         "properties": {
           "client_id": {
@@ -2648,7 +2648,7 @@
           "token"
         ]
       },
-      "Mastodon.CreateAccountBody": {
+      "Mastodon.CreateAccountForm": {
         "type": "object",
         "properties": {
           "username": {
@@ -2793,7 +2793,7 @@
           "mute_expires_at"
         ]
       },
-      "Mastodon.UpdateCredentialsBody": {
+      "Mastodon.UpdateCredentialsForm": {
         "type": "object",
         "properties": {
           "discoverable": {
@@ -2817,15 +2817,14 @@
           "locked": {
             "type": "boolean"
           },
-          "source": {
-            "$ref": "#/components/schemas/Mastodon.Source"
+          "source[privacy]": {
+            "type": "string"
           },
-          "fields": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Mastodon.Field"
-            },
-            "x-cadl-name": "Mastodon.Field[]"
+          "source[sensitive]": {
+            "type": "boolean"
+          },
+          "source[language]": {
+            "type": "string"
           }
         },
         "required": [
@@ -2836,8 +2835,9 @@
           "avatar",
           "header",
           "locked",
-          "source",
-          "fields"
+          "source[privacy]",
+          "source[sensitive]",
+          "source[language]"
         ]
       },
       "Mastodon.Relationship": {
@@ -3122,7 +3122,7 @@
           "lanuages"
         ]
       },
-      "Mastodon.MuteBody": {
+      "Mastodon.MuteForm": {
         "type": "object",
         "properties": {
           "notifications": {
@@ -3138,7 +3138,7 @@
           "duration"
         ]
       },
-      "Mastodon.SetNoteBody": {
+      "Mastodon.SetNoteForm": {
         "type": "object",
         "properties": {
           "comment": {

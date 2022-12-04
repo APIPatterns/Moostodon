@@ -9,7 +9,7 @@ from kiota_abstractions.response_handler import ResponseHandler
 from kiota_abstractions.serialization import Parsable, ParsableFactory
 from typing import Any, Callable, Dict, List, Optional, Union
 
-from ......models import relationship, set_note_body, unprocessable_content_error
+from ......models import relationship, unprocessable_content_error
 
 class NoteRequestBuilder():
     """
@@ -33,7 +33,7 @@ class NoteRequestBuilder():
         self.path_parameters = url_tpl_params
         self.request_adapter = request_adapter
     
-    def create_post_request_information(self,body: Optional[set_note_body.SetNoteBody] = None, request_configuration: Optional[NoteRequestBuilderPostRequestConfiguration] = None) -> RequestInformation:
+    def create_post_request_information(self,body: bytes, request_configuration: Optional[NoteRequestBuilderPostRequestConfiguration] = None) -> RequestInformation:
         if body is None:
             raise Exception("body cannot be undefined")
         request_info = RequestInformation()
@@ -44,10 +44,10 @@ class NoteRequestBuilder():
         if request_configuration:
             request_info.add_request_headers(request_configuration.headers)
             request_info.add_request_options(request_configuration.options)
-        request_info.set_content_from_parsable(self.request_adapter, "application/json", body)
+        request_info.set_stream_content(body)
         return request_info
     
-    async def post(self,body: Optional[set_note_body.SetNoteBody] = None, request_configuration: Optional[NoteRequestBuilderPostRequestConfiguration] = None, response_handler: Optional[ResponseHandler] = None) -> Optional[relationship.Relationship]:
+    async def post(self,body: bytes, request_configuration: Optional[NoteRequestBuilderPostRequestConfiguration] = None, response_handler: Optional[ResponseHandler] = None) -> Optional[relationship.Relationship]:
         if body is None:
             raise Exception("body cannot be undefined")
         request_info = self.create_post_request_information(

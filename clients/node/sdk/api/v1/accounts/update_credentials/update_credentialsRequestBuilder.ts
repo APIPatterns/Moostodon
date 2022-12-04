@@ -1,4 +1,4 @@
-import {Account, UnprocessableContentError, UpdateCredentialsBody} from '../../../../models/';
+import {Account, UnprocessableContentError} from '../../../../models/';
 import {createAccountFromDiscriminatorValue} from '../../../../models/createAccountFromDiscriminatorValue';
 import {createUnprocessableContentErrorFromDiscriminatorValue} from '../../../../models/createUnprocessableContentErrorFromDiscriminatorValue';
 import {Update_credentialsRequestBuilderPatchRequestConfiguration} from './update_credentialsRequestBuilderPatchRequestConfiguration';
@@ -25,7 +25,7 @@ export class Update_credentialsRequestBuilder {
         this.pathParameters = urlTplParams;
         this.requestAdapter = requestAdapter;
     };
-    public createPatchRequestInformation(body: UpdateCredentialsBody | undefined, requestConfiguration?: Update_credentialsRequestBuilderPatchRequestConfiguration | undefined) : RequestInformation {
+    public createPatchRequestInformation(body: ArrayBuffer | undefined, requestConfiguration?: Update_credentialsRequestBuilderPatchRequestConfiguration | undefined) : RequestInformation {
         if(!body) throw new Error("body cannot be undefined");
         const requestInfo = new RequestInformation();
         requestInfo.urlTemplate = this.urlTemplate;
@@ -36,10 +36,10 @@ export class Update_credentialsRequestBuilder {
             requestInfo.addRequestHeaders(requestConfiguration.headers);
             requestInfo.addRequestOptions(requestConfiguration.options);
         }
-        requestInfo.setContentFromParsable(this.requestAdapter, "application/json", body);
+        requestInfo.setStreamContent(body);
         return requestInfo;
     };
-    public patch(body: UpdateCredentialsBody | undefined, requestConfiguration?: Update_credentialsRequestBuilderPatchRequestConfiguration | undefined, responseHandler?: ResponseHandler | undefined) : Promise<Account | undefined> {
+    public patch(body: ArrayBuffer | undefined, requestConfiguration?: Update_credentialsRequestBuilderPatchRequestConfiguration | undefined, responseHandler?: ResponseHandler | undefined) : Promise<Account | undefined> {
         if(!body) throw new Error("body cannot be undefined");
         const requestInfo = this.createPatchRequestInformation(
             body, requestConfiguration

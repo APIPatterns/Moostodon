@@ -6,13 +6,15 @@ using Cadl.Http;
 
 
 interface AppsService {
-  @post createApp(@body body: CreateAppBody): Application | UnprocessableContentError;
+  //Create a new application.
+  @post createApp(@body body: CreateAppForm): Application | UnprocessableContentError;
+
+  // Verify credentials and get the current user.
   @route("verify_credentials") 
   @get verifyCredentials(): Application | UnauthorizedError;
 }
 
-model CreateAppBody {
-  @header contentType: "application/x-www-form-urlencoded";
+model CreateAppForm is Form {
   client_name: string;
   redirect_uris: string;
   scopes: string;

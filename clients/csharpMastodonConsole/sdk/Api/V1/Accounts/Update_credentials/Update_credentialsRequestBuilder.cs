@@ -43,7 +43,7 @@ namespace MastodonClientLib.Api.V1.Accounts.Update_credentials {
             PathParameters = urlTplParams;
             RequestAdapter = requestAdapter;
         }
-        public RequestInformation CreatePatchRequestInformation(UpdateCredentialsBody body, Action<Update_credentialsRequestBuilderPatchRequestConfiguration> requestConfiguration = default) {
+        public RequestInformation CreatePatchRequestInformation(Stream body, Action<Update_credentialsRequestBuilderPatchRequestConfiguration> requestConfiguration = default) {
             _ = body ?? throw new ArgumentNullException(nameof(body));
             var requestInfo = new RequestInformation {
                 HttpMethod = Method.PATCH,
@@ -51,7 +51,7 @@ namespace MastodonClientLib.Api.V1.Accounts.Update_credentials {
                 PathParameters = PathParameters,
             };
             requestInfo.Headers.Add("Accept", "application/json");
-            requestInfo.SetContentFromParsable(RequestAdapter, "application/json", body);
+            requestInfo.SetStreamContent(body);
             if (requestConfiguration != null) {
                 var requestConfig = new Update_credentialsRequestBuilderPatchRequestConfiguration();
                 requestConfiguration.Invoke(requestConfig);
@@ -60,7 +60,7 @@ namespace MastodonClientLib.Api.V1.Accounts.Update_credentials {
             }
             return requestInfo;
         }
-        public async Task<Account> PatchAsync(UpdateCredentialsBody body, Action<Update_credentialsRequestBuilderPatchRequestConfiguration> requestConfiguration = default, CancellationToken cancellationToken = default) {
+        public async Task<Account> PatchAsync(Stream body, Action<Update_credentialsRequestBuilderPatchRequestConfiguration> requestConfiguration = default, CancellationToken cancellationToken = default) {
             _ = body ?? throw new ArgumentNullException(nameof(body));
             var requestInfo = CreatePatchRequestInformation(body, requestConfiguration);
             var errorMapping = new Dictionary<string, ParsableFactory<IParsable>> {

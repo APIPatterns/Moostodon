@@ -8,3 +8,6 @@ model Error {
 
 model GoneResponse is Response<410>;
 
+model Form {
+  @header contentType: "application/x-www-form-urlencoded";
+}

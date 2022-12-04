@@ -1,19 +1,16 @@
-// import CADL http package
-
 import "@cadl-lang/rest";
-import "./resources/auth.cadl";
-import "./resources/apps.cadl";
-import "./resources/accounts.cadl";
-import "./resources/timelines.cadl";
-import "./resources/search.cadl";
-import "./resources/instance.cadl";
-import "./resources/domain_blocks.cadl";
-import "./resources/statuses.cadl";
-import "./resources/status.cadl";
-
+import "./services/apps.cadl";
+import "./services/auth.cadl";
+import "./services/accounts.cadl";
+import "./services/account.cadl";
+import "./services/timelines.cadl";
+import "./services/search.cadl";
+import "./services/instance.cadl";
+import "./services/domain_blocks.cadl";
+import "./services/statuses.cadl";
+import "./services/status.cadl";
 
 using Cadl.Http;
-
 
 @service({
   title: "Mastodon",

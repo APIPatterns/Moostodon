@@ -9,7 +9,7 @@ from kiota_abstractions.response_handler import ResponseHandler
 from kiota_abstractions.serialization import Parsable, ParsableFactory
 from typing import Any, Callable, Dict, List, Optional, Union
 
-from .....models import account, unprocessable_content_error, update_credentials_body
+from .....models import account, unprocessable_content_error
 
 class Update_credentialsRequestBuilder():
     """
@@ -33,7 +33,7 @@ class Update_credentialsRequestBuilder():
         self.path_parameters = url_tpl_params
         self.request_adapter = request_adapter
     
-    def create_patch_request_information(self,body: Optional[update_credentials_body.UpdateCredentialsBody] = None, request_configuration: Optional[Update_credentialsRequestBuilderPatchRequestConfiguration] = None) -> RequestInformation:
+    def create_patch_request_information(self,body: bytes, request_configuration: Optional[Update_credentialsRequestBuilderPatchRequestConfiguration] = None) -> RequestInformation:
         if body is None:
             raise Exception("body cannot be undefined")
         request_info = RequestInformation()
@@ -44,10 +44,10 @@ class Update_credentialsRequestBuilder():
         if request_configuration:
             request_info.add_request_headers(request_configuration.headers)
             request_info.add_request_options(request_configuration.options)
-        request_info.set_content_from_parsable(self.request_adapter, "application/json", body)
+        request_info.set_stream_content(body)
         return request_info
     
-    async def patch(self,body: Optional[update_credentials_body.UpdateCredentialsBody] = None, request_configuration: Optional[Update_credentialsRequestBuilderPatchRequestConfiguration] = None, response_handler: Optional[ResponseHandler] = None) -> Optional[account.Account]:
+    async def patch(self,body: bytes, request_configuration: Optional[Update_credentialsRequestBuilderPatchRequestConfiguration] = None, response_handler: Optional[ResponseHandler] = None) -> Optional[account.Account]:
         if body is None:
             raise Exception("body cannot be undefined")
         request_info = self.create_patch_request_information(

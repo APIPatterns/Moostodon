@@ -1,11 +1,10 @@
-import {getPathParameters, RequestAdapter} from '@microsoft/kiota-abstractions';
+import {Instance} from '../../../models/';
+import {createInstanceFromDiscriminatorValue} from '../../../models/createInstanceFromDiscriminatorValue';
+import {InstanceRequestBuilderGetRequestConfiguration} from './instanceRequestBuilderGetRequestConfiguration';
+import {getPathParameters, HttpMethod, Parsable, ParsableFactory, RequestAdapter, RequestInformation, RequestOption, ResponseHandler} from '@microsoft/kiota-abstractions';
 
 /** Builds and executes requests for operations under /api/v1/instance */
 export class InstanceRequestBuilder {
-    /** The instance property */
-    public get instance(): InstanceRequestBuilder {
-        return new InstanceRequestBuilder(this.pathParameters, this.requestAdapter);
-    }
     /** Path parameters for the request */
     private pathParameters: Record<string, unknown>;
     /** The request adapter to use to execute the requests. */
@@ -24,5 +23,23 @@ export class InstanceRequestBuilder {
         const urlTplParams = getPathParameters(pathParameters);
         this.pathParameters = urlTplParams;
         this.requestAdapter = requestAdapter;
+    };
+    public createGetRequestInformation(requestConfiguration?: InstanceRequestBuilderGetRequestConfiguration | undefined) : RequestInformation {
+        const requestInfo = new RequestInformation();
+        requestInfo.urlTemplate = this.urlTemplate;
+        requestInfo.pathParameters = this.pathParameters;
+        requestInfo.httpMethod = HttpMethod.GET;
+        requestInfo.headers["Accept"] = "application/json";
+        if (requestConfiguration) {
+            requestInfo.addRequestHeaders(requestConfiguration.headers);
+            requestInfo.addRequestOptions(requestConfiguration.options);
+        }
+        return requestInfo;
+    };
+    public get(requestConfiguration?: InstanceRequestBuilderGetRequestConfiguration | undefined, responseHandler?: ResponseHandler | undefined) : Promise<Instance | undefined> {
+        const requestInfo = this.createGetRequestInformation(
+            requestConfiguration
+        );
+        return this.requestAdapter?.sendAsync<Instance>(requestInfo, createInstanceFromDiscriminatorValue, responseHandler, undefined) ?? Promise.reject(new Error('request adapter is null'));
     };
 }

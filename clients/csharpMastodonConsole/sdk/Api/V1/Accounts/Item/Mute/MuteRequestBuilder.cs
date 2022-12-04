@@ -43,7 +43,7 @@ namespace MastodonClientLib.Api.V1.Accounts.Item.Mute {
             PathParameters = urlTplParams;
             RequestAdapter = requestAdapter;
         }
-        public RequestInformation CreatePostRequestInformation(MuteBody body, Action<MuteRequestBuilderPostRequestConfiguration> requestConfiguration = default) {
+        public RequestInformation CreatePostRequestInformation(Stream body, Action<MuteRequestBuilderPostRequestConfiguration> requestConfiguration = default) {
             _ = body ?? throw new ArgumentNullException(nameof(body));
             var requestInfo = new RequestInformation {
                 HttpMethod = Method.POST,
@@ -51,7 +51,7 @@ namespace MastodonClientLib.Api.V1.Accounts.Item.Mute {
                 PathParameters = PathParameters,
             };
             requestInfo.Headers.Add("Accept", "application/json");
-            requestInfo.SetContentFromParsable(RequestAdapter, "application/json", body);
+            requestInfo.SetStreamContent(body);
             if (requestConfiguration != null) {
                 var requestConfig = new MuteRequestBuilderPostRequestConfiguration();
                 requestConfiguration.Invoke(requestConfig);
@@ -60,7 +60,7 @@ namespace MastodonClientLib.Api.V1.Accounts.Item.Mute {
             }
             return requestInfo;
         }
-        public async Task<Relationship> PostAsync(MuteBody body, Action<MuteRequestBuilderPostRequestConfiguration> requestConfiguration = default, CancellationToken cancellationToken = default) {
+        public async Task<Relationship> PostAsync(Stream body, Action<MuteRequestBuilderPostRequestConfiguration> requestConfiguration = default, CancellationToken cancellationToken = default) {
             _ = body ?? throw new ArgumentNullException(nameof(body));
             var requestInfo = CreatePostRequestInformation(body, requestConfiguration);
             var errorMapping = new Dictionary<string, ParsableFactory<IParsable>> {
