@@ -9,12 +9,54 @@ from kiota_abstractions.response_handler import ResponseHandler
 from kiota_abstractions.serialization import Parsable, ParsableFactory
 from typing import Any, Callable, Dict, List, Optional, Union
 
-from ....models.v1 import account
+from ....models import account
+from .familiar_followers import familiar_followers_request_builder
+from .lookup import lookup_request_builder
+from .relationships import relationships_request_builder
+from .search import search_request_builder
+from .update_credentials import update_credentials_request_builder
+from .verify_credentials import verify_credentials_request_builder
 
 class AccountsRequestBuilder():
     """
     Builds and executes requests for operations under /api/v1/accounts
     """
+    def familiar_followers(self) -> familiar_followers_request_builder.Familiar_followersRequestBuilder:
+        """
+        The familiar_followers property
+        """
+        return familiar_followers_request_builder.Familiar_followersRequestBuilder(self.request_adapter, self.path_parameters)
+    
+    def lookup(self) -> lookup_request_builder.LookupRequestBuilder:
+        """
+        The lookup property
+        """
+        return lookup_request_builder.LookupRequestBuilder(self.request_adapter, self.path_parameters)
+    
+    def relationships(self) -> relationships_request_builder.RelationshipsRequestBuilder:
+        """
+        The relationships property
+        """
+        return relationships_request_builder.RelationshipsRequestBuilder(self.request_adapter, self.path_parameters)
+    
+    def search(self) -> search_request_builder.SearchRequestBuilder:
+        """
+        The search property
+        """
+        return search_request_builder.SearchRequestBuilder(self.request_adapter, self.path_parameters)
+    
+    def update_credentials(self) -> update_credentials_request_builder.Update_credentialsRequestBuilder:
+        """
+        The update_credentials property
+        """
+        return update_credentials_request_builder.Update_credentialsRequestBuilder(self.request_adapter, self.path_parameters)
+    
+    def verify_credentials(self) -> verify_credentials_request_builder.Verify_credentialsRequestBuilder:
+        """
+        The verify_credentials property
+        """
+        return verify_credentials_request_builder.Verify_credentialsRequestBuilder(self.request_adapter, self.path_parameters)
+    
     def __init__(self,request_adapter: RequestAdapter, path_parameters: Optional[Union[Dict[str, Any], str]] = None) -> None:
         """
         Instantiates a new AccountsRequestBuilder and sets the default values.

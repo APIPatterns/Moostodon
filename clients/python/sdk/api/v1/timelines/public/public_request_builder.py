@@ -9,7 +9,7 @@ from kiota_abstractions.response_handler import ResponseHandler
 from kiota_abstractions.serialization import Parsable, ParsableFactory
 from typing import Any, Callable, Dict, List, Optional, Union
 
-from .....models.v1 import status
+from .....models import status
 
 class PublicRequestBuilder():
     """
@@ -27,7 +27,7 @@ class PublicRequestBuilder():
         if request_adapter is None:
             raise Exception("request_adapter cannot be undefined")
         # Url template to use to build the URL for the current request builder
-        self.url_template: str = "{+baseurl}/api/v1/timelines/public"
+        self.url_template: str = "{+baseurl}/api/v1/timelines/public{?local*,only_media*,max_Id*,sinceId*,min_Id*,limit*}"
 
         url_tpl_params = get_path_parameters(path_parameters)
         self.path_parameters = url_tpl_params
@@ -41,6 +41,7 @@ class PublicRequestBuilder():
         request_info.headers["Accept"] = "application/json"
         if request_configuration:
             request_info.add_request_headers(request_configuration.headers)
+            request_info.set_query_string_parameters_from_raw_object(request_configuration.query_parameters)
             request_info.add_request_options(request_configuration.options)
         return request_info
     
@@ -53,6 +54,21 @@ class PublicRequestBuilder():
         return await self.request_adapter.send_collection_async(status.Status)(request_info, status.Status, response_handler, None)
     
     @dataclass
+    class PublicRequestBuilderGetQueryParameters():
+        limit: Optional[int] = None
+
+        local: Optional[bool] = None
+
+        max_id: Optional[str] = None
+
+        min_id: Optional[str] = None
+
+        only_media: Optional[bool] = None
+
+        since_id: Optional[str] = None
+
+    
+    @dataclass
     class PublicRequestBuilderGetRequestConfiguration():
         """
         Configuration for the request such as headers, query parameters, and middleware options.
@@ -62,6 +78,9 @@ class PublicRequestBuilder():
 
         # Request options
         options: Optional[List[RequestOption]] = None
+
+        # Request query parameters
+        query_parameters: Optional[PublicRequestBuilder.PublicRequestBuilderGetQueryParameters] = None
 
     
 

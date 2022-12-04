@@ -1,10 +1,40 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AccountsRequestBuilder = void 0;
-const createAccountFromDiscriminatorValue_1 = require("../../../models/v1/createAccountFromDiscriminatorValue");
+const createAccountFromDiscriminatorValue_1 = require("../../../models/createAccountFromDiscriminatorValue");
+const familiar_followersRequestBuilder_1 = require("./familiar_followers/familiar_followersRequestBuilder");
+const lookupRequestBuilder_1 = require("./lookup/lookupRequestBuilder");
+const relationshipsRequestBuilder_1 = require("./relationships/relationshipsRequestBuilder");
+const searchRequestBuilder_1 = require("./search/searchRequestBuilder");
+const update_credentialsRequestBuilder_1 = require("./update_credentials/update_credentialsRequestBuilder");
+const verify_credentialsRequestBuilder_1 = require("./verify_credentials/verify_credentialsRequestBuilder");
 const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
 /** Builds and executes requests for operations under /api/v1/accounts */
 class AccountsRequestBuilder {
+    /** The familiar_followers property */
+    get familiar_followers() {
+        return new familiar_followersRequestBuilder_1.Familiar_followersRequestBuilder(this.pathParameters, this.requestAdapter);
+    }
+    /** The lookup property */
+    get lookup() {
+        return new lookupRequestBuilder_1.LookupRequestBuilder(this.pathParameters, this.requestAdapter);
+    }
+    /** The relationships property */
+    get relationships() {
+        return new relationshipsRequestBuilder_1.RelationshipsRequestBuilder(this.pathParameters, this.requestAdapter);
+    }
+    /** The search property */
+    get search() {
+        return new searchRequestBuilder_1.SearchRequestBuilder(this.pathParameters, this.requestAdapter);
+    }
+    /** The update_credentials property */
+    get update_credentials() {
+        return new update_credentialsRequestBuilder_1.Update_credentialsRequestBuilder(this.pathParameters, this.requestAdapter);
+    }
+    /** The verify_credentials property */
+    get verify_credentials() {
+        return new verify_credentialsRequestBuilder_1.Verify_credentialsRequestBuilder(this.pathParameters, this.requestAdapter);
+    }
     /**
      * Instantiates a new AccountsRequestBuilder and sets the default values.
      * @param pathParameters The raw url or the Url template parameters for the request.

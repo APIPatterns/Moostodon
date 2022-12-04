@@ -1,3 +1,6 @@
+import {HomeRequestBuilder} from './home/homeRequestBuilder';
+import {ListItemRequestBuilder} from './list/item/listItemRequestBuilder';
+import {ListRequestBuilder} from './list/listRequestBuilder';
 import {PublicRequestBuilder} from './public/publicRequestBuilder';
 import {WithTagItemRequestBuilder} from './tag/item/withTagItemRequestBuilder';
 import {TagRequestBuilder} from './tag/tagRequestBuilder';
@@ -5,6 +8,14 @@ import {getPathParameters, RequestAdapter} from '@microsoft/kiota-abstractions';
 
 /** Builds and executes requests for operations under /api/v1/timelines */
 export class TimelinesRequestBuilder {
+    /** The home property */
+    public get home(): HomeRequestBuilder {
+        return new HomeRequestBuilder(this.pathParameters, this.requestAdapter);
+    }
+    /** The list property */
+    public get list(): ListRequestBuilder {
+        return new ListRequestBuilder(this.pathParameters, this.requestAdapter);
+    }
     /** Path parameters for the request */
     private pathParameters: Record<string, unknown>;
     /** The public property */
@@ -31,6 +42,17 @@ export class TimelinesRequestBuilder {
         const urlTplParams = getPathParameters(pathParameters);
         this.pathParameters = urlTplParams;
         this.requestAdapter = requestAdapter;
+    };
+    /**
+     * Gets an item from the MoostodonSdk.api.v1.timelines.list.item collection
+     * @param id Unique identifier of the item
+     * @returns a ListItemRequestBuilder
+     */
+    public listById(id: string) : ListItemRequestBuilder {
+        if(!id) throw new Error("id cannot be undefined");
+        const urlTplParams = getPathParameters(this.pathParameters);
+        urlTplParams["id"] = id
+        return new ListItemRequestBuilder(urlTplParams, this.requestAdapter);
     };
     /**
      * Gets an item from the MoostodonSdk.api.v1.timelines.tag.item collection

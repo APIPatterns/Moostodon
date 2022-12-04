@@ -1,6 +1,6 @@
-import {Application, UnprocessableContentError} from '../../../models/v1/';
-import {createApplicationFromDiscriminatorValue} from '../../../models/v1/createApplicationFromDiscriminatorValue';
-import {createUnprocessableContentErrorFromDiscriminatorValue} from '../../../models/v1/createUnprocessableContentErrorFromDiscriminatorValue';
+import {Application, UnprocessableContentError} from '../../../models/';
+import {createApplicationFromDiscriminatorValue} from '../../../models/createApplicationFromDiscriminatorValue';
+import {createUnprocessableContentErrorFromDiscriminatorValue} from '../../../models/createUnprocessableContentErrorFromDiscriminatorValue';
 import {AppsRequestBuilderPostRequestConfiguration} from './appsRequestBuilderPostRequestConfiguration';
 import {Verify_credentialsRequestBuilder} from './verify_credentials/verify_credentialsRequestBuilder';
 import {getPathParameters, HttpMethod, Parsable, ParsableFactory, RequestAdapter, RequestInformation, RequestOption, ResponseHandler} from '@microsoft/kiota-abstractions';

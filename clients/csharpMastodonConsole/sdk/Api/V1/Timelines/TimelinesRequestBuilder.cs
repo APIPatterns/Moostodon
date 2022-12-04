@@ -1,3 +1,5 @@
+using MastodonClientLib.Api.V1.Timelines.Home;
+using MastodonClientLib.Api.V1.Timelines.List;
 using MastodonClientLib.Api.V1.Timelines.Public;
 using MastodonClientLib.Api.V1.Timelines.Tag;
 using Microsoft.Kiota.Abstractions;
@@ -9,6 +11,14 @@ using System.Threading.Tasks;
 namespace MastodonClientLib.Api.V1.Timelines {
     /// <summary>Builds and executes requests for operations under \api\v1\timelines</summary>
     public class TimelinesRequestBuilder {
+        /// <summary>The home property</summary>
+        public HomeRequestBuilder Home { get =>
+            new HomeRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The list property</summary>
+        public ListRequestBuilder List { get =>
+            new ListRequestBuilder(PathParameters, RequestAdapter);
+        }
         /// <summary>Path parameters for the request</summary>
         private Dictionary<string, object> PathParameters { get; set; }
         /// <summary>The public property</summary>

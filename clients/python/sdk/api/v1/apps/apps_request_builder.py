@@ -9,7 +9,7 @@ from kiota_abstractions.response_handler import ResponseHandler
 from kiota_abstractions.serialization import Parsable, ParsableFactory
 from typing import Any, Callable, Dict, List, Optional, Union
 
-from ....models.v1 import application, unprocessable_content_error
+from ....models import application, unprocessable_content_error
 from .verify_credentials import verify_credentials_request_builder
 
 class AppsRequestBuilder():

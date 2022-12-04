@@ -1,5 +1,5 @@
-import {TokenResponse} from '../../../../models/v1/';
-import {createTokenResponseFromDiscriminatorValue} from '../../../../models/v1/createTokenResponseFromDiscriminatorValue';
+import {TokenResponse} from '../../../../models/';
+import {createTokenResponseFromDiscriminatorValue} from '../../../../models/createTokenResponseFromDiscriminatorValue';
 import {TokenRequestBuilderPostRequestConfiguration} from './tokenRequestBuilderPostRequestConfiguration';
 import {getPathParameters, HttpMethod, Parsable, ParsableFactory, RequestAdapter, RequestInformation, RequestOption, ResponseHandler} from '@microsoft/kiota-abstractions';
 

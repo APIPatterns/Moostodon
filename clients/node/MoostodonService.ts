@@ -1,7 +1,7 @@
 import { MoostodonClient } from "./sdk/moostodonClient";
 import { FetchRequestAdapter } from '@microsoft/kiota-http-fetchlibrary';
 import { AuthenticationProvider, RequestInformation } from "@microsoft/kiota-abstractions";
-import { Account } from "./sdk/models/v1/account";
+import { Account } from "./sdk/models/account";
 
 // Create Wrapper service around the MoostodonClient
 export class MoostodonService {

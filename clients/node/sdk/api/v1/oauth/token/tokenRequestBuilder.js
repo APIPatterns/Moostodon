@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TokenRequestBuilder = void 0;
-const createTokenResponseFromDiscriminatorValue_1 = require("../../../../models/v1/createTokenResponseFromDiscriminatorValue");
+const createTokenResponseFromDiscriminatorValue_1 = require("../../../../models/createTokenResponseFromDiscriminatorValue");
 const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
 /** Builds and executes requests for operations under /api/v1/oauth/token */
 class TokenRequestBuilder {

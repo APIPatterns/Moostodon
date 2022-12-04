@@ -1,8 +1,6 @@
 using System.Text;
 using MastodonClientLib;
 using MastodonClientLib.Models;
-using MastodonClientLib.Models.V1;
-using MastodonClientLib.Models.V2;
 using Microsoft.Kiota.Abstractions;
 using Microsoft.Kiota.Abstractions.Authentication;
 using Microsoft.Kiota.Http.HttpClientLibrary;
@@ -62,4 +60,4 @@ public class OAuth2AuthorizationProvider : IAuthenticationProvider
     {
         
     }
-}
+} 

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.WithTagItemRequestBuilder = void 0;
-const createStatusFromDiscriminatorValue_1 = require("../../../../../models/v1/createStatusFromDiscriminatorValue");
+const createStatusFromDiscriminatorValue_1 = require("../../../../../models/createStatusFromDiscriminatorValue");
 const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
 /** Builds and executes requests for operations under /api/v1/timelines/tag/{tag} */
 class WithTagItemRequestBuilder {
@@ -15,7 +15,7 @@ class WithTagItemRequestBuilder {
             throw new Error("pathParameters cannot be undefined");
         if (!requestAdapter)
             throw new Error("requestAdapter cannot be undefined");
-        this.urlTemplate = "{+baseurl}/api/v1/timelines/tag/{tag}";
+        this.urlTemplate = "{+baseurl}/api/v1/timelines/tag/{tag}{?local*,only_media*,max_Id*,sinceId*,min_Id*,limit*}";
         const urlTplParams = (0, kiota_abstractions_1.getPathParameters)(pathParameters);
         this.pathParameters = urlTplParams;
         this.requestAdapter = requestAdapter;
@@ -29,6 +29,7 @@ class WithTagItemRequestBuilder {
         requestInfo.headers["Accept"] = "application/json";
         if (requestConfiguration) {
             requestInfo.addRequestHeaders(requestConfiguration.headers);
+            requestInfo.setQueryStringParametersFromRawObject(requestConfiguration.queryParameters);
             requestInfo.addRequestOptions(requestConfiguration.options);
         }
         return requestInfo;

@@ -5,8 +5,8 @@ from kiota_http.httpx_request_adapter import HttpxRequestAdapter
 from kiota_serialization_json.json_parse_node_factory import JsonParseNodeFactory
 from kiota_serialization_json.json_serialization_writer_factory import JsonSerializationWriterFactory
 from kiota_abstractions.authentication.anonymous_authentication_provider import AnonymousAuthenticationProvider
-from sdk.models.v1.status import Status
-from sdk.models.v1.account import Account
+from sdk.models.status import Status
+from sdk.models.account import Account
 from sdk.moostodon_client import MoostodonClient
 
 
@@ -37,4 +37,5 @@ class MoostodonService():
         """
         Get account details for a user.
         """
+        
         return asyncio.run(self.client.api().v1().accounts_by_id(account_id).get())

@@ -1,5 +1,5 @@
-import {SearchResult} from '../../../models/v2/';
-import {createSearchResultFromDiscriminatorValue} from '../../../models/v2/createSearchResultFromDiscriminatorValue';
+import {SearchResult} from '../../../models/';
+import {createSearchResultFromDiscriminatorValue} from '../../../models/createSearchResultFromDiscriminatorValue';
 import {SearchRequestBuilderGetRequestConfiguration} from './searchRequestBuilderGetRequestConfiguration';
 import {getPathParameters, HttpMethod, Parsable, ParsableFactory, RequestAdapter, RequestInformation, RequestOption, ResponseHandler} from '@microsoft/kiota-abstractions';
 

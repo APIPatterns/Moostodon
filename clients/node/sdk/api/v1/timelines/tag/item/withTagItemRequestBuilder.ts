@@ -1,5 +1,5 @@
-import {Status} from '../../../../../models/v1/';
-import {createStatusFromDiscriminatorValue} from '../../../../../models/v1/createStatusFromDiscriminatorValue';
+import {Status} from '../../../../../models/';
+import {createStatusFromDiscriminatorValue} from '../../../../../models/createStatusFromDiscriminatorValue';
 import {WithTagItemRequestBuilderGetRequestConfiguration} from './withTagItemRequestBuilderGetRequestConfiguration';
 import {getPathParameters, HttpMethod, Parsable, ParsableFactory, RequestAdapter, RequestInformation, RequestOption, ResponseHandler} from '@microsoft/kiota-abstractions';
 
@@ -19,7 +19,7 @@ export class WithTagItemRequestBuilder {
     public constructor(pathParameters: Record<string, unknown> | string | undefined, requestAdapter: RequestAdapter) {
         if(!pathParameters) throw new Error("pathParameters cannot be undefined");
         if(!requestAdapter) throw new Error("requestAdapter cannot be undefined");
-        this.urlTemplate = "{+baseurl}/api/v1/timelines/tag/{tag}";
+        this.urlTemplate = "{+baseurl}/api/v1/timelines/tag/{tag}{?local*,only_media*,max_Id*,sinceId*,min_Id*,limit*}";
         const urlTplParams = getPathParameters(pathParameters);
         this.pathParameters = urlTplParams;
         this.requestAdapter = requestAdapter;
@@ -32,6 +32,7 @@ export class WithTagItemRequestBuilder {
         requestInfo.headers["Accept"] = "application/json";
         if (requestConfiguration) {
             requestInfo.addRequestHeaders(requestConfiguration.headers);
+            requestInfo.setQueryStringParametersFromRawObject(requestConfiguration.queryParameters);
             requestInfo.addRequestOptions(requestConfiguration.options);
         }
         return requestInfo;

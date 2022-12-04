@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Verify_credentialsRequestBuilder = void 0;
-const createApplicationFromDiscriminatorValue_1 = require("../../../../models/v1/createApplicationFromDiscriminatorValue");
-const createUnauthorizedErrorFromDiscriminatorValue_1 = require("../../../../models/v1/createUnauthorizedErrorFromDiscriminatorValue");
+const createApplicationFromDiscriminatorValue_1 = require("../../../../models/createApplicationFromDiscriminatorValue");
+const createUnauthorizedErrorFromDiscriminatorValue_1 = require("../../../../models/createUnauthorizedErrorFromDiscriminatorValue");
 const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
 /** Builds and executes requests for operations under /api/v1/apps/verify_credentials */
 class Verify_credentialsRequestBuilder {

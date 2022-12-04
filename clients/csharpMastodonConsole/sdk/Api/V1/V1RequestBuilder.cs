@@ -1,6 +1,14 @@
 using MastodonClientLib.Api.V1.Accounts;
 using MastodonClientLib.Api.V1.Apps;
+using MastodonClientLib.Api.V1.Blocks;
+using MastodonClientLib.Api.V1.Bookmarks;
+using MastodonClientLib.Api.V1.Domain_blocks;
+using MastodonClientLib.Api.V1.Endorsements;
+using MastodonClientLib.Api.V1.Favourites;
+using MastodonClientLib.Api.V1.Instance;
+using MastodonClientLib.Api.V1.Mutes;
 using MastodonClientLib.Api.V1.Oauth;
+using MastodonClientLib.Api.V1.Statuses;
 using MastodonClientLib.Api.V1.Timelines;
 using Microsoft.Kiota.Abstractions;
 using System;
@@ -19,6 +27,34 @@ namespace MastodonClientLib.Api.V1 {
         public AppsRequestBuilder Apps { get =>
             new AppsRequestBuilder(PathParameters, RequestAdapter);
         }
+        /// <summary>The blocks property</summary>
+        public BlocksRequestBuilder Blocks { get =>
+            new BlocksRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The bookmarks property</summary>
+        public BookmarksRequestBuilder Bookmarks { get =>
+            new BookmarksRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The domain_blocks property</summary>
+        public Domain_blocksRequestBuilder Domain_blocks { get =>
+            new Domain_blocksRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The endorsements property</summary>
+        public EndorsementsRequestBuilder Endorsements { get =>
+            new EndorsementsRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The favourites property</summary>
+        public FavouritesRequestBuilder Favourites { get =>
+            new FavouritesRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The instance property</summary>
+        public InstanceRequestBuilder Instance { get =>
+            new InstanceRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The mutes property</summary>
+        public MutesRequestBuilder Mutes { get =>
+            new MutesRequestBuilder(PathParameters, RequestAdapter);
+        }
         /// <summary>The oauth property</summary>
         public OauthRequestBuilder Oauth { get =>
             new OauthRequestBuilder(PathParameters, RequestAdapter);
@@ -27,6 +63,10 @@ namespace MastodonClientLib.Api.V1 {
         private Dictionary<string, object> PathParameters { get; set; }
         /// <summary>The request adapter to use to execute the requests.</summary>
         private IRequestAdapter RequestAdapter { get; set; }
+        /// <summary>The statuses property</summary>
+        public StatusesRequestBuilder Statuses { get =>
+            new StatusesRequestBuilder(PathParameters, RequestAdapter);
+        }
         /// <summary>The timelines property</summary>
         public TimelinesRequestBuilder Timelines { get =>
             new TimelinesRequestBuilder(PathParameters, RequestAdapter);

@@ -3,6 +3,9 @@ from kiota_abstractions.get_path_parameters import get_path_parameters
 from kiota_abstractions.request_adapter import RequestAdapter
 from typing import Any, Callable, Dict, List, Optional, Union
 
+from .home import home_request_builder
+from .list import list_request_builder
+from .list.item import list_item_request_builder
 from .public import public_request_builder
 from .tag import tag_request_builder
 from .tag.item import with_tag_item_request_builder
@@ -11,6 +14,18 @@ class TimelinesRequestBuilder():
     """
     Builds and executes requests for operations under /api/v1/timelines
     """
+    def home(self) -> home_request_builder.HomeRequestBuilder:
+        """
+        The home property
+        """
+        return home_request_builder.HomeRequestBuilder(self.request_adapter, self.path_parameters)
+    
+    def list(self) -> list_request_builder.ListRequestBuilder:
+        """
+        The list property
+        """
+        return list_request_builder.ListRequestBuilder(self.request_adapter, self.path_parameters)
+    
     def public(self) -> public_request_builder.PublicRequestBuilder:
         """
         The public property
@@ -40,6 +55,19 @@ class TimelinesRequestBuilder():
         url_tpl_params = get_path_parameters(path_parameters)
         self.path_parameters = url_tpl_params
         self.request_adapter = request_adapter
+    
+    def list_by_id(self,id: str) -> list_item_request_builder.ListItemRequestBuilder:
+        """
+        Gets an item from the moostodonSdk.api.v1.timelines.list.item collection
+        Args:
+            id: Unique identifier of the item
+        Returns: list_item_request_builder.ListItemRequestBuilder
+        """
+        if id is None:
+            raise Exception("id cannot be undefined")
+        url_tpl_params = get_path_parameters(self.path_parameters)
+        url_tpl_params["id"] = id
+        return list_item_request_builder.ListItemRequestBuilder(self.request_adapter, url_tpl_params)
     
     def tag_by_id(self,id: str) -> with_tag_item_request_builder.WithTagItemRequestBuilder:
         """

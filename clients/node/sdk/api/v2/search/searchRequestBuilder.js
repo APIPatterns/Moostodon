@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SearchRequestBuilder = void 0;
-const createSearchResultFromDiscriminatorValue_1 = require("../../../models/v2/createSearchResultFromDiscriminatorValue");
+const createSearchResultFromDiscriminatorValue_1 = require("../../../models/createSearchResultFromDiscriminatorValue");
 const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
 /** Builds and executes requests for operations under /api/v2/search */
 class SearchRequestBuilder {

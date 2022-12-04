@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppsRequestBuilder = void 0;
-const createApplicationFromDiscriminatorValue_1 = require("../../../models/v1/createApplicationFromDiscriminatorValue");
-const createUnprocessableContentErrorFromDiscriminatorValue_1 = require("../../../models/v1/createUnprocessableContentErrorFromDiscriminatorValue");
+const createApplicationFromDiscriminatorValue_1 = require("../../../models/createApplicationFromDiscriminatorValue");
+const createUnprocessableContentErrorFromDiscriminatorValue_1 = require("../../../models/createUnprocessableContentErrorFromDiscriminatorValue");
 const verify_credentialsRequestBuilder_1 = require("./verify_credentials/verify_credentialsRequestBuilder");
 const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
 /** Builds and executes requests for operations under /api/v1/apps */

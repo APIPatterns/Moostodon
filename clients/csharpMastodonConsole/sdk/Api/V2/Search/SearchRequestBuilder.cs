@@ -1,4 +1,4 @@
-using MastodonClientLib.Models.V2;
+using MastodonClientLib.Models;
 using Microsoft.Kiota.Abstractions;
 using Microsoft.Kiota.Abstractions.Serialization;
 using System;

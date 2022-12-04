@@ -9,7 +9,7 @@ from kiota_abstractions.response_handler import ResponseHandler
 from kiota_abstractions.serialization import Parsable, ParsableFactory
 from typing import Any, Callable, Dict, List, Optional, Union
 
-from .....models.v1 import application, unauthorized_error
+from .....models import application, unauthorized_error
 
 class Verify_credentialsRequestBuilder():
     """

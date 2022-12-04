@@ -1,5 +1,11 @@
+using MastodonClientLib.Api.V1.Accounts.Familiar_followers;
 using MastodonClientLib.Api.V1.Accounts.Item;
-using MastodonClientLib.Models.V1;
+using MastodonClientLib.Api.V1.Accounts.Lookup;
+using MastodonClientLib.Api.V1.Accounts.Relationships;
+using MastodonClientLib.Api.V1.Accounts.Search;
+using MastodonClientLib.Api.V1.Accounts.Update_credentials;
+using MastodonClientLib.Api.V1.Accounts.Verify_credentials;
+using MastodonClientLib.Models;
 using Microsoft.Kiota.Abstractions;
 using Microsoft.Kiota.Abstractions.Serialization;
 using System;
@@ -11,12 +17,36 @@ using System.Threading.Tasks;
 namespace MastodonClientLib.Api.V1.Accounts {
     /// <summary>Builds and executes requests for operations under \api\v1\accounts</summary>
     public class AccountsRequestBuilder {
+        /// <summary>The familiar_followers property</summary>
+        public Familiar_followersRequestBuilder Familiar_followers { get =>
+            new Familiar_followersRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The lookup property</summary>
+        public LookupRequestBuilder Lookup { get =>
+            new LookupRequestBuilder(PathParameters, RequestAdapter);
+        }
         /// <summary>Path parameters for the request</summary>
         private Dictionary<string, object> PathParameters { get; set; }
+        /// <summary>The relationships property</summary>
+        public RelationshipsRequestBuilder Relationships { get =>
+            new RelationshipsRequestBuilder(PathParameters, RequestAdapter);
+        }
         /// <summary>The request adapter to use to execute the requests.</summary>
         private IRequestAdapter RequestAdapter { get; set; }
+        /// <summary>The search property</summary>
+        public SearchRequestBuilder Search { get =>
+            new SearchRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The update_credentials property</summary>
+        public Update_credentialsRequestBuilder Update_credentials { get =>
+            new Update_credentialsRequestBuilder(PathParameters, RequestAdapter);
+        }
         /// <summary>Url template to use to build the URL for the current request builder</summary>
         private string UrlTemplate { get; set; }
+        /// <summary>The verify_credentials property</summary>
+        public Verify_credentialsRequestBuilder Verify_credentials { get =>
+            new Verify_credentialsRequestBuilder(PathParameters, RequestAdapter);
+        }
         /// <summary>Gets an item from the MastodonClientLib.api.v1.accounts.item collection</summary>
         public AccountsItemRequestBuilder this[string position] { get {
             var urlTplParams = new Dictionary<string, object>(PathParameters);
