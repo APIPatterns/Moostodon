@@ -20,7 +20,7 @@ public class OAuth2AuthorizationProvider : IAuthenticationProvider
 
     public string AccessToken { get; set; }
 
-    private  async Task<TokenResponse> GetToken(string grantType,  string code = null)
+    private  async Task<TokenResponse> GetToken(string grantType, string code = null, CancellationToken cancellationToken = default)
     {
         var token = await Client.Oauth.Token.PostAsync(new TokenForm() {
             Client_id = ClientId,
@@ -28,7 +28,7 @@ public class OAuth2AuthorizationProvider : IAuthenticationProvider
             Code = code,
             Redirect_uri = RedirectUri,
             Grant_type = grantType
-        });
+        }, cancellationToken: cancellationToken);
         return token;
     }
 
@@ -44,13 +44,13 @@ public class OAuth2AuthorizationProvider : IAuthenticationProvider
         return request.URI.ToString();
     }
 
-    public async Task LoginApp() {
-        var token = await GetToken("client_credentials");
+    public async Task LoginApp(CancellationToken cancellationToken = default) {
+        var token = await GetToken("client_credentials", cancellationToken: cancellationToken);
         AccessToken = token.Access_token;
     }
 
-    public async Task LoginUser(string authCode) {
-        var token = await GetToken("authorization_code", authCode);
+    public async Task LoginUser(string authCode, CancellationToken cancellationToken = default) {
+        var token = await GetToken("authorization_code", authCode, cancellationToken: cancellationToken);
         AccessToken = token.Access_token;
     }
 

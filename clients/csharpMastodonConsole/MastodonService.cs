@@ -21,71 +21,71 @@ public class MastodonService {
     }
 
     // Search for Accounts, status and hashtags
-    public async Task<List<Account>> SearchAccounts(string query)
+    public async Task<List<Account>> SearchAccounts(string query, CancellationToken cancellationToken = default)
     {
         var searchResults = await client.Api.V2.Search.GetAsync(r => {
             r.QueryParameters.Q = query; 
             r.QueryParameters.Type = "accounts";
-            });
+            }, cancellationToken: cancellationToken);
         return searchResults.Accounts;
     }
 
     // Create an app
-    public async Task<Application> CreateApp(string appName, string redirectUri, string scopes, string website)
+    public async Task<Application> CreateApp(string appName, string redirectUri, string scopes, string website, CancellationToken cancellationToken = default)
     {
         var app = await client.Api.V1.Apps.PostAsync(new CreateAppForm() {
             Client_name = appName,
             Redirect_uris = redirectUri,
             Scopes = scopes,
             Website = website
-        });
+        }, cancellationToken: cancellationToken);
         return app;
     }
 
     // Get a token
   
     // Get a specified account's followers
-    public async Task<List<Account>> GetFollowers(string id)
+    public async Task<List<Account>> GetFollowers(string id, CancellationToken cancellationToken = default)
     {
-        var followers = await client.Api.V1.Accounts[id].Followers.GetAsync();
+        var followers = await client.Api.V1.Accounts[id].Followers.GetAsync(cancellationToken: cancellationToken);
         return followers;
     }
 
 
     // Get user's account details by id
-    public async Task<Account> GetAccount(string id)
+    public async Task<Account> GetAccount(string id, CancellationToken cancellationToken = default)
     {
-        var account = await client.Api.V1.Accounts[id].GetAsync();
+        var account = await client.Api.V1.Accounts[id].GetAsync(cancellationToken: cancellationToken);
         return account;
     }
     
 
     // Read public timeline
-    public async Task<List<Status>> ReadPublicTimeline()
+    public async Task<List<Status>> ReadPublicTimeline(CancellationToken cancellationToken = default)
     {
-        var statuses = await client.Api.V1.Timelines.Public.GetAsync();
+        var statuses = await client.Api.V1.Timelines.Public.GetAsync(cancellationToken: cancellationToken);
         return statuses;        
     }
 
     // Read tag statuses associated to a tag
-    public async Task<List<Status>> ReadTagTimeline(string tag)
+    public async Task<List<Status>> ReadTagTimeline(string tag, CancellationToken cancellationToken = default)
     {
-        var statuses = await client.Api.V1.Timelines.Tag[tag].GetAsync();
+        var statuses = await client.Api.V1.Timelines.Tag[tag].GetAsync(cancellationToken: cancellationToken);
         return statuses;        
     }
 
-    internal async Task LoginApp()
+    internal async Task LoginApp(CancellationToken cancellationToken = default)
     {
-       await _authProvider.LoginApp();
+       await _authProvider.LoginApp(cancellationToken);
     }
 
-    internal async Task LoginUser(string username)
+    internal async Task LoginUser(string username, CancellationToken cancellationToken = default)
     {
         var url = _authProvider.GetUserAuthorizationUrl(username);
         //Display the url to the user and ask them to enter the code
         Console.WriteLine("Please open this url and sign in and copy code into console: " + url);
         Console.Write("Enter code: ");
         var code = Console.ReadLine();
-        await _authProvider.LoginUser(code);
+        await _authProvider.LoginUser(code, cancellationToken);
     }
 }

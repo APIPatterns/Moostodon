@@ -1,4 +1,9 @@
-﻿
+﻿#region cancellationSource
+using var cts = new CancellationTokenSource();
+var cancellationToken = cts.Token;
+AppDomain.CurrentDomain.ProcessExit += (sender, eArgs) => cts.Cancel();
+#endregion
+
 var mtdnService = new MastodonService("https://mastodon.social");
 
 
@@ -26,9 +31,9 @@ var mtdnService = new MastodonService("https://mastodon.social");
 
 
 // App endpoints
-await mtdnService.LoginApp();
+await mtdnService.LoginApp(cancellationToken);
 
-var followers = await mtdnService.GetFollowers("108192895578262114");
+var followers = await mtdnService.GetFollowers("108192895578262114", cancellationToken);
 
 // User specific endpoints
 //mtdnService.LoginUser("darrel_miller@mastodon.social");
