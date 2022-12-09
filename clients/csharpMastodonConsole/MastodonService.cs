@@ -74,18 +74,18 @@ public class MastodonService {
         return statuses;        
     }
 
-    internal void LoginApp()
+    internal async Task LoginApp()
     {
-       _authProvider.LoginApp();
+       await _authProvider.LoginApp();
     }
 
-    internal void LoginUser(string username)
+    internal async Task LoginUser(string username)
     {
-        var url = _authProvider.GetUserAuthorizationnUrl(username);
+        var url = _authProvider.GetUserAuthorizationUrl(username);
         //Display the url to the user and ask them to enter the code
         Console.WriteLine("Please open this url and sign in and copy code into console: " + url);
         Console.Write("Enter code: ");
         var code = Console.ReadLine();
-        _authProvider.LoginUser(code);
+        await _authProvider.LoginUser(code);
     }
 }

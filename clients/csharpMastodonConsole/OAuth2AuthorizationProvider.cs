@@ -33,7 +33,7 @@ public class OAuth2AuthorizationProvider : IAuthenticationProvider
     }
 
     // Get an authorization code
-    public string GetUserAuthorizationnUrl(string scopes)
+    public string GetUserAuthorizationUrl(string scopes)
     {
         var request = Client.Oauth.Authorize.CreateGetRequestInformation(r => {
             r.QueryParameters.Client_id = ClientId;

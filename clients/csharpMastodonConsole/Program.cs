@@ -26,7 +26,7 @@ var mtdnService = new MastodonService("https://mastodon.social");
 
 
 // App endpoints
-mtdnService.LoginApp();
+await mtdnService.LoginApp();
 
 var followers = await mtdnService.GetFollowers("108192895578262114");
 
