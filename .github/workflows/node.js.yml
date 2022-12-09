@@ -32,4 +32,4 @@ jobs:
         cache: 'npm'
         cache-dependency-path: spec/package-lock.json
     - run: npm ci
-    - run: cadl compile ./main.cadl
+    - run: npx cadl compile ./main.cadl
