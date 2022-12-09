@@ -1,0 +1,27 @@
+version: 2
+updates:
+- package-ecosystem: nuget
+  directory: "/clients/csharpMastodonConsole"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+- package-ecosystem: npm
+  directory: "/clients/node"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+- package-ecosystem: pip
+  directory: "/clients/python"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+- package-ecosystem: npm
+  directory: "/spec"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
