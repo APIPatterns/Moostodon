@@ -12,7 +12,7 @@ public class MastodonService {
 
     public MastodonService(string baseUrl)
     {
-        _authProvider = new OAuth2AuthorizationProvider("clientId", "clientsecret", "urn:ietf:wg:oauth:2.0:oob");
+        _authProvider = new OAuth2AuthorizationProvider(CredsHack.ClientId, CredsHack.ClientSecret, "urn:ietf:wg:oauth:2.0:oob");
         var requestAdapter = new HttpClientRequestAdapter(_authProvider);
         SerializationWriterFactoryRegistry.DefaultInstance.ContentTypeAssociatedFactories.Add("application/x-www-form-urlencoded",new FormSerializationWriterFactory());
         client = new MastodonClient(requestAdapter);

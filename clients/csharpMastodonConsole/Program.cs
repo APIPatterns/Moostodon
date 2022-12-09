@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using OpenTelemetry;
+using OpenTelemetry.Trace;
 
 namespace MoostodonConsole
 {
@@ -6,12 +8,18 @@ namespace MoostodonConsole
     {
         static async Task Main(string[] args)
         {
+            // Configure console  opentelemetry tracing
+            var builder = Sdk.CreateTracerProviderBuilder()
+                .AddSource("Microsoft.Kiota.Http.HttpClientLibrary")
+                .AddConsoleExporter();
+
+
             var serviceUrl = args[0];
             var demo = args[1];
 
             using var cts = new CancellationTokenSource();
             var cancellationToken = cts.Token;
-            AppDomain.CurrentDomain.ProcessExit += (sender, eArgs) => cts.Cancel();
+            //AppDomain.CurrentDomain.ProcessExit += (sender, eArgs) => (ifcts.Cancel();
 
             // Create a new instance of the MastodonService to access the parts of the API our apps needs
             var mtdnService = new MastodonService(serviceUrl);
@@ -22,7 +30,7 @@ namespace MoostodonConsole
                     var statuses = await mtdnService.ReadPublicTimeline(cancellationToken);
                     foreach (var s in statuses.Take(10))
                     {
-                        Console.WriteLine(s.Account.Display_name + ":" + s.Content.Substring(0, 20));
+                        Console.WriteLine(s.Account.Display_name + " : " + s.Content.Substring(0, Math.Min(20, s.Content.Length)));
                     }
                     break;
 
@@ -34,7 +42,7 @@ namespace MoostodonConsole
                     }
                     break;
 
-                case "getaccount":
+                case "getaccountfollowers":
                     // App endpoints
                     await mtdnService.LoginApp(cancellationToken);
 
@@ -48,6 +56,10 @@ namespace MoostodonConsole
                 case "getusertimeline":
                     // User specific endpoints
                     await mtdnService.LoginUser("@darrel_miller.mastodon.social",cancellationToken);
+                    break;
+
+                case "toot":
+                
                     break;
 
             }

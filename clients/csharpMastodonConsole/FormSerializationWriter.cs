@@ -122,7 +122,8 @@ internal class FormSerializationWriter : ISerializationWriter
 
     public void WriteObjectValue<T>(string key, T value, params IParsable[] additionalValuesToMerge) where T : IParsable
     {
-        throw new NotImplementedException();
+        IParsable obj = value;
+        value.Serialize(this);
     }
 
     public void WriteSbyteValue(string key, sbyte? value)
