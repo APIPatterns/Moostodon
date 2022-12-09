@@ -7,8 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-namespace MastodonClientLib.Api.V1.Oauth.Token {
-    /// <summary>Builds and executes requests for operations under \api\v1\oauth\token</summary>
+namespace MastodonClientLib.Oauth.Token {
+    /// <summary>Builds and executes requests for operations under \oauth\token</summary>
     public class TokenRequestBuilder {
         /// <summary>Path parameters for the request</summary>
         private Dictionary<string, object> PathParameters { get; set; }
@@ -24,7 +24,7 @@ namespace MastodonClientLib.Api.V1.Oauth.Token {
         public TokenRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) {
             _ = pathParameters ?? throw new ArgumentNullException(nameof(pathParameters));
             _ = requestAdapter ?? throw new ArgumentNullException(nameof(requestAdapter));
-            UrlTemplate = "{+baseurl}/api/v1/oauth/token";
+            UrlTemplate = "{+baseurl}/oauth/token";
             var urlTplParams = new Dictionary<string, object>(pathParameters);
             PathParameters = urlTplParams;
             RequestAdapter = requestAdapter;
@@ -37,13 +37,13 @@ namespace MastodonClientLib.Api.V1.Oauth.Token {
         public TokenRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) {
             if(string.IsNullOrEmpty(rawUrl)) throw new ArgumentNullException(nameof(rawUrl));
             _ = requestAdapter ?? throw new ArgumentNullException(nameof(requestAdapter));
-            UrlTemplate = "{+baseurl}/api/v1/oauth/token";
+            UrlTemplate = "{+baseurl}/oauth/token";
             var urlTplParams = new Dictionary<string, object>();
             urlTplParams.Add("request-raw-url", rawUrl);
             PathParameters = urlTplParams;
             RequestAdapter = requestAdapter;
         }
-        public RequestInformation CreatePostRequestInformation(Stream body, Action<TokenRequestBuilderPostRequestConfiguration> requestConfiguration = default) {
+        public RequestInformation CreatePostRequestInformation(TokenForm body, Action<TokenRequestBuilderPostRequestConfiguration> requestConfiguration = default) {
             _ = body ?? throw new ArgumentNullException(nameof(body));
             var requestInfo = new RequestInformation {
                 HttpMethod = Method.POST,
@@ -51,7 +51,7 @@ namespace MastodonClientLib.Api.V1.Oauth.Token {
                 PathParameters = PathParameters,
             };
             requestInfo.Headers.Add("Accept", "application/json");
-            requestInfo.SetStreamContent(body);
+            requestInfo.SetContentFromParsable(RequestAdapter, "application/x-www-form-urlencoded", body);
             if (requestConfiguration != null) {
                 var requestConfig = new TokenRequestBuilderPostRequestConfiguration();
                 requestConfiguration.Invoke(requestConfig);
@@ -60,7 +60,7 @@ namespace MastodonClientLib.Api.V1.Oauth.Token {
             }
             return requestInfo;
         }
-        public async Task<TokenResponse> PostAsync(Stream body, Action<TokenRequestBuilderPostRequestConfiguration> requestConfiguration = default, CancellationToken cancellationToken = default) {
+        public async Task<TokenResponse> PostAsync(TokenForm body, Action<TokenRequestBuilderPostRequestConfiguration> requestConfiguration = default, CancellationToken cancellationToken = default) {
             _ = body ?? throw new ArgumentNullException(nameof(body));
             var requestInfo = CreatePostRequestInformation(body, requestConfiguration);
             return await RequestAdapter.SendAsync<TokenResponse>(requestInfo, TokenResponse.CreateFromDiscriminatorValue, default, cancellationToken);

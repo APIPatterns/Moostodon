@@ -23,3 +23,4 @@ model UnauthorizedError is Error {
 interface NamedSet<T> {
   @get items(...RangeParameters): T[];  
 }
+

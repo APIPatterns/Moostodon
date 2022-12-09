@@ -8,7 +8,7 @@ from kiota_abstractions.authentication.anonymous_authentication_provider import 
 from sdk.models.status import Status
 from sdk.models.account import Account
 from sdk.moostodon_client import MoostodonClient
-
+from kiota_abstractions.authentication.api_key_authentication_provider import ApiKeyAuthenticationProvider
 
 
 class MoostodonService():
@@ -19,6 +19,7 @@ class MoostodonService():
         """
         Instantiates a new MoostodonService and sets the default values.
         """
+        
         provider = AnonymousAuthenticationProvider()
         request_adapter = HttpxRequestAdapter(provider)
         self.client = MoostodonClient(request_adapter)

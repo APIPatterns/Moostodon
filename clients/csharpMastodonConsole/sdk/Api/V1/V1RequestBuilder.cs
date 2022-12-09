@@ -7,7 +7,6 @@ using MastodonClientLib.Api.V1.Endorsements;
 using MastodonClientLib.Api.V1.Favourites;
 using MastodonClientLib.Api.V1.Instance;
 using MastodonClientLib.Api.V1.Mutes;
-using MastodonClientLib.Api.V1.Oauth;
 using MastodonClientLib.Api.V1.Statuses;
 using MastodonClientLib.Api.V1.Timelines;
 using Microsoft.Kiota.Abstractions;
@@ -54,10 +53,6 @@ namespace MastodonClientLib.Api.V1 {
         /// <summary>The mutes property</summary>
         public MutesRequestBuilder Mutes { get =>
             new MutesRequestBuilder(PathParameters, RequestAdapter);
-        }
-        /// <summary>The oauth property</summary>
-        public OauthRequestBuilder Oauth { get =>
-            new OauthRequestBuilder(PathParameters, RequestAdapter);
         }
         /// <summary>Path parameters for the request</summary>
         private Dictionary<string, object> PathParameters { get; set; }

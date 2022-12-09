@@ -48,7 +48,7 @@ namespace MastodonClientLib.Api.V1.Apps {
             PathParameters = urlTplParams;
             RequestAdapter = requestAdapter;
         }
-        public RequestInformation CreatePostRequestInformation(Stream body, Action<AppsRequestBuilderPostRequestConfiguration> requestConfiguration = default) {
+        public RequestInformation CreatePostRequestInformation(CreateAppForm body, Action<AppsRequestBuilderPostRequestConfiguration> requestConfiguration = default) {
             _ = body ?? throw new ArgumentNullException(nameof(body));
             var requestInfo = new RequestInformation {
                 HttpMethod = Method.POST,
@@ -56,7 +56,7 @@ namespace MastodonClientLib.Api.V1.Apps {
                 PathParameters = PathParameters,
             };
             requestInfo.Headers.Add("Accept", "application/json");
-            requestInfo.SetStreamContent(body);
+            requestInfo.SetContentFromParsable(RequestAdapter, "application/x-www-form-urlencoded", body);
             if (requestConfiguration != null) {
                 var requestConfig = new AppsRequestBuilderPostRequestConfiguration();
                 requestConfiguration.Invoke(requestConfig);
@@ -65,7 +65,7 @@ namespace MastodonClientLib.Api.V1.Apps {
             }
             return requestInfo;
         }
-        public async Task<Application> PostAsync(Stream body, Action<AppsRequestBuilderPostRequestConfiguration> requestConfiguration = default, CancellationToken cancellationToken = default) {
+        public async Task<Application> PostAsync(CreateAppForm body, Action<AppsRequestBuilderPostRequestConfiguration> requestConfiguration = default, CancellationToken cancellationToken = default) {
             _ = body ?? throw new ArgumentNullException(nameof(body));
             var requestInfo = CreatePostRequestInformation(body, requestConfiguration);
             var errorMapping = new Dictionary<string, ParsableFactory<IParsable>> {

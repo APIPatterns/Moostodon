@@ -1,5 +1,5 @@
 {
-  "descriptionHash": "00465D40BA4DBF3D735C4033E1FB7A3B46321244896DACC9C36ABE58C7978003FE2E01D20B6CB6EE0D4690FECAD08E1A0EBAD05E2C2C8234290A92A840D5A086",
+  "descriptionHash": "B8BAEDE1D575A29A4EC83630859C52C6826AA836050DFA506896A76A7F1CDDD7F47D9E69B922E9FDF3F9F59FD1A6EB16615E7E5AFAFD60556FDC1F5DD5873BF4",
   "descriptionLocation": "C:\\Users\\darrmi\\src\\github\\APIPatterns\\Moostodon\\clients\\csharpMastodonConsole\\..\\..\\spec\\cadl-output\\openapi.json",
   "lockFileVersion": "1.0.0",
   "kiotaVersion": "0.8.3.0",
@@ -21,7 +21,8 @@
     "application/xml",
     "text/plain",
     "text/xml",
-    "text/yaml"
+    "text/yaml",
+    "application/x-www-form-urlencoded"
   ],
   "includePatterns": [],
   "excludePatterns": []

@@ -23,19 +23,19 @@ using Cadl.Http;
   }
 })
 @server("https://mastodon.example/", "Actual server to be set during client setup")
-@route("api")
+@route("/")
 namespace MastodonApi {  // This namespace actually generates operations
 
   using Mastodon;  // This namespace contains all models and interfaces
 
-  @route("v1")
+  @route("oauth")
+  interface oauthResource extends OAuthService {}
+
+  @route("api/v1")
   namespace v1 {
   
     @route("apps")
     interface appResource extends AppsService {}
-
-    @route("oauth")
-    interface oauthResource extends OAuthService {}
 
     @route("accounts")
     interface AccountsResource extends AccountsService {}
@@ -75,7 +75,7 @@ namespace MastodonApi {  // This namespace actually generates operations
 
   }
 
-  @route("v2")
+  @route("api/v2")
   namespace v2 {
 
     @route("search")
@@ -83,5 +83,4 @@ namespace MastodonApi {  // This namespace actually generates operations
   }
 
 }
-
 

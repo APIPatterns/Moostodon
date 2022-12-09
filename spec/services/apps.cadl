@@ -4,7 +4,7 @@ import "../models/application.cadl";
 using Mastodon;
 using Cadl.Http;
 
-
+// /api/v1/apps
 interface AppsService {
   //Create a new application.
   @post createApp(@body body: CreateAppForm): Application | UnprocessableContentError;

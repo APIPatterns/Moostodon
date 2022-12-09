@@ -1,4 +1,5 @@
 using MastodonClientLib.Api;
+using MastodonClientLib.Oauth;
 using Microsoft.Kiota.Abstractions;
 using Microsoft.Kiota.Serialization.Json;
 using Microsoft.Kiota.Serialization.Text;
@@ -13,6 +14,10 @@ namespace MastodonClientLib {
         /// <summary>The api property</summary>
         public ApiRequestBuilder Api { get =>
             new ApiRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The oauth property</summary>
+        public OauthRequestBuilder Oauth { get =>
+            new OauthRequestBuilder(PathParameters, RequestAdapter);
         }
         /// <summary>Path parameters for the request</summary>
         private Dictionary<string, object> PathParameters { get; set; }

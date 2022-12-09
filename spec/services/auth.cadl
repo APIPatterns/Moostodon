@@ -6,9 +6,9 @@ interface OAuthService {
   // Call authorize endpoint to get an authorization code
   @route("/authorize")
   @get authorize(
-    @query client_id: string,
-    @query redirect_uri: string,
     @query response_type: string,
+    @query client_id: string,
+    @query redirect_uri: string,    
     @query scope: string,
     @query force_login: boolean,
     @query lang: string
@@ -31,11 +31,11 @@ model RevokeForm is Form {
 
 model TokenForm is Form {
   grant_type: string;
+  code: string;
   client_id: string;
   client_secret: string;
   redirect_uri: string;
   scopes: string;
-  code: string;
 }
 
 model TokenResponse {
@@ -46,6 +46,8 @@ model TokenResponse {
 }
 
 model AuthorizeResponse {
-  @statusCode statusCode: 302;
+  @statusCode statusCode: 200;
   @header location: string;
 }
+
+

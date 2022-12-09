@@ -1,22 +1,24 @@
+using System.Linq;
 using System.Text;
 using MastodonClientLib;
 using MastodonClientLib.Models;
-using Microsoft.Kiota.Abstractions;
-using Microsoft.Kiota.Abstractions.Authentication;
+using Microsoft.Kiota.Abstractions.Serialization;
 using Microsoft.Kiota.Http.HttpClientLibrary;
 
 public class MastodonService {
 
     private MastodonClient client;
+    private OAuth2AuthorizationProvider _authProvider;
 
     public MastodonService(string baseUrl)
     {
-        var authProvider = new OAuth2AuthorizationProvider();
-        var requestAdapter = new HttpClientRequestAdapter(authProvider);
+        _authProvider = new OAuth2AuthorizationProvider("clientId", "clientsecret", "urn:ietf:wg:oauth:2.0:oob");
+        var requestAdapter = new HttpClientRequestAdapter(_authProvider);
+        SerializationWriterFactoryRegistry.DefaultInstance.ContentTypeAssociatedFactories.Add("application/x-www-form-urlencoded",new FormSerializationWriterFactory());
         client = new MastodonClient(requestAdapter);
+        _authProvider.Client = client;
         requestAdapter.BaseUrl = baseUrl;
     }
-
 
     // Search for Accounts, status and hashtags
     public async Task<List<Account>> SearchAccounts(string query)
@@ -28,6 +30,26 @@ public class MastodonService {
         return searchResults.Accounts;
     }
 
+    // Create an app
+    public async Task<Application> CreateApp(string appName, string redirectUri, string scopes, string website)
+    {
+        var app = await client.Api.V1.Apps.PostAsync(new CreateAppForm() {
+            Client_name = appName,
+            Redirect_uris = redirectUri,
+            Scopes = scopes,
+            Website = website
+        });
+        return app;
+    }
+
+    // Get a token
+  
+    // Get a specified account's followers
+    public async Task<List<Account>> GetFollowers(string id)
+    {
+        var followers = await client.Api.V1.Accounts[id].Followers.GetAsync();
+        return followers;
+    }
 
 
     // Get user's account details by id
@@ -52,12 +74,18 @@ public class MastodonService {
         return statuses;        
     }
 
-}
-
-public class OAuth2AuthorizationProvider : IAuthenticationProvider
-{
-    public async Task AuthenticateRequestAsync(RequestInformation request, Dictionary<string, object> additionalAuthenticationContext = null, CancellationToken cancellationToken = default)
+    internal void LoginApp()
     {
-        
+       _authProvider.LoginApp();
     }
-} 
+
+    internal void LoginUser(string username)
+    {
+        var url = _authProvider.GetUserAuthorizationnUrl(username);
+        //Display the url to the user and ask them to enter the code
+        Console.WriteLine("Please open this url and sign in and copy code into console: " + url);
+        Console.Write("Enter code: ");
+        var code = Console.ReadLine();
+        _authProvider.LoginUser(code);
+    }
+}

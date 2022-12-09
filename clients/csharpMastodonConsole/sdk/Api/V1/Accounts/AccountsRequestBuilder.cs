@@ -80,7 +80,7 @@ namespace MastodonClientLib.Api.V1.Accounts {
             PathParameters = urlTplParams;
             RequestAdapter = requestAdapter;
         }
-        public RequestInformation CreatePostRequestInformation(Stream body, Action<AccountsRequestBuilderPostRequestConfiguration> requestConfiguration = default) {
+        public RequestInformation CreatePostRequestInformation(CreateAccountForm body, Action<AccountsRequestBuilderPostRequestConfiguration> requestConfiguration = default) {
             _ = body ?? throw new ArgumentNullException(nameof(body));
             var requestInfo = new RequestInformation {
                 HttpMethod = Method.POST,
@@ -88,7 +88,7 @@ namespace MastodonClientLib.Api.V1.Accounts {
                 PathParameters = PathParameters,
             };
             requestInfo.Headers.Add("Accept", "application/json");
-            requestInfo.SetStreamContent(body);
+            requestInfo.SetContentFromParsable(RequestAdapter, "application/x-www-form-urlencoded", body);
             if (requestConfiguration != null) {
                 var requestConfig = new AccountsRequestBuilderPostRequestConfiguration();
                 requestConfiguration.Invoke(requestConfig);
@@ -97,7 +97,7 @@ namespace MastodonClientLib.Api.V1.Accounts {
             }
             return requestInfo;
         }
-        public async Task<Account> PostAsync(Stream body, Action<AccountsRequestBuilderPostRequestConfiguration> requestConfiguration = default, CancellationToken cancellationToken = default) {
+        public async Task<Account> PostAsync(CreateAccountForm body, Action<AccountsRequestBuilderPostRequestConfiguration> requestConfiguration = default, CancellationToken cancellationToken = default) {
             _ = body ?? throw new ArgumentNullException(nameof(body));
             var requestInfo = CreatePostRequestInformation(body, requestConfiguration);
             return await RequestAdapter.SendAsync<Account>(requestInfo, Account.CreateFromDiscriminatorValue, default, cancellationToken);

@@ -1,14 +1,14 @@
-using MastodonClientLib.Api.V1.Oauth.Authorize;
-using MastodonClientLib.Api.V1.Oauth.Revoke;
-using MastodonClientLib.Api.V1.Oauth.Token;
+using MastodonClientLib.Oauth.Authorize;
+using MastodonClientLib.Oauth.Revoke;
+using MastodonClientLib.Oauth.Token;
 using Microsoft.Kiota.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-namespace MastodonClientLib.Api.V1.Oauth {
-    /// <summary>Builds and executes requests for operations under \api\v1\oauth</summary>
+namespace MastodonClientLib.Oauth {
+    /// <summary>Builds and executes requests for operations under \oauth</summary>
     public class OauthRequestBuilder {
         /// <summary>The authorize property</summary>
         public AuthorizeRequestBuilder Authorize { get =>
@@ -36,7 +36,7 @@ namespace MastodonClientLib.Api.V1.Oauth {
         public OauthRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) {
             _ = pathParameters ?? throw new ArgumentNullException(nameof(pathParameters));
             _ = requestAdapter ?? throw new ArgumentNullException(nameof(requestAdapter));
-            UrlTemplate = "{+baseurl}/api/v1/oauth";
+            UrlTemplate = "{+baseurl}/oauth";
             var urlTplParams = new Dictionary<string, object>(pathParameters);
             PathParameters = urlTplParams;
             RequestAdapter = requestAdapter;
@@ -49,7 +49,7 @@ namespace MastodonClientLib.Api.V1.Oauth {
         public OauthRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) {
             if(string.IsNullOrEmpty(rawUrl)) throw new ArgumentNullException(nameof(rawUrl));
             _ = requestAdapter ?? throw new ArgumentNullException(nameof(requestAdapter));
-            UrlTemplate = "{+baseurl}/api/v1/oauth";
+            UrlTemplate = "{+baseurl}/oauth";
             var urlTplParams = new Dictionary<string, object>();
             urlTplParams.Add("request-raw-url", rawUrl);
             PathParameters = urlTplParams;

@@ -7,3 +7,7 @@ service.getAccount("108192895578262114").then((account) => {
     console.log(account?.username);
 });
 
+
+service.getPublicTimeline().then((statuses) => {
+    console.log(statuses);
+});

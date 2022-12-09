@@ -148,7 +148,7 @@ namespace MastodonClientLib.Api.V1.Statuses.Item {
             }
             return requestInfo;
         }
-        public RequestInformation CreatePutRequestInformation(Stream body, Action<StatusesItemRequestBuilderPutRequestConfiguration> requestConfiguration = default) {
+        public RequestInformation CreatePutRequestInformation(EditStatusForm body, Action<StatusesItemRequestBuilderPutRequestConfiguration> requestConfiguration = default) {
             _ = body ?? throw new ArgumentNullException(nameof(body));
             var requestInfo = new RequestInformation {
                 HttpMethod = Method.PUT,
@@ -156,7 +156,7 @@ namespace MastodonClientLib.Api.V1.Statuses.Item {
                 PathParameters = PathParameters,
             };
             requestInfo.Headers.Add("Accept", "application/json");
-            requestInfo.SetStreamContent(body);
+            requestInfo.SetContentFromParsable(RequestAdapter, "application/x-www-form-urlencoded", body);
             if (requestConfiguration != null) {
                 var requestConfig = new StatusesItemRequestBuilderPutRequestConfiguration();
                 requestConfiguration.Invoke(requestConfig);
@@ -173,7 +173,7 @@ namespace MastodonClientLib.Api.V1.Statuses.Item {
             var requestInfo = CreateGetRequestInformation(requestConfiguration);
             return await RequestAdapter.SendAsync<Status>(requestInfo, Status.CreateFromDiscriminatorValue, default, cancellationToken);
         }
-        public async Task<Status> PutAsync(Stream body, Action<StatusesItemRequestBuilderPutRequestConfiguration> requestConfiguration = default, CancellationToken cancellationToken = default) {
+        public async Task<Status> PutAsync(EditStatusForm body, Action<StatusesItemRequestBuilderPutRequestConfiguration> requestConfiguration = default, CancellationToken cancellationToken = default) {
             _ = body ?? throw new ArgumentNullException(nameof(body));
             var requestInfo = CreatePutRequestInformation(body, requestConfiguration);
             return await RequestAdapter.SendAsync<Status>(requestInfo, Status.CreateFromDiscriminatorValue, default, cancellationToken);

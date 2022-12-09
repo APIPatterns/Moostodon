@@ -71,133 +71,6 @@
         }
       }
     },
-    "/api/v1/oauth/authorize": {
-      "get": {
-        "operationId": "oauthResource_authorize",
-        "parameters": [
-          {
-            "name": "client_id",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "redirect_uri",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "response_type",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "scope",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "force_login",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "lang",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "302": {
-            "description": "Redirection",
-            "headers": {
-              "location": {
-                "required": true,
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "The server could not understand the request due to invalid syntax."
-          }
-        }
-      }
-    },
-    "/api/v1/oauth/token": {
-      "post": {
-        "operationId": "oauthResource_token",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TokenResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "The server could not understand the request due to invalid syntax."
-          },
-          "401": {
-            "description": "Access is unauthorized."
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/TokenForm"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/oauth/revoke": {
-      "post": {
-        "operationId": "oauthResource_revoke",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded."
-          },
-          "403": {
-            "description": "Access is forbidden"
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/RevokeForm"
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/v1/accounts": {
       "post": {
         "operationId": "AccountsResource_createAccount",
@@ -2447,6 +2320,133 @@
           }
         }
       }
+    },
+    "/oauth/authorize": {
+      "get": {
+        "operationId": "oauthResource_authorize",
+        "parameters": [
+          {
+            "name": "response_type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "client_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "redirect_uri",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "force_login",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "headers": {
+              "location": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax."
+          }
+        }
+      }
+    },
+    "/oauth/token": {
+      "post": {
+        "operationId": "oauthResource_token",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax."
+          },
+          "401": {
+            "description": "Access is unauthorized."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenForm"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/oauth/revoke": {
+      "post": {
+        "operationId": "oauthResource_revoke",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded."
+          },
+          "403": {
+            "description": "Access is forbidden"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/RevokeForm"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -2572,80 +2572,6 @@
         "required": [
           "error",
           "error_description"
-        ]
-      },
-      "TokenForm": {
-        "type": "object",
-        "properties": {
-          "grant_type": {
-            "type": "string"
-          },
-          "client_id": {
-            "type": "string"
-          },
-          "client_secret": {
-            "type": "string"
-          },
-          "redirect_uri": {
-            "type": "string"
-          },
-          "scopes": {
-            "type": "string"
-          },
-          "code": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "grant_type",
-          "client_id",
-          "client_secret",
-          "redirect_uri",
-          "scopes",
-          "code"
-        ]
-      },
-      "TokenResponse": {
-        "type": "object",
-        "properties": {
-          "access_token": {
-            "type": "string"
-          },
-          "token_type": {
-            "type": "string"
-          },
-          "scope": {
-            "type": "string"
-          },
-          "created_at": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "required": [
-          "access_token",
-          "token_type",
-          "scope",
-          "created_at"
-        ]
-      },
-      "RevokeForm": {
-        "type": "object",
-        "properties": {
-          "client_id": {
-            "type": "string"
-          },
-          "client_secret": {
-            "type": "string"
-          },
-          "token": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "client_id",
-          "client_secret",
-          "token"
         ]
       },
       "Mastodon.CreateAccountForm": {
@@ -3453,6 +3379,80 @@
           "accounts",
           "hashtags",
           "statuses"
+        ]
+      },
+      "TokenForm": {
+        "type": "object",
+        "properties": {
+          "grant_type": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "client_id": {
+            "type": "string"
+          },
+          "client_secret": {
+            "type": "string"
+          },
+          "redirect_uri": {
+            "type": "string"
+          },
+          "scopes": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "grant_type",
+          "code",
+          "client_id",
+          "client_secret",
+          "redirect_uri",
+          "scopes"
+        ]
+      },
+      "TokenResponse": {
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "type": "string"
+          },
+          "token_type": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "access_token",
+          "token_type",
+          "scope",
+          "created_at"
+        ]
+      },
+      "RevokeForm": {
+        "type": "object",
+        "properties": {
+          "client_id": {
+            "type": "string"
+          },
+          "client_secret": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "client_id",
+          "client_secret",
+          "token"
         ]
       },
       "Mastodon.Emoji": {

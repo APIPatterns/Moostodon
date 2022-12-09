@@ -2,6 +2,7 @@ import { MoostodonClient } from "./sdk/moostodonClient";
 import { FetchRequestAdapter } from '@microsoft/kiota-http-fetchlibrary';
 import { AuthenticationProvider, RequestInformation } from "@microsoft/kiota-abstractions";
 import { Account } from "./sdk/models/account";
+import { Status } from "./sdk/models/status";
 
 // Create Wrapper service around the MoostodonClient
 export class MoostodonService {
@@ -24,6 +25,10 @@ export class MoostodonService {
         return await this._client.api.v1.accountsById(accountId).get();
     }
 
+    // Get the mastodon public timeline
+    public async getPublicTimeline(): Promise<Status[] | undefined> {
+        return await this._client.api.v1.timelines.public.get();
+    }
 }
 
 class AnonymousAuthProvider implements AuthenticationProvider {

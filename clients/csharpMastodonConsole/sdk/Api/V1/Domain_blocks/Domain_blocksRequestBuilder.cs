@@ -75,7 +75,7 @@ namespace MastodonClientLib.Api.V1.Domain_blocks {
             }
             return requestInfo;
         }
-        public RequestInformation CreatePostRequestInformation(Stream body, Action<Domain_blocksRequestBuilderPostRequestConfiguration> requestConfiguration = default) {
+        public RequestInformation CreatePostRequestInformation(BlockDomainBody body, Action<Domain_blocksRequestBuilderPostRequestConfiguration> requestConfiguration = default) {
             _ = body ?? throw new ArgumentNullException(nameof(body));
             var requestInfo = new RequestInformation {
                 HttpMethod = Method.POST,
@@ -83,7 +83,7 @@ namespace MastodonClientLib.Api.V1.Domain_blocks {
                 PathParameters = PathParameters,
             };
             requestInfo.Headers.Add("Accept", "application/json");
-            requestInfo.SetStreamContent(body);
+            requestInfo.SetContentFromParsable(RequestAdapter, "application/x-www-form-urlencoded", body);
             if (requestConfiguration != null) {
                 var requestConfig = new Domain_blocksRequestBuilderPostRequestConfiguration();
                 requestConfiguration.Invoke(requestConfig);
@@ -104,7 +104,7 @@ namespace MastodonClientLib.Api.V1.Domain_blocks {
             var collectionResult = await RequestAdapter.SendPrimitiveCollectionAsync<string>(requestInfo, default, cancellationToken);
             return collectionResult.ToList();
         }
-        public async Task<string> PostAsync(Stream body, Action<Domain_blocksRequestBuilderPostRequestConfiguration> requestConfiguration = default, CancellationToken cancellationToken = default) {
+        public async Task<string> PostAsync(BlockDomainBody body, Action<Domain_blocksRequestBuilderPostRequestConfiguration> requestConfiguration = default, CancellationToken cancellationToken = default) {
             _ = body ?? throw new ArgumentNullException(nameof(body));
             var requestInfo = CreatePostRequestInformation(body, requestConfiguration);
             var errorMapping = new Dictionary<string, ParsableFactory<IParsable>> {
