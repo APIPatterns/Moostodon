@@ -30,5 +30,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        working-directory: spec
     - run: npm ci
     - run: cadl compile ./main.cadl
