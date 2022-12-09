@@ -30,6 +30,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        working-directory: spec
+        cache-dependency-path: spec/package-lock.json
     - run: npm ci
     - run: cadl compile ./main.cadl
