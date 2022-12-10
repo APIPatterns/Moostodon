@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 using OpenTelemetry;
 using OpenTelemetry.Trace;
+
 
 namespace MoostodonConsole
 {
@@ -9,17 +11,23 @@ namespace MoostodonConsole
         static async Task Main(string[] args)
         {
             // Configure console  opentelemetry tracing
-            var builder = Sdk.CreateTracerProviderBuilder()
+            using var provider = Sdk.CreateTracerProviderBuilder()
                 .AddSource("Microsoft.Kiota.Http.HttpClientLibrary")
-                .AddConsoleExporter();
-
+                .AddSource("System.Net.Http")
+                .AddSource("MoostodonConsole")
+                .AddZipkinExporter(o =>
+                {
+                    o.Endpoint = new Uri("http://localhost:9411/api/v2/spans");
+                }).Build();
+                
+            var activitySource = new ActivitySource("MoostodonConsole");
 
             var serviceUrl = args[0];
             var demo = args[1];
 
             using var cts = new CancellationTokenSource();
             var cancellationToken = cts.Token;
-            //AppDomain.CurrentDomain.ProcessExit += (sender, eArgs) => (ifcts.Cancel();
+            //AppDomain.CurrentDomain.ProcessExit += (sender, eArgs) => (cts.Cancel();
 
             // Create a new instance of the MastodonService to access the parts of the API our apps needs
             var mtdnService = new MastodonService(serviceUrl);
@@ -30,12 +38,14 @@ namespace MoostodonConsole
                     var statuses = await mtdnService.ReadPublicTimeline(cancellationToken);
                     foreach (var s in statuses.Take(10))
                     {
-                        Console.WriteLine(s.Account.Display_name + " : " + s.Content.Substring(0, Math.Min(20, s.Content.Length)));
+                        Console.WriteLine(s.Account.Display_name + " : " + s.Content.Substring(0, Math.Min(50, s.Content.Length)));
                     }
                     break;
 
                 case "findaccounts":
-                    var accounts = await mtdnService.SearchAccounts("darrel", cancellationToken);
+                    Console.WriteLine("Enter a search term:");
+                    var searchTerm = Console.ReadLine();
+                    var accounts = await mtdnService.SearchAccounts(searchTerm, cancellationToken);
                     foreach (var account in accounts.OrderBy(a => a.Followers_count))
                     {
                         Console.WriteLine($"{account.Id} {account.Username} ({account.Note})");
@@ -43,13 +53,23 @@ namespace MoostodonConsole
                     break;
 
                 case "getaccountfollowers":
-                    // App endpoints
-                    await mtdnService.LoginApp(cancellationToken);
+                    using (var span = activitySource.StartActivity("GetAccountFollowers")) {
+                        
+                        await mtdnService.LoginApp(cancellationToken);
 
-                    var followers = await mtdnService.GetFollowers("108192895578262114", cancellationToken);
-                    foreach (var follower in followers.Take(10))
-                    {
-                        Console.WriteLine($"{follower.Id} {follower.Username} ({follower.Note})");
+                        var userAccounts = await mtdnService.SearchAccounts(CredsHack.Username, cancellationToken);
+                        var userAccount = userAccounts.FirstOrDefault();
+                        if (userAccount == null)
+                        {
+                            Console.WriteLine("No user found");
+                            return;
+                        }
+                        var followers = await mtdnService.GetFollowers(userAccount.Id, cancellationToken);
+                        foreach (var follower in followers.Take(10))
+                        {
+                            Console.WriteLine($"{follower.Id} {follower.Username} ({follower.Note})");
+                        }
+                        span.AddTag("followers", followers.Count());
                     }
                     break;
 
@@ -72,51 +92,12 @@ namespace MoostodonConsole
                     var status = await mtdnService.PostStatus(statusMessage, cancellationToken);
                     break;
 
+                default:
+                    Console.WriteLine("Unrecognized demo");
+                    break;
             }
-
-
-            // Publicly available endpoints
-
-            // var myaccount = await mtdnService.GetAccount("108192895578262114");
-
-            // // Write account details to console
-            // Console.WriteLine($"Account: {myaccount.Display_name}");
-
-
         }
-
     }
 
 }
-
-
-
-
-// // Get user's account details by id
-// var accounts = await mtdnService.SearchAccounts("darrel");
-// // list account names
-// foreach (var account in accounts.OrderBy(a => a.Followers_count))
-// {
-//     Console.WriteLine($"{account.Id} {account.Username} ({account.Note})");
-// }
-
-
-
-// // Read tag statuses associated to a tag
-// //var statuses = await mtdnService.ReadTagTimeline("openapi");
-
-// // read public timeline and print the first 10 statuses
-// //var statuses = await mtdnService.ReadPublicTimeline();
-
-
-
-// User specific endpoints
-//mtdnService.LoginUser("darrel_miller@mastodon.social");
-
-
-
-// foreach (var status in statuses.Take(10))
-// {
-//     Console.WriteLine(status.Account.Display_name + ":" + status.Content.Substring(0, 20));
-// }
 
