@@ -4,6 +4,7 @@ using MastodonClientLib;
 using MastodonClientLib.Models;
 using Microsoft.Kiota.Abstractions.Serialization;
 using Microsoft.Kiota.Http.HttpClientLibrary;
+using MoostodonConsole;
 
 public class MastodonService {
 
@@ -12,7 +13,7 @@ public class MastodonService {
 
     public MastodonService(string baseUrl)
     {
-        _authProvider = new OAuth2AuthorizationProvider(CredsHack.ClientId, CredsHack.ClientSecret, "urn:ietf:wg:oauth:2.0:oob");
+        _authProvider = new OAuth2AuthorizationProvider(CredsHack.ClientId, CredsHack.ClientSecret, "urn:ietf:wg:oauth:2.0:oob", baseUrl);
         var requestAdapter = new HttpClientRequestAdapter(_authProvider);
         SerializationWriterFactoryRegistry.DefaultInstance.ContentTypeAssociatedFactories.Add("application/x-www-form-urlencoded",new FormSerializationWriterFactory());
         client = new MastodonClient(requestAdapter);
@@ -59,6 +60,13 @@ public class MastodonService {
         return account;
     }
     
+    // Read user's timeline
+    public async Task<List<Status>> ReadUserTimeline(CancellationToken cancellationToken = default)
+    {
+        var statuses = await client.Api.V1.Timelines.Home.GetAsync(cancellationToken: cancellationToken);
+        return statuses;        
+    }
+
 
     // Read public timeline
     public async Task<List<Status>> ReadPublicTimeline(CancellationToken cancellationToken = default)
@@ -81,7 +89,7 @@ public class MastodonService {
 
     internal async Task LoginUser(string username, CancellationToken cancellationToken = default)
     {
-        var url = _authProvider.GetUserAuthorizationUrl(username);
+        var url = _authProvider.GetUserAuthorizationUrl("read:statuses");
         //Display the url to the user and ask them to enter the code
         Console.WriteLine("Please open this url and sign in and copy code into console: " + url);
         Console.Write("Enter code: ");

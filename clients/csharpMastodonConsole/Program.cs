@@ -56,6 +56,12 @@ namespace MoostodonConsole
                 case "getusertimeline":
                     // User specific endpoints
                     await mtdnService.LoginUser("@darrel_miller.mastodon.social",cancellationToken);
+
+                    var userstatuses = await mtdnService.ReadUserTimeline(cancellationToken);
+                    foreach (var s in userstatuses.Take(10))
+                    {
+                        Console.WriteLine(s.Account.Display_name + " : " + s.Content.Substring(0, Math.Min(20, s.Content.Length)));
+                    }
                     break;
 
                 case "toot":

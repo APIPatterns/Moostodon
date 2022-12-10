@@ -1513,7 +1513,7 @@
         "operationId": "StatusesResource_publishStatus",
         "parameters": [
           {
-            "name": "contenType",
+            "name": "conten-type",
             "in": "header",
             "required": true,
             "schema": {
@@ -2350,7 +2350,7 @@
             }
           },
           {
-            "name": "scope",
+            "name": "scopes",
             "in": "query",
             "required": true,
             "schema": {

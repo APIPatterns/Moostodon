@@ -11,8 +11,10 @@ public class OAuth2AuthorizationProvider : IAuthenticationProvider
 
     public MastodonClient Client {get; set;}
 
-    public OAuth2AuthorizationProvider(string clientId, string clientSecret, string redirectUri)
+    private string BaseUrl { get; set; }
+    public OAuth2AuthorizationProvider(string clientId, string clientSecret, string redirectUri, string baseUrl )
     {
+        BaseUrl = baseUrl;
         ClientId = clientId;
         ClientSecret = clientSecret;
         RedirectUri = redirectUri;
@@ -39,8 +41,9 @@ public class OAuth2AuthorizationProvider : IAuthenticationProvider
             r.QueryParameters.Client_id = ClientId;
             r.QueryParameters.Redirect_uri = RedirectUri;
             r.QueryParameters.Response_type = "code";
-            r.QueryParameters.Scope = scopes;
+            r.QueryParameters.Scopes = scopes;
         });
+        request.PathParameters.Add("baseurl", BaseUrl);
         return request.URI.ToString();
     }
 

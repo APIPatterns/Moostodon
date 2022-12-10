@@ -9,7 +9,7 @@ interface OAuthService {
     @query response_type: string,
     @query client_id: string,
     @query redirect_uri: string,    
-    @query scope: string,
+    @query scopes: string,
     @query force_login: boolean,
     @query lang: string
   ): AuthorizeResponse | BadRequestResponse;
