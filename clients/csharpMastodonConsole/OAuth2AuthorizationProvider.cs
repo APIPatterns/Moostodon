@@ -41,7 +41,7 @@ public class OAuth2AuthorizationProvider : IAuthenticationProvider
             r.QueryParameters.Client_id = ClientId;
             r.QueryParameters.Redirect_uri = RedirectUri;
             r.QueryParameters.Response_type = "code";
-            r.QueryParameters.Scopes = scopes;
+            r.QueryParameters.Scope = scopes;
         });
         request.PathParameters.Add("baseurl", BaseUrl);
         return request.URI.ToString();

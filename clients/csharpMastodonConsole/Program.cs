@@ -55,7 +55,7 @@ namespace MoostodonConsole
 
                 case "getusertimeline":
                     // User specific endpoints
-                    await mtdnService.LoginUser("@darrel_miller.mastodon.social",cancellationToken);
+                    await mtdnService.LoginUser(CredsHack.Username,cancellationToken);
 
                     var userstatuses = await mtdnService.ReadUserTimeline(cancellationToken);
                     foreach (var s in userstatuses.Take(10))
@@ -65,7 +65,11 @@ namespace MoostodonConsole
                     break;
 
                 case "toot":
-                
+                    // Post a status from a command line argument
+                    await mtdnService.LoginUser(CredsHack.Username, cancellationToken);
+                    Console.WriteLine("Enter a status to post: ");
+                    var statusMessage = Console.ReadLine();
+                    var status = await mtdnService.PostStatus(statusMessage, cancellationToken);
                     break;
 
             }

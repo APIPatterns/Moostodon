@@ -82,6 +82,15 @@ public class MastodonService {
         return statuses;        
     }
 
+    // Post a status
+    public async Task<Status> PostStatus(string status, CancellationToken cancellationToken = default)
+    {
+        var newStatus = await client.Api.V1.Statuses.PostAsync(new CreateStatusForm() {
+            Status = status
+        }, cancellationToken: cancellationToken);
+        return newStatus;
+    }
+
     internal async Task LoginApp(CancellationToken cancellationToken = default)
     {
        await _authProvider.LoginApp(cancellationToken);
@@ -89,7 +98,7 @@ public class MastodonService {
 
     internal async Task LoginUser(string username, CancellationToken cancellationToken = default)
     {
-        var url = _authProvider.GetUserAuthorizationUrl("read:statuses");
+        var url = _authProvider.GetUserAuthorizationUrl("write");
         //Display the url to the user and ask them to enter the code
         Console.WriteLine("Please open this url and sign in and copy code into console: " + url);
         Console.Write("Enter code: ");

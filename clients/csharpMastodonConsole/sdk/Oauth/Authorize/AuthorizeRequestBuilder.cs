@@ -23,7 +23,7 @@ namespace MastodonClientLib.Oauth.Authorize {
         public AuthorizeRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) {
             _ = pathParameters ?? throw new ArgumentNullException(nameof(pathParameters));
             _ = requestAdapter ?? throw new ArgumentNullException(nameof(requestAdapter));
-            UrlTemplate = "{+baseurl}/oauth/authorize{?response_type*,client_id*,redirect_uri*,scopes*,force_login*,lang*}";
+            UrlTemplate = "{+baseurl}/oauth/authorize{?response_type*,client_id*,redirect_uri*,scope*,force_login*,lang*}";
             var urlTplParams = new Dictionary<string, object>(pathParameters);
             PathParameters = urlTplParams;
             RequestAdapter = requestAdapter;
@@ -36,7 +36,7 @@ namespace MastodonClientLib.Oauth.Authorize {
         public AuthorizeRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) {
             if(string.IsNullOrEmpty(rawUrl)) throw new ArgumentNullException(nameof(rawUrl));
             _ = requestAdapter ?? throw new ArgumentNullException(nameof(requestAdapter));
-            UrlTemplate = "{+baseurl}/oauth/authorize{?response_type*,client_id*,redirect_uri*,scopes*,force_login*,lang*}";
+            UrlTemplate = "{+baseurl}/oauth/authorize{?response_type*,client_id*,redirect_uri*,scope*,force_login*,lang*}";
             var urlTplParams = new Dictionary<string, object>();
             urlTplParams.Add("request-raw-url", rawUrl);
             PathParameters = urlTplParams;
@@ -67,7 +67,7 @@ namespace MastodonClientLib.Oauth.Authorize {
             public string Lang { get; set; }
             public string Redirect_uri { get; set; }
             public string Response_type { get; set; }
-            public string Scopes { get; set; }
+            public string Scope { get; set; }
         }
         /// <summary>Configuration for the request such as headers, query parameters, and middleware options.</summary>
         public class AuthorizeRequestBuilderGetRequestConfiguration {

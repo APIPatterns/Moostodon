@@ -59,7 +59,7 @@ internal class FormSerializationWriter : ISerializationWriter
 
     public void WriteCollectionOfPrimitiveValues<T>(string key, IEnumerable<T> values)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void WriteDateTimeOffsetValue(string key, DateTimeOffset? value)
@@ -155,7 +155,9 @@ internal class FormSerializationWriter : ISerializationWriter
 
     void ISerializationWriter.WriteEnumValue<T>(string key, T? value)
     {
-        throw new NotImplementedException();
+        if (value != null) {
+            _values.Add(key,nameof(value));
+        }
     }
 }
 

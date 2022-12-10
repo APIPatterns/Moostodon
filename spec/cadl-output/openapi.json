@@ -1511,19 +1511,7 @@
     "/api/v1/statuses": {
       "post": {
         "operationId": "StatusesResource_publishStatus",
-        "parameters": [
-          {
-            "name": "conten-type",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "application/x-www-form-urlencoded"
-              ]
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "The request has succeeded.",
@@ -1538,9 +1526,9 @@
         },
         "requestBody": {
           "content": {
-            "application/json": {
+            "application/x-www-form-urlencoded": {
               "schema": {
-                "$ref": "#/components/schemas/CreateStatusBody"
+                "$ref": "#/components/schemas/CreateStatusForm"
               }
             }
           }
@@ -2350,7 +2338,7 @@
             }
           },
           {
-            "name": "scopes",
+            "name": "scope",
             "in": "query",
             "required": true,
             "schema": {
@@ -3075,7 +3063,7 @@
           "comment"
         ]
       },
-      "CreateStatusBody": {
+      "CreateStatusForm": {
         "type": "object",
         "properties": {
           "status": {

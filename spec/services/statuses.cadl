@@ -6,11 +6,10 @@ using Cadl.Http;
 
 interface StatusesService {
     // Publish a new status
-    @post publishStatus(@body body: CreateStatusBody): Status;
+    @post publishStatus(@body body: CreateStatusForm): Status;
 }
 
-model CreateStatusBody {
-    @header contenType: "application/x-www-form-urlencoded";
+model CreateStatusForm is Form {
     status: string;
     media_Ids: string[];
 
