@@ -2,6 +2,7 @@
 using System.Linq;
 using OpenTelemetry;
 using OpenTelemetry.Trace;
+using Azure.Monitor.OpenTelemetry.Exporter;
 
 
 namespace MoostodonConsole
@@ -15,11 +16,13 @@ namespace MoostodonConsole
                 .AddSource("Microsoft.Kiota.Http.HttpClientLibrary")
                 .AddSource("System.Net.Http")
                 .AddSource("MoostodonConsole")
-                .AddZipkinExporter(o =>
-                {
-                    o.Endpoint = new Uri("http://localhost:9411/api/v2/spans");
-                }).Build();
-                
+                // .AddZipkinExporter(o =>
+                // {
+                //     o.Endpoint = new Uri("http://localhost:9411/api/v2/spans");
+                // })
+                //.AddAzureMonitorTraceExporter(o => o.ConnectionString = "")
+                .Build();
+
             var activitySource = new ActivitySource("MoostodonConsole");
 
             var serviceUrl = args[0];
@@ -53,7 +56,7 @@ namespace MoostodonConsole
                     break;
 
                 case "getaccountfollowers":
-                    using (var span = activitySource.StartActivity("GetAccountFollowers")) {
+                    using (var span = activitySource.StartActivity("GetAccountFollowers", ActivityKind.Client)) {
                         
                         await mtdnService.LoginApp(cancellationToken);
 
