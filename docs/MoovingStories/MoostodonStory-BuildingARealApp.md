@@ -18,7 +18,7 @@ Mastodon uses OAuth2 for authentication. This means that applications must first
 > 
 > ## Why Moostodon?
 > 
-> One of the curious aspects of the Cadl name is that many people hear 'cattle' when they first hear it pronounced. In keeping with the bovine theme and a certain amount of Canadian influence, Moostodon seemed like suitably silly name for this sample. We are working on a new "official" name for the project, but it's our hope that the bad cow puns will live on forever.
+> One of the curious aspects of the Cadl name is that many people hear 'cattle' when they first hear it pronounced. In keeping with the bovine theme and a certain amount of Canadian influence, Moostodon seemed like suitably silly name for this sample. We are working on a new "official" name for the project, but it's our hope that bad cow puns will live on forever.
 
 ## State of the union
 
@@ -70,7 +70,7 @@ namespace MastodonApi {
 }
 ```
 
-Over the years, the Mastodon API has evolved and some resource have been replaced by a V2 API.  However, only some of the resources exist in the V2 API so it is necessary to describe both the v1 and v2 APIs.  Cadl allows us to group these using nested namespaces. Cadl does have a rich versioning strategy, which will be covered in another post, but in the interst of simplicity, we'll add the `v2` as a new namespace.
+Over the years, the Mastodon API has evolved and some resource have been replaced by a V2 API.  However, only some of the resources exist in the V2 API so it is necessary to describe both the v1 and v2 APIs.  Cadl allows us to group these using nested namespaces. Cadl does have a rich versioning strategy, which will be covered in another post, but in the interest of simplicity, we'll add the `v2` as a new namespace.
 
 ## Reusable API patterns
 
@@ -94,7 +94,7 @@ This approach of creating a new "resource" interface that derives from the "serv
   }
 ```
 
-In this example, the `MutesResource`, `BlocksResource` and `EndorsementsResource` all have the same shape. They are all sets of accounts that all support the same operations.  Just like code, we can refactor these oprations into an interface, `NamedSet` that can be reused in all three places. Because Cadl has a VS Code plugin, we are guided through this process with intellisense (and GitHub copilot). Since erorrors are caught by the Cadl compiler, we have a high degree of confidence that our refactoring is correct.
+In this example, the `MutesResource`, `BlocksResource` and `EndorsementsResource` all have the same shape. They are all sets of accounts that all support the same operations.  Just like code, we can refactor these operations into an interface, `NamedSet` that can be reused in all three places. Because Cadl has a VS Code plugin, we are guided through this process with intellisense (and GitHub copilot). Since errors are caught by the Cadl compiler, we have a high degree of confidence that our refactoring is correct.
 
 ## Describing Operations
 
@@ -197,18 +197,18 @@ All the examples shown here are excerpts from the complete Cadl description in t
 cadl compile .\main.cadl
 ```
 
-## Cadl & Open API
+## Cadl & OpenAPI
 
-The [Moostodon](https://github.com/APIPatterns/Moostodon) project has the [Cadl](https://github.com/APIPatterns/Moostodon/tree/main/spec) files in the [spec folder](https://github.com/APIPatterns/Moostodon/tree/main/spec), along with the [generated Open API document](https://github.com/APIPatterns/Moostodon/blob/main/spec/cadl-output/openapi.json). Cadl creates artifacts through the concept of emitters. The Open API emitter will create a specification compliant with Open API V3.
+The [Moostodon](https://github.com/APIPatterns/Moostodon) project has the [Cadl](https://github.com/APIPatterns/Moostodon/tree/main/spec) files in the [spec folder](https://github.com/APIPatterns/Moostodon/tree/main/spec), along with the [generated OpenAPI document](https://github.com/APIPatterns/Moostodon/blob/main/spec/cadl-output/openapi.json). Cadl creates artifacts through the concept of emitters. The OpenAPI emitter will create a specification compliant with OpenAPI V3.
 
 Looking at the [main.cadl](https://github.com/APIPatterns/Moostodon/blob/main/spec/main.cadl) file we can immediately see many of the benefits of using a design first approach with Cadl:
 
-- The size of the file itself is small--less than 100 lines of code. Compared with the Opean API document, which of overver 4,000 lines, this is much easier for developers to understand.
+- The size of the file itself is small--less than 100 lines of code. Compared with the OpenAPI document, which of overver 4,000 lines, this is much easier for developers to understand.
 - Core concepts are encapsulated and reused. Just like developers understand how to use class libraries, they can now understand how to use API patterns.
 - Reuse is inherent in the language through libraries
 - Cadl is extrelemly flexible and can easily model complex APIs.
 
-Now that we have generated an Open API document for our Moostodon service, you can use it to drive downstream tool chains. One common approach is to generate client code--let's do that now!
+Now that we have generated an OpenAPI document for our Moostodon service, you can use it to drive downstream tool chains. One common approach is to generate client code--let's do that now!
 
 ## Creating a client
 
