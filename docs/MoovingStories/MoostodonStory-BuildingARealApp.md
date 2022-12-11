@@ -212,4 +212,4 @@ Now that we have generated an Open API document for our Moostodon service, you c
 
 ## Creating a client
 
-
+![First toot from Moostodon](./assets/firstToot.png)
