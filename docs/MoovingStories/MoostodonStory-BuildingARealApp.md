@@ -213,3 +213,173 @@ Now that we have generated an OpenAPI document for our Moostodon service, you ca
 ## Creating a client
 
 ![First toot from Moostodon](./assets/firstToot.png)
+
+There is an entire ecosystem of tooling built around OpenAPI documents. You can find many of them listed here on the [OpenAPI Tools page](https://openapi.tools/). There are a number of client SDK generators that can be used, but for this example we used Kiota.  
+
+## Why Kiota?
+[Kiota](https://microsoft.github.io/kiota) is an open source project developed by the Microsoft Graph Developer Experience team that is optimized for the API consumer experience. Many developers choose not to use SDKs at all because each time they go to call a new API, they have to learn a new SDK, provided by the API producer. Kiota aims to solve this problem by allowing developers to use one tool to generate client code for any API. It also enables selecting just the parts of the API the client application needs to call. This was the driving motivation for the Microsoft Graph team because Microsoft Graph is a very large API and nobody builds applications that need to call all of the APIs. 
+
+## Taking a tour of Kiota clients
+
+In the [clients](https://github.com/APIPatterns/Moostodon/tree/main/clients) folder of the GitHub repository there are three example clients. The CSharp one is more developed than the Python and Node one, but they can all access public Mastodon APIs that are read-only.  The CSharp example can also get authentication tokens and do write operations.
+
+The generated client code can be found in the `sdk` subfolders for each language and can be generated using the following command from the respective language folder:
+
+```powershell
+kiota generate --language typescript --output sdk  -d ..\..\spec\cadl-output\openapi.json --clean-output
+
+kiota generate --language python  --output sdk  -d ..\..\spec\cadl-output\openapi.json --clean-output --class-name moostondonClient --namespace-name moostodonSdk 
+
+kiota generate --language csharp  --output sdk  -d ..\..\spec\cadl-output\openapi.json --clean-output --class-name moostondonClient --namespace-name moostodonSdk --structured-mime-types application/x-www-form-urlencoded --structured-mime-types application/json --structured-mime-types text/plain
+
+```
+The variety of options provided to by the Kiota `generate` command enables configuring the features that are supported by the client code.  It would be inconvenient to have to remember all these options each time the OpenAPI description is updated and the client code regenerated.  To address this, the configuration options are preserved in a `kiota-lock.json` file that is stored in the output folder and so performing updates in the future is as simple as:
+
+```powershell
+kiota update --output sdk --clean-output
+```
+
+## Encapsulating the client code
+
+The generated client code is a great starting point, but using it directly is not the ideal way of integrating it into a production application.  The first thing to do is to encapsulate the client code in a service class.  This is a common pattern in application architecture and isolates the application logic from the mechanics of calling a specific API. It provides a great place to put an interface to enable testing your application with a mock API service.  The service class can also be used to manage the authentication token and to provide a higher level API to the client application.  The following code shows the service class for the C# client:
+
+```csharp
+public class MastodonService {
+
+    private MastodonClient client;
+    private OAuth2AuthorizationProvider _authProvider;
+
+    public MastodonService(string baseUrl)
+    {
+        _authProvider = new OAuth2AuthorizationProvider(
+                                CredsHack.ClientId,
+                                CredsHack.ClientSecret,
+                                "urn:ietf:wg:oauth:2.0:oob", 
+                                baseUrl);
+
+        // Use native HttpClient as the underlying HTTP library
+        var requestAdapter = new HttpClientRequestAdapter(_authProvider);
+
+        // Add support for form-urlencoded content type
+        SerializationWriterFactoryRegistry
+                      .DefaultInstance
+                      .ContentTypeAssociatedFactories.Add(
+                          "application/x-www-form-urlencoded",
+                          new FormSerializationWriterFactory());
+
+        client = new MastodonClient(requestAdapter);
+        _authProvider.Client = client;  // Enable auth provider to use client
+        requestAdapter.BaseUrl = baseUrl;  // Overwrite baseUrl from OpenAPI
+    }
+    ...
+}
+
+```
+Within the `MastodonService` class we can create methods that perform the API functions our application needs with a simplified interface for the use-case.  An interesting side-effect of this pattern is that once you have done a couple of these helper methods, GitHub Copilot does a great job of implementing the methods from a simple descriptive comment. 
+
+```csharp
+    // Get a specified account's followers
+    public async Task<List<Account>> GetFollowers(string id, CancellationToken cancellationToken = default)
+    {
+        var followers = await client.Api.V1.Accounts[id].Followers.GetAsync(cancellationToken: cancellationToken);
+        return followers;
+    }
+```
+
+## More media types
+
+Currently Kiota supports serialization of JSON and text content out of the box.  We will add support for more media types in the future.  In the meantime, you can add support for additional media types by adding a `SerializationWriterFactory` to the `SerializationWriterFactoryRegistry`. The following code shows how the Moostodon application added support for form-urlencoded content type:
+
+```csharp
+        // Add support for form-urlencoded content type
+        SerializationWriterFactoryRegistry
+                      .DefaultInstance
+                      .ContentTypeAssociatedFactories.Add(
+                          "application/x-www-form-urlencoded",
+                          new FormSerializationWriterFactory());
+```
+When you do this, do not forget to tell Kiota that you now support this media type by adding it to the `--structured-mime-types` option when you generate the client code. Or y
+
+Masotodon uses form-urlencoded content type write operations. By adding support for this media-type and describing in the Cadl/OpenAPI the use of that content type, the generated client code knows how to serialize the `CreateAppForm` object into the correct HTTP content.  
+
+```csharp
+    // Create an app
+    public async Task<Application> CreateApp(string appName, string redirectUri, string scopes, string website, CancellationToken cancellationToken = default)
+    {
+        var app = await client.Api.V1.Apps.PostAsync(new CreateAppForm() {
+            Client_name = appName,
+            Redirect_uris = redirectUri,
+            Scopes = scopes,
+            Website = website
+        }, cancellationToken: cancellationToken);
+        return app;
+    }
+```
+It is this kind of abstraction that massively simplifies the developer effort. The HTTP APIs can use the best media types for the scenario and client developer works with types that are most natural to them. The generated client code handles the mapping.
+
+Adding a method to post a status is also very simple:
+
+```csharp
+    // Post a status
+    public async Task<Status> PostStatus(string status, CancellationToken cancellationToken = default)
+    {
+        var newStatus = await client.Api.V1.Statuses.PostAsync(new CreateStatusForm() {
+            Status = status
+        }, cancellationToken: cancellationToken);
+        return newStatus;
+    }
+```
+However, in order to Post a status, the user must be logged in. Mastodon supports two different types of authentication flows. One is the OAuth2 Client Credentials flow that is used to acquire a token for an application. The other is the OAuth2 Authorization Code flow that is used to acquire a token for a user.  The following code shows two methods that the MastonService class exposes to enable getting the right kind of token.
+
+```csharp
+    internal async Task LoginApp(CancellationToken cancellationToken = default)
+    {
+       await _authProvider.LoginApp(cancellationToken);
+    }
+
+    internal async Task LoginUser(string username, CancellationToken cancellationToken = default)
+    {
+        var url = _authProvider.GetUserAuthorizationUrl("write");
+        //Display the url to the user and ask them to enter the code
+        Console.WriteLine("Please open this url and sign in and copy code into console: " + url);
+        Console.Write("Enter code: ");
+        var code = Console.ReadLine();
+        await _authProvider.LoginUser(code, cancellationToken);
+    }
+
+```
+Moostodon is a console application, and very much a demo application, so we were able to take certain liberties here.  When logging in as a user, we will generate an AuthorizationUrl that can be used in a brower to allow login, perform consent and aquire an authentication code.  That authentication code can be used to acquire a token.
+
+The current implementation of the OAuth2AuthProvider only holds a single token and so it is necessary to perform the appropriate kind of Login prior to making any API calls.  Building a production quality `OAuth2AuthProvider` is out of scope of this sample.
+
+## Languages, Languages, everywhere
+
+As developers we have no shortage of choices when it comes to choosing a programming language.  Thankfully HTTP is a universal language and so we can use the same HTTP APIs from any language.  Kiota currently has support for a number languages and you can always check what is currently supported with the `info` command.
+
+[![Kiota Language Support](assets/KiotaLanguageSupport.png)
+
+In the Node.js Typescript example the pattern of creating a MastondonService is followed and the service methods are very similar to those in the CSharp project. The Node.js example does not yet have an OAuth2AuthProvider and so only publicly accessible examples are included.
+
+```typescript
+    // Get the mastodon public timeline
+    public async getPublicTimeline(): Promise<Status[] | undefined> {
+        return await this._client.api.v1.timelines.public.get();
+    }
+```
+
+The Python example is not significantly different.
+
+```python
+    def get_public_statuses(self) -> List[Status]:
+        """
+        Gets the statuses from the Moostodon API.
+        Returns:
+            The list of statuses.
+        """
+        statuses = asyncio.run(self.client.api().v1().timelines().public().get())
+        return statuses
+```
+
+## Tools in the toolbox
+
+Cadl and Kiota are new tools being developed by the Azure and Microsoft Graph developer experience teams to help developers produce and consume HTTP APIs. This post has hopefully demonstrated how these tools can be used with any HTTP API, regardless of the language or platform.  We are excited to see what you build with these tools.

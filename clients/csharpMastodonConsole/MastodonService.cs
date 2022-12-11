@@ -9,16 +9,29 @@ using MoostodonConsole;
 public class MastodonService {
 
     private MastodonClient client;
-    private OAuth2AuthorizationProvider _authProvider;
+    private OAuth2AuthProvider _authProvider;
 
     public MastodonService(string baseUrl)
     {
-        _authProvider = new OAuth2AuthorizationProvider(CredsHack.ClientId, CredsHack.ClientSecret, "urn:ietf:wg:oauth:2.0:oob", baseUrl);
+        _authProvider = new OAuth2AuthProvider(
+                                CredsHack.ClientId,
+                                CredsHack.ClientSecret,
+                                "urn:ietf:wg:oauth:2.0:oob", 
+                                baseUrl);
+
+        // Use OOB native HttpClient as the underlying HTTP library
         var requestAdapter = new HttpClientRequestAdapter(_authProvider);
-        SerializationWriterFactoryRegistry.DefaultInstance.ContentTypeAssociatedFactories.Add("application/x-www-form-urlencoded",new FormSerializationWriterFactory());
+
+        // Add support for form-urlencoded content type
+        SerializationWriterFactoryRegistry
+                      .DefaultInstance
+                      .ContentTypeAssociatedFactories.Add(
+                          "application/x-www-form-urlencoded",
+                          new FormSerializationWriterFactory());
+
         client = new MastodonClient(requestAdapter);
-        _authProvider.Client = client;
-        requestAdapter.BaseUrl = baseUrl;
+        _authProvider.Client = client;  // Enable auth provider to use client
+        requestAdapter.BaseUrl = baseUrl;  // Overwrite baseUrl from OpenAPI
     }
 
     // Search for Accounts, status and hashtags

@@ -3,7 +3,7 @@ using MastodonClientLib.Models;
 using Microsoft.Kiota.Abstractions;
 using Microsoft.Kiota.Abstractions.Authentication;
 
-public class OAuth2AuthorizationProvider : IAuthenticationProvider
+public class OAuth2AuthProvider : IAuthenticationProvider
 {
     private string ClientId { get; set; }
     private string ClientSecret { get; set; }
@@ -12,7 +12,7 @@ public class OAuth2AuthorizationProvider : IAuthenticationProvider
     public MastodonClient Client {get; set;}
 
     private string BaseUrl { get; set; }
-    public OAuth2AuthorizationProvider(string clientId, string clientSecret, string redirectUri, string baseUrl )
+    public OAuth2AuthProvider(string clientId, string clientSecret, string redirectUri, string baseUrl )
     {
         BaseUrl = baseUrl;
         ClientId = clientId;
