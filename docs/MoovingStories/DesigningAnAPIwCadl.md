@@ -49,11 +49,15 @@ model Gadget {
 }
 ```
 
-Now we want to add an enpoint for our new `Gadget` resource. We could copy and paste the `WidgetService`, but then, we'd have to do this for all endpoints! 
+Now we want to add an enpoint for our new `Gadget` resource. We could copy and paste the `WidgetService`, but then, we'd have to copy/paste the same operation definition for all endpoints! As developers, we prefer a way we can define something once, and reuse it multiple times. Because Cadl is a *language* for developing APIs, this is exactly what we can do. 
 
-## Building an example Cadl library
+## Building a Cadl library
 
-Instead, let's use the power of the Cadl language to define a common interface that all of our resources. To do this, we can create a [`library.cadl`](https://github.com/APIPatterns/cadl-demo/blob/main/library.cadl) file that we will share across all of our development teams.
+Let's use the power of the Cadl language to define a common *interface* that will be reused across all of our resources. The Azure REST API Guidelines recommend using `PUT` for resource creation, `PATCH` for updates, and `DELETE` for, well, delting an object. However, developers who are not familiar with the REST guidelines will often use a `POST` to create resources. What we'd like to do is ensure that all APIs follow this pattern. 
+
+To do this, we'll create an interface that represents the resource creation pattern that are in our guidelines. We'll put this pattern in a seperate file, [`library.cadl`](https://github.com/APIPatterns/cadl-demo/blob/main/library.cadl), that we will share across all of our development teams. When develpers define their API, they will simply say that it *extends* our resource creation interface. In this way, when the Cadl file is compiled, and the OpenAPI document emitted, it will have the required operations, constructed in exactly the way we defined them. 
+
+Here's what the `ResourceInterface` looks like in our `library.cadl` file. Notice that it has all the standard operations you would expect. `GET` operations for the collection, a `GET` with an `id` for a specific resource, and the create, update, and delete operations with `PUT`, `PATCH`, and `DELETE` respectively.  
 
 ```typescript
 interface ResourceInterface<T> {
@@ -65,13 +69,11 @@ interface ResourceInterface<T> {
   }
 ```
 
+This resource creation scenario illustrates one of the key differences between using a compiled language, i.e. Cadl, and linting an OpenAPI specification. When linting an OpenAPI document using a tool like Spectral, there is no way to determine when a `POST` is used for resource creation and when it's used for another purpose. Yet with Cadl, you define the exact API semantics and let the compiler enforce them. 
 
-One reason for this is because we have a lot of different languages and frameworks that we use to build our APIs. This means that we have to write a lot of boilerplate code to ensure that our APIs are consistent and well designed.
+### Linting with Cadl
 
-
-We also have a set of tools that we use to ensure that our APIs are consistent and well designed. 
-
-
+Common models and interfaces will take you a long way with Cadl. 
 
 
 
