@@ -15,7 +15,7 @@ Mastodon uses OAuth2 for authentication. This means that applications must first
 
 ## Why Moostodon?
 
-One of the curious aspects of the CADL name is that many people hear 'cattle' when they hear the name. In keeping with the bovine theme and a certain amount Canadian influence, Moostodon seemed like suitably silly name for this sample.
+One of the curious aspects of the CADL name is that many people hear 'cattle' when they first hear the name. In keeping with the bovine theme and a certain amount Canadian influence, Moostodon seemed like suitably silly name for this sample.
 
 ## State of the union
 
@@ -27,7 +27,7 @@ Due to the size of the API, the first step in creating the API description was t
 
 CADL allows you to designate a single namespace as the service that exposes a set of operations by attaching the `@service` decorator.
 
-```cadl
+```typescript
 @service({
   title: "Mastodon",
   version: "1.0.0"
@@ -41,7 +41,7 @@ By attaching the `@route("/")` decorator to the namespace, all operations that a
 
 In the following example the OAuthService is hosted at the `/oauth` path. The definition of the OAuthService is in a separate file that is imported into the main API description.
 
-```cadl
+```typescript
 
 @route("/")
 namespace MastodonApi {  
@@ -62,15 +62,16 @@ namespace MastodonApi {
   
     @route("search")
     interface SearchResource extends SearchService {}
-
   }
 }
 ```
 Over the years, the Mastodon API has evolved and some resource have been replaced by a V2 API.  However, only some of the resources exist in the V2 API so it is necessary to describe both the v1 and v2 APIs.  CADL allows us to group these using nested namespaces.
 
+## Reusable API patterns
+
 This approach of creating a new "resource" interface that derives from the "service" interface is not absolutely necessary. If AccountService was defined directly in the `MastodonApi` namespace it could have a `@route("accounts")` decorator attached to it and by importing the file that contains the definition, the operations would be immediately available.  However, this approach does not allow us to reuse the `AccountsService` interface in other places. This can be seen in the following example:
 
-```cadl
+```typescript
   @route("api/v1")
   namespace v1 {
 
@@ -85,16 +86,16 @@ This approach of creating a new "resource" interface that derives from the "serv
 
     @route("endorsements")
     interface EndorsementsResource extends NamedSet<Account>{ }
-
   }
-
 ```
 
 In this example, the `MutesResource`, `BlocksResource` and `EndorsementsResource` all have the same shape. They are all sets of accounts that all support the same operations.  By reusing the generic `NamedSet` interface we can reuse the same interface in all three places.
 
+## Describing Operations
+
 The definition of the `AccountsService` interface is in a separate file that is imported into the main API description using `import "./services/accounts.cadl";` at the top of the main CADL file.
 
-```cadl
+```typescript
 interface AccountsService {
   // Register a new account.
   @post createAccount(
@@ -117,3 +118,78 @@ interface AccountsService {
   ): FamiliarFollowers[] | UnauthorizedResponse | UnprocessableContentError; 
 }
 ```
+This interface is limited to the operations that are either directly available at the `/api/v1/accounts` path or are available at a sub-path of that path. CADL does not constrain how you group your operations. The approach followed here is based on trying to limit each interface to a reasonable number of operations. As organizations gain experience in designing APIs with CADL, they will likely develop their own best practices.
+
+## Reusing types
+
+While there are sometimes opportunities to reuse interface patterns in an API, there are almost always opportunities to reuse type definitions in an API.  CADL has a variety of ways to reuse types.
+
+New models can be created based on other models and then have other decorators applied. In the examples below some common errors used in the are defined so they can be reused with friendly names.
+
+```typescript
+model UnprocessableContentError is Error {
+    @statusCode statusCode: 422;
+  }
+
+model UnauthorizedError is Error {
+    @statusCode statusCode: 401;
+  }
+
+```
+CADL has the interesting ability to combine the use of a model and the spread operator to define re-usable sets of parameters. The following `RangeParameters` are used in a number of places in the API.
+
+```typescript
+model RangeParameters {
+  @query max_Id?: string;
+  @query sinceId?: string;
+  @query min_Id?: string;
+  @query limit?: int32;
+}
+
+interface NamedSet<T> {
+  @get items(...RangeParameters): T[];  
+}
+
+interface TimelinesService  {
+
+  // Get public timeline
+  @route("public")
+  @get publicTimeline(
+    @query local : boolean,
+    @query only_media : boolean,
+    ...RangeParameters
+  ): Status[];
+
+  // Get Home Timeline
+  @route("home")
+  @get getHomeTimeline(
+    ...RangeParameters
+  ) : Status[] | UnauthorizedResponse | NotFoundResponse;
+  
+}
+```
+Mastodon is unusual for HTTP APIs in that it uses `application/x-www-form-urlencoded` for most of its update operations. To indicate that a model will be sent as a form, the `@header` decorator is used to indicate the content type. The `Form` model was created as a template for all of the form models that are used in the API. In this case the `is` operator was used instead of `extends` to prevent an `allOf` being generated in the OpenAPI document to represent inheritance.
+
+```typescript
+model Form {
+  @header contentType: "application/x-www-form-urlencoded";
+}
+
+model TokenForm is Form {
+  grant_type: string;
+  code: string;
+  client_id: string;
+  client_secret: string;
+  redirect_uri: string;
+  scopes: string;
+}
+```
+
+All the examples shown here are excerpts from the complete CADL description in the [Moostodon GitHub repo](https://github.com/APIPatterns/Moostodon/tree/main/spec). Using this description it is simple to create an OpenAPI description by compiling the CADL from the spec folder.
+
+```bash
+cadl compile .\main.cadl
+```
+But what can we do with that OpenAPI?
+
+## Creating a client
