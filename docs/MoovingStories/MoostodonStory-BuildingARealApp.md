@@ -216,7 +216,7 @@ There is an entire ecosystem of tooling built around OpenAPI documents. You can 
 
 ## Why Kiota?
 
-[Kiota](https://microsoft.github.io/kiota) is an open source project developed by the Microsoft Graph Developer Experience team that is optimized for the API consumer experience. Many developers choose not to use SDKs at all because each time they go to call a new API, they have to learn a new SDK, provided by the API producer. Kiota aims to solve this problem by allowing developers to use one tool to generate client code for any API. It also enables selecting just the parts of the API the client application needs to call. This was the driving motivation for the Microsoft Graph team because Microsoft Graph is a very large API and nobody builds applications that need to call all of the APIs.
+[Kiota](https://microsoft.github.io/kiota) is an open source project developed by the Microsoft Graph Developer Experience team that is optimized for the API consumer experience. Because Microsoft Graph is a very large API we found that nobody builds an application that needs to call all of the APIs. Kiota enables selecting just the parts of the API the client application needs to call and generate out a client for their needs. This also lowers the barrier of learning a new SDK everytime there is a new API release. Because Cadl compiles OpenAPI documents that adhere to our standards, Kiota becomes more powerful and the two tools together promote a design first approach without sacrificing the ability to get to code quickly.
 
 ## Taking a tour of Kiota clients
 
