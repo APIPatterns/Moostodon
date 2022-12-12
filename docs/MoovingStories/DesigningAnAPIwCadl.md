@@ -79,8 +79,9 @@ Cadl decorators provide an incredible amount of flexibility for developers build
 
 The in the [cadl-demo](https://github.com/APIPatterns/cadl-demo) folder, you will see a [linter.js](https://github.com/APIPatterns/cadl-demo/linter.js) file. This is a simple Javascript file that codifies the rule that all operations must have a query paramer called `api-version`.
 
-For example, suppose that, as part of our `Widget` definition, we need to perform an action to analyze the widget. 
+For example, suppose that, as part of our `Widget` definition, we need to perform an action to `analyze` the widget. If one of our develpers extended the interface and added a `POST` operation, then the custom Cadl linter would catch that and throw an error. 
 
+Here is the example `POST` operation without the required ApiVersion parameter.
 ```typescript
 @route("/widgets")
 @tag("Widgets")
@@ -89,6 +90,7 @@ interface Widgets extends ResourceInterface<Widget> {
 }
 ```
 
+Correcting this is as simple as adding the required parameter, as illustrated below. 
 ```typescript
 @route("/widgets")
 @tag("Widgets")
@@ -97,6 +99,6 @@ interface Widgets extends ResourceInterface<Widget> {
 }
 ```
 
-Common models and interfaces will take you a long way with Cadl.
+Once you learn the language syntax, designing APIs with Cadl is very straightforward. Because the language is concise, developers can focus on the accurately defining their resources. Reuse is made easier by sharing definitions in the same manner as code--and there's great tooling support in VS Code and Visual Studio. But perhaps the most important aspect of Cadl is that it enables organizations to codify their API guidelines and best practices directly in the language itself, ensuring that all generated API specifications are "correct by construction."
 
-[Cadl](https://microsoft.github.io/cadl)
+
