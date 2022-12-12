@@ -14,8 +14,8 @@ public class MastodonService {
     public MastodonService(string baseUrl)
     {
         _authProvider = new OAuth2AuthProvider(
-                                CredsHack.ClientId,
-                                CredsHack.ClientSecret,
+                                Environment.GetEnvironmentVariable("ClientId"),
+                                Environment.GetEnvironmentVariable("ClientSecret"),
                                 "urn:ietf:wg:oauth:2.0:oob", 
                                 baseUrl);
 

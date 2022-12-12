@@ -11,6 +11,8 @@ namespace MoostodonConsole
     {
         static async Task Main(string[] args)
         {
+            DotNetEnv.Env.Load("secrets.env");
+
             // Configure console  opentelemetry tracing
             using var provider = Sdk.CreateTracerProviderBuilder()
                 .AddSource("Microsoft.Kiota.Http.HttpClientLibrary")
@@ -60,7 +62,7 @@ namespace MoostodonConsole
                         
                         await mtdnService.LoginApp(cancellationToken);
 
-                        var userAccounts = await mtdnService.SearchAccounts(CredsHack.Username, cancellationToken);
+                        var userAccounts = await mtdnService.SearchAccounts(Environment.GetEnvironmentVariable("Username"), cancellationToken);
                         var userAccount = userAccounts.FirstOrDefault();
                         if (userAccount == null)
                         {
@@ -78,7 +80,7 @@ namespace MoostodonConsole
 
                 case "getusertimeline":
                     // User specific endpoints
-                    await mtdnService.LoginUser(CredsHack.Username,cancellationToken);
+                    await mtdnService.LoginUser(Environment.GetEnvironmentVariable("Username"),cancellationToken);
 
                     var userstatuses = await mtdnService.ReadUserTimeline(cancellationToken);
                     foreach (var s in userstatuses.Take(10))
@@ -89,7 +91,7 @@ namespace MoostodonConsole
 
                 case "toot":
                     // Post a status from a command line argument
-                    await mtdnService.LoginUser(CredsHack.Username, cancellationToken);
+                    await mtdnService.LoginUser(Environment.GetEnvironmentVariable("Username"), cancellationToken);
                     Console.WriteLine("Enter a status to post: ");
                     var statusMessage = Console.ReadLine();
                     var status = await mtdnService.PostStatus(statusMessage, cancellationToken);
