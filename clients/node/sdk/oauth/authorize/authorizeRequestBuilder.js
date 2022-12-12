@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthorizeRequestBuilder = void 0;
 const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
-/** Builds and executes requests for operations under /api/v1/oauth/authorize */
+/** Builds and executes requests for operations under /oauth/authorize */
 class AuthorizeRequestBuilder {
     /**
      * Instantiates a new AuthorizeRequestBuilder and sets the default values.
@@ -14,7 +14,7 @@ class AuthorizeRequestBuilder {
             throw new Error("pathParameters cannot be undefined");
         if (!requestAdapter)
             throw new Error("requestAdapter cannot be undefined");
-        this.urlTemplate = "{+baseurl}/api/v1/oauth/authorize{?client_id*,redirect_uri*,response_type*,scope*,force_login*,lang*}";
+        this.urlTemplate = "{+baseurl}/oauth/authorize{?response_type*,client_id*,redirect_uri*,scope*,force_login*,lang*}";
         const urlTplParams = (0, kiota_abstractions_1.getPathParameters)(pathParameters);
         this.pathParameters = urlTplParams;
         this.requestAdapter = requestAdapter;

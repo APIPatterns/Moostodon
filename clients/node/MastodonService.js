@@ -10,13 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MoostodonService = void 0;
-const moostodonClient_1 = require("./sdk/moostodonClient");
+const mastodonClient_1 = require("./sdk/mastodonClient");
 const kiota_http_fetchlibrary_1 = require("@microsoft/kiota-http-fetchlibrary");
 // Create Wrapper service around the MoostodonClient
 class MoostodonService {
     constructor(baseurl) {
         const adapter = new kiota_http_fetchlibrary_1.FetchRequestAdapter(new AnonymousAuthProvider());
-        this._client = new moostodonClient_1.MoostodonClient(adapter);
+        this._client = new mastodonClient_1.MastodonClient(adapter);
         adapter.baseUrl = baseurl;
         console.log("initialized client with baseurl: " + adapter.baseUrl);
     }
@@ -28,6 +28,12 @@ class MoostodonService {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("getting account");
             return yield this._client.api.v1.accountsById(accountId).get();
+        });
+    }
+    // Get the mastodon public timeline
+    getPublicTimeline() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this._client.api.v1.timelines.public.get();
         });
     }
 }

@@ -1,4 +1,4 @@
-import { MoostodonClient } from "./sdk/moostodonClient";
+import { MastodonClient } from "./sdk/mastodonClient";
 import { FetchRequestAdapter } from '@microsoft/kiota-http-fetchlibrary';
 import { AuthenticationProvider, RequestInformation } from "@microsoft/kiota-abstractions";
 import { Account } from "./sdk/models/account";
@@ -6,16 +6,16 @@ import { Status } from "./sdk/models/status";
 
 // Create Wrapper service around the MoostodonClient
 export class MoostodonService {
-    private _client: MoostodonClient;
+    private _client: MastodonClient;
 
     constructor(baseurl: string) {
         const adapter = new FetchRequestAdapter(new AnonymousAuthProvider());        
-        this._client = new MoostodonClient(adapter);
+        this._client = new MastodonClient(adapter);
         adapter.baseUrl = baseurl;
         console.log("initialized client with baseurl: " + adapter.baseUrl);
     }
 
-    public get client(): MoostodonClient {
+    public get client(): MastodonClient {
         return this._client;
     }
 

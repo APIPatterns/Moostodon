@@ -11,7 +11,6 @@ const endorsementsRequestBuilder_1 = require("./endorsements/endorsementsRequest
 const favouritesRequestBuilder_1 = require("./favourites/favouritesRequestBuilder");
 const instanceRequestBuilder_1 = require("./instance/instanceRequestBuilder");
 const mutesRequestBuilder_1 = require("./mutes/mutesRequestBuilder");
-const oauthRequestBuilder_1 = require("./oauth/oauthRequestBuilder");
 const statusesItemRequestBuilder_1 = require("./statuses/item/statusesItemRequestBuilder");
 const statusesRequestBuilder_1 = require("./statuses/statusesRequestBuilder");
 const timelinesRequestBuilder_1 = require("./timelines/timelinesRequestBuilder");
@@ -54,10 +53,6 @@ class V1RequestBuilder {
     get mutes() {
         return new mutesRequestBuilder_1.MutesRequestBuilder(this.pathParameters, this.requestAdapter);
     }
-    /** The oauth property */
-    get oauth() {
-        return new oauthRequestBuilder_1.OauthRequestBuilder(this.pathParameters, this.requestAdapter);
-    }
     /** The statuses property */
     get statuses() {
         return new statusesRequestBuilder_1.StatusesRequestBuilder(this.pathParameters, this.requestAdapter);
@@ -67,7 +62,7 @@ class V1RequestBuilder {
         return new timelinesRequestBuilder_1.TimelinesRequestBuilder(this.pathParameters, this.requestAdapter);
     }
     /**
-     * Gets an item from the MoostodonSdk.api.v1.accounts.item collection
+     * Gets an item from the NotUsedButRequired.api.v1.accounts.item collection
      * @param id Unique identifier of the item
      * @returns a AccountsItemRequestBuilder
      */
@@ -96,7 +91,7 @@ class V1RequestBuilder {
     }
     ;
     /**
-     * Gets an item from the MoostodonSdk.api.v1.statuses.item collection
+     * Gets an item from the NotUsedButRequired.api.v1.statuses.item collection
      * @param id Unique identifier of the item
      * @returns a StatusesItemRequestBuilder
      */

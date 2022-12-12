@@ -8,7 +8,6 @@ import {EndorsementsRequestBuilder} from './endorsements/endorsementsRequestBuil
 import {FavouritesRequestBuilder} from './favourites/favouritesRequestBuilder';
 import {InstanceRequestBuilder} from './instance/instanceRequestBuilder';
 import {MutesRequestBuilder} from './mutes/mutesRequestBuilder';
-import {OauthRequestBuilder} from './oauth/oauthRequestBuilder';
 import {StatusesItemRequestBuilder} from './statuses/item/statusesItemRequestBuilder';
 import {StatusesRequestBuilder} from './statuses/statusesRequestBuilder';
 import {TimelinesRequestBuilder} from './timelines/timelinesRequestBuilder';
@@ -52,10 +51,6 @@ export class V1RequestBuilder {
     public get mutes(): MutesRequestBuilder {
         return new MutesRequestBuilder(this.pathParameters, this.requestAdapter);
     }
-    /** The oauth property */
-    public get oauth(): OauthRequestBuilder {
-        return new OauthRequestBuilder(this.pathParameters, this.requestAdapter);
-    }
     /** Path parameters for the request */
     private pathParameters: Record<string, unknown>;
     /** The request adapter to use to execute the requests. */
@@ -71,7 +66,7 @@ export class V1RequestBuilder {
     /** Url template to use to build the URL for the current request builder */
     private urlTemplate: string;
     /**
-     * Gets an item from the MoostodonSdk.api.v1.accounts.item collection
+     * Gets an item from the NotUsedButRequired.api.v1.accounts.item collection
      * @param id Unique identifier of the item
      * @returns a AccountsItemRequestBuilder
      */
@@ -95,7 +90,7 @@ export class V1RequestBuilder {
         this.requestAdapter = requestAdapter;
     };
     /**
-     * Gets an item from the MoostodonSdk.api.v1.statuses.item collection
+     * Gets an item from the NotUsedButRequired.api.v1.statuses.item collection
      * @param id Unique identifier of the item
      * @returns a StatusesItemRequestBuilder
      */

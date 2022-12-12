@@ -43,7 +43,7 @@ class TimelinesRequestBuilder {
     }
     ;
     /**
-     * Gets an item from the MoostodonSdk.api.v1.timelines.list.item collection
+     * Gets an item from the NotUsedButRequired.api.v1.timelines.list.item collection
      * @param id Unique identifier of the item
      * @returns a ListItemRequestBuilder
      */
@@ -56,7 +56,7 @@ class TimelinesRequestBuilder {
     }
     ;
     /**
-     * Gets an item from the MoostodonSdk.api.v1.timelines.tag.item collection
+     * Gets an item from the NotUsedButRequired.api.v1.timelines.tag.item collection
      * @param id Unique identifier of the item
      * @returns a WithTagItemRequestBuilder
      */

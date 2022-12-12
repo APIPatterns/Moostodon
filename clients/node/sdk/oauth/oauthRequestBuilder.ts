@@ -3,7 +3,7 @@ import {RevokeRequestBuilder} from './revoke/revokeRequestBuilder';
 import {TokenRequestBuilder} from './token/tokenRequestBuilder';
 import {getPathParameters, RequestAdapter} from '@microsoft/kiota-abstractions';
 
-/** Builds and executes requests for operations under /api/v1/oauth */
+/** Builds and executes requests for operations under /oauth */
 export class OauthRequestBuilder {
     /** The authorize property */
     public get authorize(): AuthorizeRequestBuilder {
@@ -31,7 +31,7 @@ export class OauthRequestBuilder {
     public constructor(pathParameters: Record<string, unknown> | string | undefined, requestAdapter: RequestAdapter) {
         if(!pathParameters) throw new Error("pathParameters cannot be undefined");
         if(!requestAdapter) throw new Error("requestAdapter cannot be undefined");
-        this.urlTemplate = "{+baseurl}/api/v1/oauth";
+        this.urlTemplate = "{+baseurl}/oauth";
         const urlTplParams = getPathParameters(pathParameters);
         this.pathParameters = urlTplParams;
         this.requestAdapter = requestAdapter;

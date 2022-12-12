@@ -1,4 +1,4 @@
-import {CreateStatusBody, Status} from '../../../models/';
+import {Status} from '../../../models/';
 import {createStatusFromDiscriminatorValue} from '../../../models/createStatusFromDiscriminatorValue';
 import {StatusesRequestBuilderPostRequestConfiguration} from './statusesRequestBuilderPostRequestConfiguration';
 import {getPathParameters, HttpMethod, Parsable, ParsableFactory, RequestAdapter, RequestInformation, RequestOption, ResponseHandler} from '@microsoft/kiota-abstractions';
@@ -24,7 +24,7 @@ export class StatusesRequestBuilder {
         this.pathParameters = urlTplParams;
         this.requestAdapter = requestAdapter;
     };
-    public createPostRequestInformation(body: CreateStatusBody | undefined, requestConfiguration?: StatusesRequestBuilderPostRequestConfiguration | undefined) : RequestInformation {
+    public createPostRequestInformation(body: ArrayBuffer | undefined, requestConfiguration?: StatusesRequestBuilderPostRequestConfiguration | undefined) : RequestInformation {
         if(!body) throw new Error("body cannot be undefined");
         const requestInfo = new RequestInformation();
         requestInfo.urlTemplate = this.urlTemplate;
@@ -35,10 +35,10 @@ export class StatusesRequestBuilder {
             requestInfo.addRequestHeaders(requestConfiguration.headers);
             requestInfo.addRequestOptions(requestConfiguration.options);
         }
-        requestInfo.setContentFromParsable(this.requestAdapter, "application/json", body);
+        requestInfo.setStreamContent(body);
         return requestInfo;
     };
-    public post(body: CreateStatusBody | undefined, requestConfiguration?: StatusesRequestBuilderPostRequestConfiguration | undefined, responseHandler?: ResponseHandler | undefined) : Promise<Status | undefined> {
+    public post(body: ArrayBuffer | undefined, requestConfiguration?: StatusesRequestBuilderPostRequestConfiguration | undefined, responseHandler?: ResponseHandler | undefined) : Promise<Status | undefined> {
         if(!body) throw new Error("body cannot be undefined");
         const requestInfo = this.createPostRequestInformation(
             body, requestConfiguration

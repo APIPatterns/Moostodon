@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RevokeRequestBuilder = void 0;
 const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
-/** Builds and executes requests for operations under /api/v1/oauth/revoke */
+/** Builds and executes requests for operations under /oauth/revoke */
 class RevokeRequestBuilder {
     /**
      * Instantiates a new RevokeRequestBuilder and sets the default values.
@@ -14,7 +14,7 @@ class RevokeRequestBuilder {
             throw new Error("pathParameters cannot be undefined");
         if (!requestAdapter)
             throw new Error("requestAdapter cannot be undefined");
-        this.urlTemplate = "{+baseurl}/api/v1/oauth/revoke";
+        this.urlTemplate = "{+baseurl}/oauth/revoke";
         const urlTplParams = (0, kiota_abstractions_1.getPathParameters)(pathParameters);
         this.pathParameters = urlTplParams;
         this.requestAdapter = requestAdapter;

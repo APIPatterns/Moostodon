@@ -1,9 +1,9 @@
-import {TokenResponse} from '../../../../models/';
-import {createTokenResponseFromDiscriminatorValue} from '../../../../models/createTokenResponseFromDiscriminatorValue';
+import {TokenResponse} from '../../models/';
+import {createTokenResponseFromDiscriminatorValue} from '../../models/createTokenResponseFromDiscriminatorValue';
 import {TokenRequestBuilderPostRequestConfiguration} from './tokenRequestBuilderPostRequestConfiguration';
 import {getPathParameters, HttpMethod, Parsable, ParsableFactory, RequestAdapter, RequestInformation, RequestOption, ResponseHandler} from '@microsoft/kiota-abstractions';
 
-/** Builds and executes requests for operations under /api/v1/oauth/token */
+/** Builds and executes requests for operations under /oauth/token */
 export class TokenRequestBuilder {
     /** Path parameters for the request */
     private pathParameters: Record<string, unknown>;
@@ -19,7 +19,7 @@ export class TokenRequestBuilder {
     public constructor(pathParameters: Record<string, unknown> | string | undefined, requestAdapter: RequestAdapter) {
         if(!pathParameters) throw new Error("pathParameters cannot be undefined");
         if(!requestAdapter) throw new Error("requestAdapter cannot be undefined");
-        this.urlTemplate = "{+baseurl}/api/v1/oauth/token";
+        this.urlTemplate = "{+baseurl}/oauth/token";
         const urlTplParams = getPathParameters(pathParameters);
         this.pathParameters = urlTplParams;
         this.requestAdapter = requestAdapter;

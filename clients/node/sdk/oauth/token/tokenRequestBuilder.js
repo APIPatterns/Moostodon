@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TokenRequestBuilder = void 0;
-const createTokenResponseFromDiscriminatorValue_1 = require("../../../../models/createTokenResponseFromDiscriminatorValue");
+const createTokenResponseFromDiscriminatorValue_1 = require("../../models/createTokenResponseFromDiscriminatorValue");
 const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
-/** Builds and executes requests for operations under /api/v1/oauth/token */
+/** Builds and executes requests for operations under /oauth/token */
 class TokenRequestBuilder {
     /**
      * Instantiates a new TokenRequestBuilder and sets the default values.
@@ -15,7 +15,7 @@ class TokenRequestBuilder {
             throw new Error("pathParameters cannot be undefined");
         if (!requestAdapter)
             throw new Error("requestAdapter cannot be undefined");
-        this.urlTemplate = "{+baseurl}/api/v1/oauth/token";
+        this.urlTemplate = "{+baseurl}/oauth/token";
         const urlTplParams = (0, kiota_abstractions_1.getPathParameters)(pathParameters);
         this.pathParameters = urlTplParams;
         this.requestAdapter = requestAdapter;
