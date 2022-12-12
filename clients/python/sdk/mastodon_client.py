@@ -10,8 +10,9 @@ from kiota_serialization_text.text_serialization_writer_factory import TextSeria
 from typing import Any, Callable, Dict, List, Optional, Union
 
 from .api import api_request_builder
+from .oauth import oauth_request_builder
 
-class MoostodonClient():
+class MastodonClient():
     """
     The main entry point of the SDK, exposes the configuration and the fluent API.
     """
@@ -21,9 +22,15 @@ class MoostodonClient():
         """
         return api_request_builder.ApiRequestBuilder(self.request_adapter, self.path_parameters)
     
+    def oauth(self) -> oauth_request_builder.OauthRequestBuilder:
+        """
+        The oauth property
+        """
+        return oauth_request_builder.OauthRequestBuilder(self.request_adapter, self.path_parameters)
+    
     def __init__(self,request_adapter: RequestAdapter) -> None:
         """
-        Instantiates a new MoostodonClient and sets the default values.
+        Instantiates a new MastodonClient and sets the default values.
         Args:
             requestAdapter: The request adapter to use to execute the requests.
         """

@@ -13,7 +13,6 @@ from .endorsements import endorsements_request_builder
 from .favourites import favourites_request_builder
 from .instance import instance_request_builder
 from .mutes import mutes_request_builder
-from .oauth import oauth_request_builder
 from .statuses import statuses_request_builder
 from .statuses.item import statuses_item_request_builder
 from .timelines import timelines_request_builder
@@ -76,12 +75,6 @@ class V1RequestBuilder():
         """
         return mutes_request_builder.MutesRequestBuilder(self.request_adapter, self.path_parameters)
     
-    def oauth(self) -> oauth_request_builder.OauthRequestBuilder:
-        """
-        The oauth property
-        """
-        return oauth_request_builder.OauthRequestBuilder(self.request_adapter, self.path_parameters)
-    
     def statuses(self) -> statuses_request_builder.StatusesRequestBuilder:
         """
         The statuses property
@@ -96,7 +89,7 @@ class V1RequestBuilder():
     
     def accounts_by_id(self,id: str) -> accounts_item_request_builder.AccountsItemRequestBuilder:
         """
-        Gets an item from the moostodonSdk.api.v1.accounts.item collection
+        Gets an item from the MastodonClientLib.api.v1.accounts.item collection
         Args:
             id: Unique identifier of the item
         Returns: accounts_item_request_builder.AccountsItemRequestBuilder
@@ -127,7 +120,7 @@ class V1RequestBuilder():
     
     def statuses_by_id(self,id: str) -> statuses_item_request_builder.StatusesItemRequestBuilder:
         """
-        Gets an item from the moostodonSdk.api.v1.statuses.item collection
+        Gets an item from the MastodonClientLib.api.v1.statuses.item collection
         Args:
             id: Unique identifier of the item
         Returns: statuses_item_request_builder.StatusesItemRequestBuilder

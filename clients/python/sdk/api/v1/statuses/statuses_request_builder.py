@@ -9,7 +9,7 @@ from kiota_abstractions.response_handler import ResponseHandler
 from kiota_abstractions.serialization import Parsable, ParsableFactory
 from typing import Any, Callable, Dict, List, Optional, Union
 
-from ....models import create_status_body, status
+from ....models import status
 
 class StatusesRequestBuilder():
     """
@@ -33,7 +33,7 @@ class StatusesRequestBuilder():
         self.path_parameters = url_tpl_params
         self.request_adapter = request_adapter
     
-    def create_post_request_information(self,body: Optional[create_status_body.CreateStatusBody] = None, request_configuration: Optional[StatusesRequestBuilderPostRequestConfiguration] = None) -> RequestInformation:
+    def create_post_request_information(self,body: bytes, request_configuration: Optional[StatusesRequestBuilderPostRequestConfiguration] = None) -> RequestInformation:
         if body is None:
             raise Exception("body cannot be undefined")
         request_info = RequestInformation()
@@ -44,10 +44,10 @@ class StatusesRequestBuilder():
         if request_configuration:
             request_info.add_request_headers(request_configuration.headers)
             request_info.add_request_options(request_configuration.options)
-        request_info.set_content_from_parsable(self.request_adapter, "application/json", body)
+        request_info.set_stream_content(body)
         return request_info
     
-    async def post(self,body: Optional[create_status_body.CreateStatusBody] = None, request_configuration: Optional[StatusesRequestBuilderPostRequestConfiguration] = None, response_handler: Optional[ResponseHandler] = None) -> Optional[status.Status]:
+    async def post(self,body: bytes, request_configuration: Optional[StatusesRequestBuilderPostRequestConfiguration] = None, response_handler: Optional[ResponseHandler] = None) -> Optional[status.Status]:
         if body is None:
             raise Exception("body cannot be undefined")
         request_info = self.create_post_request_information(

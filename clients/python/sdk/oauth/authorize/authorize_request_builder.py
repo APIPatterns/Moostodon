@@ -11,7 +11,7 @@ from typing import Any, Callable, Dict, List, Optional, Union
 
 class AuthorizeRequestBuilder():
     """
-    Builds and executes requests for operations under /api/v1/oauth/authorize
+    Builds and executes requests for operations under /oauth/authorize
     """
     def __init__(self,request_adapter: RequestAdapter, path_parameters: Optional[Union[Dict[str, Any], str]] = None) -> None:
         """
@@ -25,7 +25,7 @@ class AuthorizeRequestBuilder():
         if request_adapter is None:
             raise Exception("request_adapter cannot be undefined")
         # Url template to use to build the URL for the current request builder
-        self.url_template: str = "{+baseurl}/api/v1/oauth/authorize{?client_id*,redirect_uri*,response_type*,scope*,force_login*,lang*}"
+        self.url_template: str = "{+baseurl}/oauth/authorize{?response_type*,client_id*,redirect_uri*,scope*,force_login*,lang*}"
 
         url_tpl_params = get_path_parameters(path_parameters)
         self.path_parameters = url_tpl_params

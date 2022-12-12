@@ -58,7 +58,7 @@ class TimelinesRequestBuilder():
     
     def list_by_id(self,id: str) -> list_item_request_builder.ListItemRequestBuilder:
         """
-        Gets an item from the moostodonSdk.api.v1.timelines.list.item collection
+        Gets an item from the MastodonClientLib.api.v1.timelines.list.item collection
         Args:
             id: Unique identifier of the item
         Returns: list_item_request_builder.ListItemRequestBuilder
@@ -71,7 +71,7 @@ class TimelinesRequestBuilder():
     
     def tag_by_id(self,id: str) -> with_tag_item_request_builder.WithTagItemRequestBuilder:
         """
-        Gets an item from the moostodonSdk.api.v1.timelines.tag.item collection
+        Gets an item from the MastodonClientLib.api.v1.timelines.tag.item collection
         Args:
             id: Unique identifier of the item
         Returns: with_tag_item_request_builder.WithTagItemRequestBuilder

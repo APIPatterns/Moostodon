@@ -1,10 +1,10 @@
 {
-  "descriptionHash": "00465D40BA4DBF3D735C4033E1FB7A3B46321244896DACC9C36ABE58C7978003FE2E01D20B6CB6EE0D4690FECAD08E1A0EBAD05E2C2C8234290A92A840D5A086",
+  "descriptionHash": "4C7E71F0F6D67C3023B2EA3B286C6CB7D4DE7E4EAF2D34C1460D06D7C1B4E2BE2129614F85D2FAA148948F86F79214374F0B8C6B08FD25C404FEED56C0080A05",
   "descriptionLocation": "C:\\Users\\darrmi\\src\\github\\APIPatterns\\Moostodon\\clients\\python\\..\\..\\spec\\cadl-output\\openapi.json",
   "lockFileVersion": "1.0.0",
   "kiotaVersion": "0.8.3.0",
-  "clientClassName": "moostodonClient",
-  "clientNamespaceName": "moostodonSdk",
+  "clientClassName": "MastodonClient",
+  "clientNamespaceName": "MastodonClientLib",
   "language": "Python",
   "usesBackingStore": false,
   "includeAdditionalData": true,

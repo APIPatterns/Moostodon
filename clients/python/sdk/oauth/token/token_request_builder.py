@@ -9,13 +9,15 @@ from kiota_abstractions.response_handler import ResponseHandler
 from kiota_abstractions.serialization import Parsable, ParsableFactory
 from typing import Any, Callable, Dict, List, Optional, Union
 
-class RevokeRequestBuilder():
+from ...models import token_response
+
+class TokenRequestBuilder():
     """
-    Builds and executes requests for operations under /api/v1/oauth/revoke
+    Builds and executes requests for operations under /oauth/token
     """
     def __init__(self,request_adapter: RequestAdapter, path_parameters: Optional[Union[Dict[str, Any], str]] = None) -> None:
         """
-        Instantiates a new RevokeRequestBuilder and sets the default values.
+        Instantiates a new TokenRequestBuilder and sets the default values.
         Args:
             pathParameters: The raw url or the Url template parameters for the request.
             requestAdapter: The request adapter to use to execute the requests.
@@ -25,26 +27,27 @@ class RevokeRequestBuilder():
         if request_adapter is None:
             raise Exception("request_adapter cannot be undefined")
         # Url template to use to build the URL for the current request builder
-        self.url_template: str = "{+baseurl}/api/v1/oauth/revoke"
+        self.url_template: str = "{+baseurl}/oauth/token"
 
         url_tpl_params = get_path_parameters(path_parameters)
         self.path_parameters = url_tpl_params
         self.request_adapter = request_adapter
     
-    def create_post_request_information(self,body: bytes, request_configuration: Optional[RevokeRequestBuilderPostRequestConfiguration] = None) -> RequestInformation:
+    def create_post_request_information(self,body: bytes, request_configuration: Optional[TokenRequestBuilderPostRequestConfiguration] = None) -> RequestInformation:
         if body is None:
             raise Exception("body cannot be undefined")
         request_info = RequestInformation()
         request_info.url_template = self.url_template
         request_info.path_parameters = self.path_parameters
         request_info.http_method = Method.POST
+        request_info.headers["Accept"] = "application/json"
         if request_configuration:
             request_info.add_request_headers(request_configuration.headers)
             request_info.add_request_options(request_configuration.options)
         request_info.set_stream_content(body)
         return request_info
     
-    async def post(self,body: bytes, request_configuration: Optional[RevokeRequestBuilderPostRequestConfiguration] = None, response_handler: Optional[ResponseHandler] = None) -> bytes:
+    async def post(self,body: bytes, request_configuration: Optional[TokenRequestBuilderPostRequestConfiguration] = None, response_handler: Optional[ResponseHandler] = None) -> Optional[token_response.TokenResponse]:
         if body is None:
             raise Exception("body cannot be undefined")
         request_info = self.create_post_request_information(
@@ -52,10 +55,10 @@ class RevokeRequestBuilder():
         )
         if not self.request_adapter:
             raise Exception("Http core is null") 
-        return await self.request_adapter.send_primitive_async(request_info, "bytes", response_handler, None)
+        return await self.request_adapter.send_async(request_info, token_response.TokenResponse, response_handler, None)
     
     @dataclass
-    class RevokeRequestBuilderPostRequestConfiguration():
+    class TokenRequestBuilderPostRequestConfiguration():
         """
         Configuration for the request such as headers, query parameters, and middleware options.
         """

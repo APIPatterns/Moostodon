@@ -1,17 +1,16 @@
 import asyncio
-from moostodon_service import MoostodonService
+from mastodon_service import MastodonService
 
 asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
-service = MoostodonService("https://mastodon.social")
+service = MastodonService("https://mastodon.social")
 
-# get account for a user
-account = service.get_account("108192895578262114")
-# show account details
-print(f"Account: {account.display_name} ({account.username})")  # Currently fails due to a serialization issue
 
-# statuses = service.get_public_statuses()  # Currently fails to a parameter mismatch on calling the API
+accounts = service.search_accounts("darrel")
 
-# # print content for all the statuses
-# for status in statuses:
-#     print(status.content)
+# print the details of the discovered accounts
+for account in accounts:
+    print(f"Username: {account.username}")
+    print(f"Display name: {account.display_name}")
+    print(f"URL: {account.url}")
+    print("")

@@ -9,7 +9,7 @@ from .token import token_request_builder
 
 class OauthRequestBuilder():
     """
-    Builds and executes requests for operations under /api/v1/oauth
+    Builds and executes requests for operations under /oauth
     """
     def authorize(self) -> authorize_request_builder.AuthorizeRequestBuilder:
         """
@@ -41,7 +41,7 @@ class OauthRequestBuilder():
         if request_adapter is None:
             raise Exception("request_adapter cannot be undefined")
         # Url template to use to build the URL for the current request builder
-        self.url_template: str = "{+baseurl}/api/v1/oauth"
+        self.url_template: str = "{+baseurl}/oauth"
 
         url_tpl_params = get_path_parameters(path_parameters)
         self.path_parameters = url_tpl_params

@@ -51,7 +51,7 @@ class PublicRequestBuilder():
         )
         if not self.request_adapter:
             raise Exception("Http core is null") 
-        return await self.request_adapter.send_collection_async(status.Status)(request_info, status.Status, response_handler, None)
+        return await self.request_adapter.send_collection_async(request_info, status.Status, response_handler, None)
     
     @dataclass
     class PublicRequestBuilderGetQueryParameters():
