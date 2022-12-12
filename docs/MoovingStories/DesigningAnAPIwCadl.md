@@ -53,11 +53,13 @@ Now we want to add an enpoint for our new `Gadget` resource. We could copy and p
 
 ## Building a Cadl library
 
-Let's use the power of the Cadl language to define a common *interface* that will be reused across all of our resources. The Azure REST API Guidelines recommend using `PUT` for resource creation, `PATCH` for updates, and `DELETE` for, well, delting an object. However, developers who are not familiar with the REST guidelines will often use a `POST` to create resources. What we'd like to do is ensure that all APIs follow this pattern. 
+Let's use the power of the Cadl language to define a common *interface* that will be reused across all of our resources. The Azure REST API Guidelines recommend using `PUT` for resource creation, `PATCH` for updates, and `DELETE` for, well, delting an object. However, developers who are not familiar with the REST guidelines will often use a `POST` to create resources. What we'd like to do is ensure that all APIs follow the proper resource creations pattern. 
 
-To do this, we'll create an interface that represents the resource creation pattern that are in our guidelines. We'll put this pattern in a seperate file, [`library.cadl`](https://github.com/APIPatterns/cadl-demo/blob/main/library.cadl), that we will share across all of our development teams. When develpers define their API, they will simply say that it *extends* our resource creation interface. In this way, when the Cadl file is compiled, and the OpenAPI document emitted, it will have the required operations, constructed in exactly the way we defined them. 
+To do this, we'll create an *interface* that represents the resource creation pattern that are in our guidelines. We'll put this pattern in a seperate file, [`library.cadl`](https://github.com/APIPatterns/cadl-demo/blob/main/library.cadl), that we will share across all of our development teams. When develpers define their API, they will simply say that it *extends* our resource creation interface. In this way, when the Cadl file is compiled, and the OpenAPI document emitted, it will have the required operations, constructed in exactly the way we defined them. 
 
-Here's what the `ResourceInterface` looks like in our `library.cadl` file. Notice that it has all the standard operations you would expect. `GET` operations for the collection, a `GET` with an `id` for a specific resource, and the create, update, and delete operations with `PUT`, `PATCH`, and `DELETE` respectively.  
+Here's what the `ResourceInterface` looks like in our `library.cadl` file. Notice that it has all the standard operations you would expect. `GET` operations for the collection, a `GET` with an `id` for a specific resource, and the create, update, and delete operations with `PUT`, `PATCH`, and `DELETE` respectively. 
+
+Notice also that each operation accepts an `ApiVersion` as a spread argument. This is because the Azure REST Guidelines indicate that version should be present on every call as a query parameter. 
 
 ```typescript
 interface ResourceInterface<T> {
@@ -69,9 +71,43 @@ interface ResourceInterface<T> {
   }
 ```
 
+Now, we can refactor the `Widget` and `Gadget` definitions in our `main.cadl` file to simplify the endpoit definition by using the new interface. The `<T>` in the inteface definition represents a *template*, which will be the model that is passed extends the interface. In this case, we will declare that `Widgets` and `Gadgets` both `extend` the `ResourceInterface`. 
+
+```typescript
+@route("/widgets")
+@tag("Widgets")
+interface Widgets extends ResourceInterface<Widget> {
+}
+
+@route("/gadgets")
+@tag("Gadgets")
+interface Gadgets extends ResourceInterface<Gadget> {
+}
+```
 This resource creation scenario illustrates one of the key differences between using a compiled language, i.e. Cadl, and linting an OpenAPI specification. When linting an OpenAPI document using a tool like Spectral, there is no way to determine when a `POST` is used for resource creation and when it's used for another purpose. Yet with Cadl, you define the exact API semantics and let the compiler enforce them. 
 
 ### Linting with Cadl
+Cadl decorators provide an incredible amount of flexibility for developers building common libraries to encapsulate their best practices and rules. Cadl also provides the ability create linters, that act execute after all the decorators have been applied.
+
+The in the [cadl-demo](https://github.com/APIPatterns/cadl-demo) folder, you will see a [linter.js](https://github.com/APIPatterns/cadl-demo/linter.js) file. This is a simple Javascript file that codifies the rule that all operations must have a query paramer called `api-version`.
+
+For example, suppose that, as part of our `Widget` definition, we need to perform an action to analyze the widget. 
+
+```typescript
+@route("/widgets")
+@tag("Widgets")
+interface Widgets extends ResourceInterface<Widget> {
+  @route("analyze") @post analyze(): string | Error;
+}
+```
+
+```typescript
+@route("/widgets")
+@tag("Widgets")
+interface Widgets extends ResourceInterface<Widget> {
+  @route("analyze") @post analyze(...ApiVersion): string | Error;
+}
+```
 
 Common models and interfaces will take you a long way with Cadl. 
 
