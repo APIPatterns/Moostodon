@@ -225,9 +225,9 @@ In the [clients](https://github.com/APIPatterns/Moostodon/tree/main/clients) fol
 The generated client code can be found in the `sdk` subfolders for each language and can be generated using the following command from the respective language folder:
 
 ```powershell
-kiota generate --language typescript --output sdk  -d ..\..\spec\cadl-output\openapi.json --clean-output
+kiota generate --language typescript --output sdk  -d ..\..\spec\cadl-output\openapi.json --clean-output --class-name mastodonClient
 
-kiota generate --language python  --output sdk  -d ..\..\spec\cadl-output\openapi.json --clean-output --class-name mastodonClient --namespace-name mastodonSdk 
+kiota generate --language python  --output sdk  -d ..\..\spec\cadl-output\openapi.json --clean-output --class-name mastodonClient 
 
 kiota generate --language csharp  --output sdk  -d ..\..\spec\cadl-output\openapi.json --clean-output --class-name mastodonClient --namespace-name MastodonClientLib --structured-mime-types application/x-www-form-urlencoded --structured-mime-types application/json --structured-mime-types text/plain
 ```
@@ -237,6 +237,8 @@ The variety of options provided to by the Kiota `generate` command enables confi
 ```powershell
 kiota update --output sdk --clean-output
 ```
+
+The generated code does have dependencies on some small core libraries that provide the native HTTP capabilities, serialization and authentication support.  You can discover what the necessary dependencies are with the `kiota info -l <language>` command. Other than the single Kiota.Abstractions library, all of the other dependencies are replacable by custom implementations.  
 
 ## Isolating the API client calls
 
