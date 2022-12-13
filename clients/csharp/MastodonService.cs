@@ -111,7 +111,7 @@ public class MastodonService {
 
     internal async Task LoginUser(string username, CancellationToken cancellationToken = default)
     {
-        var url = _authProvider.GetUserAuthorizationUrl("write");
+        var url = _authProvider.GetUserAuthorizationUrl("write read");
         //Display the url to the user and ask them to enter the code
         Console.WriteLine("Please open this url and sign in and copy code into console: " + url);
         Console.Write("Enter code: ");

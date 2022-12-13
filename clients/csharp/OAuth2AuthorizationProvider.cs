@@ -44,7 +44,7 @@ public class OAuth2AuthProvider : IAuthenticationProvider
             r.QueryParameters.Scope = scopes;
         });
         request.PathParameters.Add("baseurl", BaseUrl);
-        return request.URI.ToString();
+        return request.URI.AbsoluteUri;
     }
 
     public async Task LoginApp(CancellationToken cancellationToken = default) {
