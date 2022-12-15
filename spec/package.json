@@ -3,7 +3,7 @@
   "dependencies": {
     "@cadl-lang/compiler": "latest",
     "@cadl-lang/openapi3": "^0.38.0",
-    "@cadl-lang/rest": "^0.38.0",
+    "@cadl-lang/rest": "^0.38.1",
     "package": "^1.0.1"
   },
   "private": true
