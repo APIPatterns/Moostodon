@@ -3,6 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Relationship = void 0;
 class Relationship {
     /**
+     * Instantiates a new Relationship and sets the default values.
+     */
+    constructor() {
+        this._additionalData = {};
+    }
+    /**
      * Gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
      * @returns a Record<string, unknown>
      */
@@ -50,12 +56,6 @@ class Relationship {
         this._blocking = value;
     }
     ;
-    /**
-     * Instantiates a new Relationship and sets the default values.
-     */
-    constructor() {
-        this._additionalData = {};
-    }
     ;
     /**
      * Gets the domain_blocking property value. The domain_blocking property

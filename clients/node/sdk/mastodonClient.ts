@@ -1,10 +1,13 @@
 import {ApiRequestBuilder} from './api/apiRequestBuilder';
 import {OauthRequestBuilder} from './oauth/oauthRequestBuilder';
 import {enableBackingStoreForSerializationWriterFactory, getPathParameters, ParseNodeFactoryRegistry, registerDefaultDeserializer, registerDefaultSerializer, RequestAdapter, SerializationWriterFactoryRegistry} from '@microsoft/kiota-abstractions';
+import {FormParseNodeFactory, FormSerializationWriterFactory} from '@microsoft/kiota-serialization-form';
 import {JsonParseNodeFactory, JsonSerializationWriterFactory} from '@microsoft/kiota-serialization-json';
 import {TextParseNodeFactory, TextSerializationWriterFactory} from '@microsoft/kiota-serialization-text';
 
-/** The main entry point of the SDK, exposes the configuration and the fluent API. */
+/**
+ * The main entry point of the SDK, exposes the configuration and the fluent API.
+ */
 export class MastodonClient {
     /** The api property */
     public get api(): ApiRequestBuilder {
@@ -31,10 +34,13 @@ export class MastodonClient {
         this.requestAdapter = requestAdapter;
         registerDefaultSerializer(JsonSerializationWriterFactory);
         registerDefaultSerializer(TextSerializationWriterFactory);
+        registerDefaultSerializer(FormSerializationWriterFactory);
         registerDefaultDeserializer(JsonParseNodeFactory);
         registerDefaultDeserializer(TextParseNodeFactory);
+        registerDefaultDeserializer(FormParseNodeFactory);
         if (requestAdapter.baseUrl === undefined || requestAdapter.baseUrl === "") {
             requestAdapter.baseUrl = "https://mastodon.example";
         }
+        this.pathParameters["baseurl"] = requestAdapter.baseUrl;
     };
 }

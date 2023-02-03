@@ -3,6 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TokenResponse = void 0;
 class TokenResponse {
     /**
+     * Instantiates a new TokenResponse and sets the default values.
+     */
+    constructor() {
+        this._additionalData = {};
+    }
+    /**
      * Gets the access_token property value. The access_token property
      * @returns a string
      */
@@ -34,12 +40,6 @@ class TokenResponse {
         this._additionalData = value;
     }
     ;
-    /**
-     * Instantiates a new TokenResponse and sets the default values.
-     */
-    constructor() {
-        this._additionalData = {};
-    }
     ;
     /**
      * Gets the created_at property value. The created_at property

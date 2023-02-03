@@ -4,6 +4,12 @@ exports.FamiliarFollowers = void 0;
 const createAccountFromDiscriminatorValue_1 = require("./createAccountFromDiscriminatorValue");
 class FamiliarFollowers {
     /**
+     * Instantiates a new FamiliarFollowers and sets the default values.
+     */
+    constructor() {
+        this._additionalData = {};
+    }
+    /**
      * Gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
      * @returns a Record<string, unknown>
      */
@@ -19,12 +25,6 @@ class FamiliarFollowers {
         this._additionalData = value;
     }
     ;
-    /**
-     * Instantiates a new FamiliarFollowers and sets the default values.
-     */
-    constructor() {
-        this._additionalData = {};
-    }
     ;
     /**
      * Gets the followers property value. The followers property

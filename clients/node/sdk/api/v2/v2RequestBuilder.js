@@ -3,12 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.V2RequestBuilder = void 0;
 const searchRequestBuilder_1 = require("./search/searchRequestBuilder");
 const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
-/** Builds and executes requests for operations under /api/v2 */
+/**
+ * Builds and executes requests for operations under /api/v2
+ */
 class V2RequestBuilder {
-    /** The search property */
-    get search() {
-        return new searchRequestBuilder_1.SearchRequestBuilder(this.pathParameters, this.requestAdapter);
-    }
     /**
      * Instantiates a new V2RequestBuilder and sets the default values.
      * @param pathParameters The raw url or the Url template parameters for the request.
@@ -23,6 +21,10 @@ class V2RequestBuilder {
         const urlTplParams = (0, kiota_abstractions_1.getPathParameters)(pathParameters);
         this.pathParameters = urlTplParams;
         this.requestAdapter = requestAdapter;
+    }
+    /** The search property */
+    get search() {
+        return new searchRequestBuilder_1.SearchRequestBuilder(this.pathParameters, this.requestAdapter);
     }
     ;
 }

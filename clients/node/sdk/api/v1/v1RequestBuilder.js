@@ -15,8 +15,25 @@ const statusesItemRequestBuilder_1 = require("./statuses/item/statusesItemReques
 const statusesRequestBuilder_1 = require("./statuses/statusesRequestBuilder");
 const timelinesRequestBuilder_1 = require("./timelines/timelinesRequestBuilder");
 const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
-/** Builds and executes requests for operations under /api/v1 */
+/**
+ * Builds and executes requests for operations under /api/v1
+ */
 class V1RequestBuilder {
+    /**
+     * Instantiates a new V1RequestBuilder and sets the default values.
+     * @param pathParameters The raw url or the Url template parameters for the request.
+     * @param requestAdapter The request adapter to use to execute the requests.
+     */
+    constructor(pathParameters, requestAdapter) {
+        if (!pathParameters)
+            throw new Error("pathParameters cannot be undefined");
+        if (!requestAdapter)
+            throw new Error("requestAdapter cannot be undefined");
+        this.urlTemplate = "{+baseurl}/api/v1";
+        const urlTplParams = (0, kiota_abstractions_1.getPathParameters)(pathParameters);
+        this.pathParameters = urlTplParams;
+        this.requestAdapter = requestAdapter;
+    }
     /** The accounts property */
     get accounts() {
         return new accountsRequestBuilder_1.AccountsRequestBuilder(this.pathParameters, this.requestAdapter);
@@ -74,21 +91,6 @@ class V1RequestBuilder {
         return new accountsItemRequestBuilder_1.AccountsItemRequestBuilder(urlTplParams, this.requestAdapter);
     }
     ;
-    /**
-     * Instantiates a new V1RequestBuilder and sets the default values.
-     * @param pathParameters The raw url or the Url template parameters for the request.
-     * @param requestAdapter The request adapter to use to execute the requests.
-     */
-    constructor(pathParameters, requestAdapter) {
-        if (!pathParameters)
-            throw new Error("pathParameters cannot be undefined");
-        if (!requestAdapter)
-            throw new Error("requestAdapter cannot be undefined");
-        this.urlTemplate = "{+baseurl}/api/v1";
-        const urlTplParams = (0, kiota_abstractions_1.getPathParameters)(pathParameters);
-        this.pathParameters = urlTplParams;
-        this.requestAdapter = requestAdapter;
-    }
     ;
     /**
      * Gets an item from the NotUsedButRequired.api.v1.statuses.item collection

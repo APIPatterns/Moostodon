@@ -4,6 +4,13 @@ exports.UnauthorizedError = void 0;
 const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
 class UnauthorizedError extends kiota_abstractions_1.ApiError {
     /**
+     * Instantiates a new UnauthorizedError and sets the default values.
+     */
+    constructor() {
+        super();
+        this._additionalData = {};
+    }
+    /**
      * Gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
      * @returns a Record<string, unknown>
      */
@@ -19,13 +26,6 @@ class UnauthorizedError extends kiota_abstractions_1.ApiError {
         this._additionalData = value;
     }
     ;
-    /**
-     * Instantiates a new UnauthorizedError and sets the default values.
-     */
-    constructor() {
-        super();
-        this._additionalData = {};
-    }
     ;
     /**
      * Gets the error property value. The error property

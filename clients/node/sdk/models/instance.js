@@ -9,6 +9,12 @@ const createThumbnailFromDiscriminatorValue_1 = require("./createThumbnailFromDi
 const createUsageFromDiscriminatorValue_1 = require("./createUsageFromDiscriminatorValue");
 class Instance {
     /**
+     * Instantiates a new Instance and sets the default values.
+     */
+    constructor() {
+        this._additionalData = {};
+    }
+    /**
      * Gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
      * @returns a Record<string, unknown>
      */
@@ -40,12 +46,6 @@ class Instance {
         this._configuration = value;
     }
     ;
-    /**
-     * Instantiates a new Instance and sets the default values.
-     */
-    constructor() {
-        this._additionalData = {};
-    }
     ;
     /**
      * Gets the contact property value. The contact property

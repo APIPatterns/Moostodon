@@ -4,6 +4,12 @@ exports.Tag = void 0;
 const createHistoryItemFromDiscriminatorValue_1 = require("./createHistoryItemFromDiscriminatorValue");
 class Tag {
     /**
+     * Instantiates a new Tag and sets the default values.
+     */
+    constructor() {
+        this._additionalData = {};
+    }
+    /**
      * Gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
      * @returns a Record<string, unknown>
      */
@@ -19,12 +25,6 @@ class Tag {
         this._additionalData = value;
     }
     ;
-    /**
-     * Instantiates a new Tag and sets the default values.
-     */
-    constructor() {
-        this._additionalData = {};
-    }
     ;
     /**
      * Gets the following property value. The following property

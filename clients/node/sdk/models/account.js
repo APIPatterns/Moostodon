@@ -7,6 +7,12 @@ const createFieldFromDiscriminatorValue_1 = require("./createFieldFromDiscrimina
 const createSourceFromDiscriminatorValue_1 = require("./createSourceFromDiscriminatorValue");
 class Account {
     /**
+     * Instantiates a new Account and sets the default values.
+     */
+    constructor() {
+        this._additionalData = {};
+    }
+    /**
      * Gets the acct property value. The acct property
      * @returns a string
      */
@@ -86,12 +92,6 @@ class Account {
         this._bot = value;
     }
     ;
-    /**
-     * Instantiates a new Account and sets the default values.
-     */
-    constructor() {
-        this._additionalData = {};
-    }
     ;
     /**
      * Gets the created_at property value. The created_at property

@@ -1,6 +1,8 @@
 import {getPathParameters, RequestAdapter} from '@microsoft/kiota-abstractions';
 
-/** Builds and executes requests for operations under /api/v1/timelines/tag */
+/**
+ * Builds and executes requests for operations under /api/v1/timelines/tag
+ */
 export class TagRequestBuilder {
     /** Path parameters for the request */
     private pathParameters: Record<string, unknown>;

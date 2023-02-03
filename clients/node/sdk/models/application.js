@@ -3,6 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Application = void 0;
 class Application {
     /**
+     * Instantiates a new Application and sets the default values.
+     */
+    constructor() {
+        this._additionalData = {};
+    }
+    /**
      * Gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
      * @returns a Record<string, unknown>
      */
@@ -50,12 +56,6 @@ class Application {
         this._client_secret = value;
     }
     ;
-    /**
-     * Instantiates a new Application and sets the default values.
-     */
-    constructor() {
-        this._additionalData = {};
-    }
     ;
     /**
      * The deserialization information for the current model

@@ -3,7 +3,9 @@ import {RevokeRequestBuilder} from './revoke/revokeRequestBuilder';
 import {TokenRequestBuilder} from './token/tokenRequestBuilder';
 import {getPathParameters, RequestAdapter} from '@microsoft/kiota-abstractions';
 
-/** Builds and executes requests for operations under /oauth */
+/**
+ * Builds and executes requests for operations under /oauth
+ */
 export class OauthRequestBuilder {
     /** The authorize property */
     public get authorize(): AuthorizeRequestBuilder {

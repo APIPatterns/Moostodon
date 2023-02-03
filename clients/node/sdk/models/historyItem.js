@@ -3,6 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.HistoryItem = void 0;
 class HistoryItem {
     /**
+     * Instantiates a new HistoryItem and sets the default values.
+     */
+    constructor() {
+        this._additionalData = {};
+    }
+    /**
      * Gets the accounts property value. The accounts property
      * @returns a string
      */
@@ -34,12 +40,6 @@ class HistoryItem {
         this._additionalData = value;
     }
     ;
-    /**
-     * Instantiates a new HistoryItem and sets the default values.
-     */
-    constructor() {
-        this._additionalData = {};
-    }
     ;
     /**
      * Gets the day property value. The day property

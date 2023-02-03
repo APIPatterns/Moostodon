@@ -3,6 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConfigurationTranslation = void 0;
 class ConfigurationTranslation {
     /**
+     * Instantiates a new ConfigurationTranslation and sets the default values.
+     */
+    constructor() {
+        this._additionalData = {};
+    }
+    /**
      * Gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
      * @returns a Record<string, unknown>
      */
@@ -18,12 +24,6 @@ class ConfigurationTranslation {
         this._additionalData = value;
     }
     ;
-    /**
-     * Instantiates a new ConfigurationTranslation and sets the default values.
-     */
-    constructor() {
-        this._additionalData = {};
-    }
     ;
     /**
      * Gets the enabled property value. The enabled property

@@ -9,6 +9,12 @@ const createConfigurationTranslationFromDiscriminatorValue_1 = require("./create
 const createConfigurationUrlsFromDiscriminatorValue_1 = require("./createConfigurationUrlsFromDiscriminatorValue");
 class Configuration {
     /**
+     * Instantiates a new Configuration and sets the default values.
+     */
+    constructor() {
+        this._additionalData = {};
+    }
+    /**
      * Gets the accounts property value. The accounts property
      * @returns a ConfigurationAccounts
      */
@@ -40,12 +46,6 @@ class Configuration {
         this._additionalData = value;
     }
     ;
-    /**
-     * Instantiates a new Configuration and sets the default values.
-     */
-    constructor() {
-        this._additionalData = {};
-    }
     ;
     /**
      * The deserialization information for the current model

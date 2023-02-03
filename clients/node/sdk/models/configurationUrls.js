@@ -3,6 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConfigurationUrls = void 0;
 class ConfigurationUrls {
     /**
+     * Instantiates a new ConfigurationUrls and sets the default values.
+     */
+    constructor() {
+        this._additionalData = {};
+    }
+    /**
      * Gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
      * @returns a Record<string, unknown>
      */
@@ -18,12 +24,6 @@ class ConfigurationUrls {
         this._additionalData = value;
     }
     ;
-    /**
-     * Instantiates a new ConfigurationUrls and sets the default values.
-     */
-    constructor() {
-        this._additionalData = {};
-    }
     ;
     /**
      * The deserialization information for the current model

@@ -9,8 +9,25 @@ const searchRequestBuilder_1 = require("./search/searchRequestBuilder");
 const update_credentialsRequestBuilder_1 = require("./update_credentials/update_credentialsRequestBuilder");
 const verify_credentialsRequestBuilder_1 = require("./verify_credentials/verify_credentialsRequestBuilder");
 const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
-/** Builds and executes requests for operations under /api/v1/accounts */
+/**
+ * Builds and executes requests for operations under /api/v1/accounts
+ */
 class AccountsRequestBuilder {
+    /**
+     * Instantiates a new AccountsRequestBuilder and sets the default values.
+     * @param pathParameters The raw url or the Url template parameters for the request.
+     * @param requestAdapter The request adapter to use to execute the requests.
+     */
+    constructor(pathParameters, requestAdapter) {
+        if (!pathParameters)
+            throw new Error("pathParameters cannot be undefined");
+        if (!requestAdapter)
+            throw new Error("requestAdapter cannot be undefined");
+        this.urlTemplate = "{+baseurl}/api/v1/accounts";
+        const urlTplParams = (0, kiota_abstractions_1.getPathParameters)(pathParameters);
+        this.pathParameters = urlTplParams;
+        this.requestAdapter = requestAdapter;
+    }
     /** The familiar_followers property */
     get familiar_followers() {
         return new familiar_followersRequestBuilder_1.Familiar_followersRequestBuilder(this.pathParameters, this.requestAdapter);
@@ -35,44 +52,40 @@ class AccountsRequestBuilder {
     get verify_credentials() {
         return new verify_credentialsRequestBuilder_1.Verify_credentialsRequestBuilder(this.pathParameters, this.requestAdapter);
     }
+    ;
     /**
-     * Instantiates a new AccountsRequestBuilder and sets the default values.
-     * @param pathParameters The raw url or the Url template parameters for the request.
-     * @param requestAdapter The request adapter to use to execute the requests.
+     * @param body Binary request body
+     * @param requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
+     * @param responseHandler Response handler to use in place of the default response handling provided by the core service
+     * @returns a Promise of Account
      */
-    constructor(pathParameters, requestAdapter) {
-        if (!pathParameters)
-            throw new Error("pathParameters cannot be undefined");
-        if (!requestAdapter)
-            throw new Error("requestAdapter cannot be undefined");
-        this.urlTemplate = "{+baseurl}/api/v1/accounts";
-        const urlTplParams = (0, kiota_abstractions_1.getPathParameters)(pathParameters);
-        this.pathParameters = urlTplParams;
-        this.requestAdapter = requestAdapter;
+    post(body, requestConfiguration, responseHandler) {
+        var _a, _b;
+        if (!body)
+            throw new Error("body cannot be undefined");
+        const requestInfo = this.toPostRequestInformation(body, requestConfiguration);
+        return (_b = (_a = this.requestAdapter) === null || _a === void 0 ? void 0 : _a.sendAsync(requestInfo, createAccountFromDiscriminatorValue_1.createAccountFromDiscriminatorValue, responseHandler, undefined)) !== null && _b !== void 0 ? _b : Promise.reject(new Error('request adapter is null'));
     }
     ;
-    createPostRequestInformation(body, requestConfiguration) {
+    /**
+     * @param body Binary request body
+     * @param requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
+     * @returns a RequestInformation
+     */
+    toPostRequestInformation(body, requestConfiguration) {
         if (!body)
             throw new Error("body cannot be undefined");
         const requestInfo = new kiota_abstractions_1.RequestInformation();
         requestInfo.urlTemplate = this.urlTemplate;
         requestInfo.pathParameters = this.pathParameters;
         requestInfo.httpMethod = kiota_abstractions_1.HttpMethod.POST;
-        requestInfo.headers["Accept"] = "application/json";
+        requestInfo.headers["Accept"] = ["application/json"];
         if (requestConfiguration) {
             requestInfo.addRequestHeaders(requestConfiguration.headers);
             requestInfo.addRequestOptions(requestConfiguration.options);
         }
         requestInfo.setStreamContent(body);
         return requestInfo;
-    }
-    ;
-    post(body, requestConfiguration, responseHandler) {
-        var _a, _b;
-        if (!body)
-            throw new Error("body cannot be undefined");
-        const requestInfo = this.createPostRequestInformation(body, requestConfiguration);
-        return (_b = (_a = this.requestAdapter) === null || _a === void 0 ? void 0 : _a.sendAsync(requestInfo, createAccountFromDiscriminatorValue_1.createAccountFromDiscriminatorValue, responseHandler, undefined)) !== null && _b !== void 0 ? _b : Promise.reject(new Error('request adapter is null'));
     }
     ;
 }

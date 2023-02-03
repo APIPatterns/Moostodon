@@ -3,6 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FederationUsage = void 0;
 class FederationUsage {
     /**
+     * Instantiates a new FederationUsage and sets the default values.
+     */
+    constructor() {
+        this._additionalData = {};
+    }
+    /**
      * Gets the active property value. The active property
      * @returns a int64
      */
@@ -34,12 +40,6 @@ class FederationUsage {
         this._additionalData = value;
     }
     ;
-    /**
-     * Instantiates a new FederationUsage and sets the default values.
-     */
-    constructor() {
-        this._additionalData = {};
-    }
     ;
     /**
      * The deserialization information for the current model

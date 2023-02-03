@@ -3,6 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Registrations = void 0;
 class Registrations {
     /**
+     * Instantiates a new Registrations and sets the default values.
+     */
+    constructor() {
+        this._additionalData = {};
+    }
+    /**
      * Gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
      * @returns a Record<string, unknown>
      */
@@ -34,12 +40,6 @@ class Registrations {
         this._approval_required = value;
     }
     ;
-    /**
-     * Instantiates a new Registrations and sets the default values.
-     */
-    constructor() {
-        this._additionalData = {};
-    }
     ;
     /**
      * Gets the enabled property value. The enabled property

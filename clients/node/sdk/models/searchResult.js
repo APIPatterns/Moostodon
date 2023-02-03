@@ -6,6 +6,12 @@ const createStatusFromDiscriminatorValue_1 = require("./createStatusFromDiscrimi
 const createTagFromDiscriminatorValue_1 = require("./createTagFromDiscriminatorValue");
 class SearchResult {
     /**
+     * Instantiates a new SearchResult and sets the default values.
+     */
+    constructor() {
+        this._additionalData = {};
+    }
+    /**
      * Gets the accounts property value. The accounts property
      * @returns a Account
      */
@@ -37,12 +43,6 @@ class SearchResult {
         this._additionalData = value;
     }
     ;
-    /**
-     * Instantiates a new SearchResult and sets the default values.
-     */
-    constructor() {
-        this._additionalData = {};
-    }
     ;
     /**
      * The deserialization information for the current model

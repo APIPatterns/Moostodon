@@ -4,6 +4,12 @@ exports.MediaAttachment = void 0;
 const createMediaAttachmentMetaFromDiscriminatorValue_1 = require("./createMediaAttachmentMetaFromDiscriminatorValue");
 class MediaAttachment {
     /**
+     * Instantiates a new MediaAttachment and sets the default values.
+     */
+    constructor() {
+        this._additionalData = {};
+    }
+    /**
      * Gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
      * @returns a Record<string, unknown>
      */
@@ -19,12 +25,6 @@ class MediaAttachment {
         this._additionalData = value;
     }
     ;
-    /**
-     * Instantiates a new MediaAttachment and sets the default values.
-     */
-    constructor() {
-        this._additionalData = {};
-    }
     ;
     /**
      * Gets the description property value. The description property
