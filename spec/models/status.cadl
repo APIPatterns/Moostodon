@@ -39,7 +39,25 @@ model Status {
     pinned: boolean;
 
   }
-  
+
+  @@doc(Status.id, "Idenfier for a status message")
+  @@doc(Status.uri, "URI for a status message")
+  @@doc(Status.created_at, "Date and time when the status was created")
+  @@doc(Status.account, "Account that posted the status")
+  @@doc(Status.content, "HTML content of the status")
+  @@doc(Status.visibility, "Visibility of the status")
+  @@doc(Status.sensitive, "Whether the status is marked as sensitive")
+  @@doc(Status.spoiler_text, "Text to be shown as a warning before the actual content")
+  @@doc(Status.media_attachments, "Media attachments for the status")
+  @@doc(Status.mentions, "Mentions for the status")
+  @@doc(Status.tags, "Tags for the status")
+
+
+  @doc("""
+  {url2}: URL of the card
+  {title}: Title of the card
+  {description}: Description of the card
+  """)
   model Card {
     url: string;
     title: string;
@@ -47,6 +65,21 @@ model Status {
     image: string;
   }
 
+  
+
+  
+  @doc("""
+  {id}: Id of the poll
+  {expires_at}: Date and time when the poll expires
+  {expired}: Whether the poll has expired
+  {multiple}: Whether the poll allows multiple choices
+  {votes_count}: Number of votes for the poll
+  {voters_count}: Number of voters for the poll
+  {options}: Options for the poll
+  {emojis}: Emojis for the poll
+  {voted}: Whether the authorized user has voted for the poll
+  {own_votes}: Indexes of options voted for by the authorized user
+  """)
   model Poll {
     id: string;
     expires_at: string;
@@ -60,11 +93,22 @@ model Status {
     own_votes: int32[];
   }
 
+  @doc("""
+    {title}: Title of the poll option
+    {votes_count}: Number of votes for the poll option
+  """)
+  
   model PollOption {
     title: string;
     votes_count: int32;
   }
 
+  @doc("""
+  {shortcode}: Shortcode for the emoji
+  {static_url}: Static URL for the emoji
+  {url}: URL for the emoji
+  {visible_in_picker}: Whether the emoji is visible in the picker
+  """)
   model Emoji {
     shortcode: string;
     static_url: string;
@@ -79,6 +123,7 @@ model Status {
     acct: string;
   }
 
+  
   model MediaAttachment {
     id: string;
     type: string;
@@ -107,3 +152,5 @@ model Status {
     size: string;
     aspect: float32;
   }
+
+  
