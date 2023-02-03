@@ -2,8 +2,8 @@
   "name": "KiotaCadl",
   "dependencies": {
     "@cadl-lang/compiler": "latest",
-    "@cadl-lang/openapi3": "^0.38.0",
-    "@cadl-lang/rest": "^0.38.0",
+    "@cadl-lang/openapi3": "^0.39.0",
+    "@cadl-lang/rest": "^0.39.0",
     "package": "^1.0.1"
   },
   "private": true
