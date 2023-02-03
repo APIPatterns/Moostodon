@@ -9,10 +9,12 @@
   "usesBackingStore": false,
   "includeAdditionalData": true,
   "serializers": [
+    "Microsoft.Kiota.Serialization.Form.FormSerializationWriterFactory",
     "Microsoft.Kiota.Serialization.Json.JsonSerializationWriterFactory",
     "Microsoft.Kiota.Serialization.Text.TextSerializationWriterFactory"
   ],
   "deserializers": [
+    "Microsoft.Kiota.Serialization.Form.FormParseNodeFactory",
     "Microsoft.Kiota.Serialization.Json.JsonParseNodeFactory",
     "Microsoft.Kiota.Serialization.Text.TextParseNodeFactory"
   ],

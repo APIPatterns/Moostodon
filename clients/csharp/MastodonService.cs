@@ -1,8 +1,6 @@
-using System.Linq;
 using System.Text;
 using MastodonClientLib;
 using MastodonClientLib.Models;
-using Microsoft.Kiota.Abstractions.Serialization;
 using Microsoft.Kiota.Http.HttpClientLibrary;
 using MoostodonConsole;
 
@@ -21,14 +19,6 @@ public class MastodonService {
 
         // Use OOB native HttpClient as the underlying HTTP library
         var requestAdapter = new HttpClientRequestAdapter(_authProvider);
-
-        // Add support for form-urlencoded content type
-        SerializationWriterFactoryRegistry
-                      .DefaultInstance
-                      .ContentTypeAssociatedFactories.AddOrUpdate(
-                          "application/x-www-form-urlencoded",
-                          (_) => new FormSerializationWriterFactory(),
-                          (_, _) => new FormSerializationWriterFactory());
 
         client = new MastodonClient(requestAdapter);
         _authProvider.Client = client;  // Enable auth provider to use client

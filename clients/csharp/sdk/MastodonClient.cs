@@ -2,6 +2,7 @@ using MastodonClientLib.Api;
 using MastodonClientLib.Oauth;
 using Microsoft.Kiota.Abstractions;
 using Microsoft.Kiota.Abstractions.Extensions;
+using Microsoft.Kiota.Serialization.Form;
 using Microsoft.Kiota.Serialization.Json;
 using Microsoft.Kiota.Serialization.Text;
 using System;
@@ -37,8 +38,10 @@ namespace MastodonClientLib {
             PathParameters = new Dictionary<string, object>();
             UrlTemplate = "{+baseurl}";
             RequestAdapter = requestAdapter;
+            ApiClientBuilder.RegisterDefaultSerializer<FormSerializationWriterFactory>();
             ApiClientBuilder.RegisterDefaultSerializer<JsonSerializationWriterFactory>();
             ApiClientBuilder.RegisterDefaultSerializer<TextSerializationWriterFactory>();
+            ApiClientBuilder.RegisterDefaultDeserializer<FormParseNodeFactory>();
             ApiClientBuilder.RegisterDefaultDeserializer<JsonParseNodeFactory>();
             ApiClientBuilder.RegisterDefaultDeserializer<TextParseNodeFactory>();
             if (string.IsNullOrEmpty(RequestAdapter.BaseUrl)) {
