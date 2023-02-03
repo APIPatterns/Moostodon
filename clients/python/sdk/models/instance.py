@@ -1,8 +1,14 @@
 from __future__ import annotations
 from kiota_abstractions.serialization import AdditionalDataHolder, Parsable, ParseNode, SerializationWriter
+from kiota_abstractions.utils import lazy_import
 from typing import Any, Callable, Dict, List, Optional, Union
 
-from . import configuration, contact, registrations, rule, thumbnail, usage
+configuration = lazy_import('mastodon_client_lib.models.configuration')
+contact = lazy_import('mastodon_client_lib.models.contact')
+registrations = lazy_import('mastodon_client_lib.models.registrations')
+rule = lazy_import('mastodon_client_lib.models.rule')
+thumbnail = lazy_import('mastodon_client_lib.models.thumbnail')
+usage = lazy_import('mastodon_client_lib.models.usage')
 
 class Instance(AdditionalDataHolder, Parsable):
     @property

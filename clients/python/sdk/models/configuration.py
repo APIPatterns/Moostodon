@@ -1,8 +1,14 @@
 from __future__ import annotations
 from kiota_abstractions.serialization import AdditionalDataHolder, Parsable, ParseNode, SerializationWriter
+from kiota_abstractions.utils import lazy_import
 from typing import Any, Callable, Dict, List, Optional, Union
 
-from . import configuration_accounts, configuration_media_attachments, configuration_polls, configuration_statuses, configuration_translation, configuration_urls
+configuration_accounts = lazy_import('mastodon_client_lib.models.configuration_accounts')
+configuration_media_attachments = lazy_import('mastodon_client_lib.models.configuration_media_attachments')
+configuration_polls = lazy_import('mastodon_client_lib.models.configuration_polls')
+configuration_statuses = lazy_import('mastodon_client_lib.models.configuration_statuses')
+configuration_translation = lazy_import('mastodon_client_lib.models.configuration_translation')
+configuration_urls = lazy_import('mastodon_client_lib.models.configuration_urls')
 
 class Configuration(AdditionalDataHolder, Parsable):
     @property

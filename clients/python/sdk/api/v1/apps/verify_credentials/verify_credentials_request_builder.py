@@ -7,9 +7,11 @@ from kiota_abstractions.request_information import RequestInformation
 from kiota_abstractions.request_option import RequestOption
 from kiota_abstractions.response_handler import ResponseHandler
 from kiota_abstractions.serialization import Parsable, ParsableFactory
+from kiota_abstractions.utils import lazy_import
 from typing import Any, Callable, Dict, List, Optional, Union
 
-from .....models import application, unauthorized_error
+application = lazy_import('mastodon_client_lib.models.application')
+unauthorized_error = lazy_import('mastodon_client_lib.models.unauthorized_error')
 
 class Verify_credentialsRequestBuilder():
     """
@@ -33,7 +35,18 @@ class Verify_credentialsRequestBuilder():
         self.path_parameters = url_tpl_params
         self.request_adapter = request_adapter
     
-    def create_get_request_information(self,request_configuration: Optional[Verify_credentialsRequestBuilderGetRequestConfiguration] = None) -> RequestInformation:
+    async def get(self,request_configuration: Optional[Verify_credentialsRequestBuilderGetRequestConfiguration] = None) -> Optional[application.Application]:
+        request_info = self.to_get_request_information(
+            request_configuration
+        )
+        error_mapping: Dict[str, ParsableFactory] = {
+            "401": unauthorized_error.UnauthorizedError,
+        }
+        if not self.request_adapter:
+            raise Exception("Http core is null") 
+        return await self.request_adapter.send_async(request_info, application.Application, error_mapping)
+    
+    def to_get_request_information(self,request_configuration: Optional[Verify_credentialsRequestBuilderGetRequestConfiguration] = None) -> RequestInformation:
         request_info = RequestInformation()
         request_info.url_template = self.url_template
         request_info.path_parameters = self.path_parameters
@@ -43,17 +56,6 @@ class Verify_credentialsRequestBuilder():
             request_info.add_request_headers(request_configuration.headers)
             request_info.add_request_options(request_configuration.options)
         return request_info
-    
-    async def get(self,request_configuration: Optional[Verify_credentialsRequestBuilderGetRequestConfiguration] = None, response_handler: Optional[ResponseHandler] = None) -> Optional[application.Application]:
-        request_info = self.create_get_request_information(
-            request_configuration
-        )
-        error_mapping: Dict[str, ParsableFactory] = {
-            "401": unauthorized_error.UnauthorizedError,
-        }
-        if not self.request_adapter:
-            raise Exception("Http core is null") 
-        return await self.request_adapter.send_async(request_info, application.Application, response_handler, error_mapping)
     
     @dataclass
     class Verify_credentialsRequestBuilderGetRequestConfiguration():

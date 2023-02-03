@@ -1,8 +1,15 @@
 from __future__ import annotations
 from kiota_abstractions.serialization import AdditionalDataHolder, Parsable, ParseNode, SerializationWriter
+from kiota_abstractions.utils import lazy_import
 from typing import Any, Callable, Dict, List, Optional, Union
 
-from . import account, card, emoji, media_attachment, mention, poll, tag
+account = lazy_import('mastodon_client_lib.models.account')
+card = lazy_import('mastodon_client_lib.models.card')
+emoji = lazy_import('mastodon_client_lib.models.emoji')
+media_attachment = lazy_import('mastodon_client_lib.models.media_attachment')
+mention = lazy_import('mastodon_client_lib.models.mention')
+poll = lazy_import('mastodon_client_lib.models.poll')
+tag = lazy_import('mastodon_client_lib.models.tag')
 
 class Status(AdditionalDataHolder, Parsable):
     @property

@@ -1,28 +1,32 @@
 from __future__ import annotations
 from kiota_abstractions.get_path_parameters import get_path_parameters
 from kiota_abstractions.request_adapter import RequestAdapter
+from kiota_abstractions.utils import lazy_import
 from typing import Any, Callable, Dict, List, Optional, Union
 
-from .authorize import authorize_request_builder
-from .revoke import revoke_request_builder
-from .token import token_request_builder
+authorize_request_builder = lazy_import('mastodon_client_lib.oauth.authorize.authorize_request_builder')
+revoke_request_builder = lazy_import('mastodon_client_lib.oauth.revoke.revoke_request_builder')
+token_request_builder = lazy_import('mastodon_client_lib.oauth.token.token_request_builder')
 
 class OauthRequestBuilder():
     """
     Builds and executes requests for operations under /oauth
     """
+    @property
     def authorize(self) -> authorize_request_builder.AuthorizeRequestBuilder:
         """
         The authorize property
         """
         return authorize_request_builder.AuthorizeRequestBuilder(self.request_adapter, self.path_parameters)
     
+    @property
     def revoke(self) -> revoke_request_builder.RevokeRequestBuilder:
         """
         The revoke property
         """
         return revoke_request_builder.RevokeRequestBuilder(self.request_adapter, self.path_parameters)
     
+    @property
     def token(self) -> token_request_builder.TokenRequestBuilder:
         """
         The token property

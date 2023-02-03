@@ -7,6 +7,7 @@ from kiota_abstractions.request_information import RequestInformation
 from kiota_abstractions.request_option import RequestOption
 from kiota_abstractions.response_handler import ResponseHandler
 from kiota_abstractions.serialization import Parsable, ParsableFactory
+from kiota_abstractions.utils import lazy_import
 from typing import Any, Callable, Dict, List, Optional, Union
 
 class RevokeRequestBuilder():
@@ -31,7 +32,17 @@ class RevokeRequestBuilder():
         self.path_parameters = url_tpl_params
         self.request_adapter = request_adapter
     
-    def create_post_request_information(self,body: bytes, request_configuration: Optional[RevokeRequestBuilderPostRequestConfiguration] = None) -> RequestInformation:
+    async def post(self,body: bytes, request_configuration: Optional[RevokeRequestBuilderPostRequestConfiguration] = None) -> bytes:
+        if body is None:
+            raise Exception("body cannot be undefined")
+        request_info = self.to_post_request_information(
+            body, request_configuration
+        )
+        if not self.request_adapter:
+            raise Exception("Http core is null") 
+        return await self.request_adapter.send_primitive_async(request_info, "bytes", None)
+    
+    def to_post_request_information(self,body: bytes, request_configuration: Optional[RevokeRequestBuilderPostRequestConfiguration] = None) -> RequestInformation:
         if body is None:
             raise Exception("body cannot be undefined")
         request_info = RequestInformation()
@@ -43,16 +54,6 @@ class RevokeRequestBuilder():
             request_info.add_request_options(request_configuration.options)
         request_info.set_stream_content(body)
         return request_info
-    
-    async def post(self,body: bytes, request_configuration: Optional[RevokeRequestBuilderPostRequestConfiguration] = None, response_handler: Optional[ResponseHandler] = None) -> bytes:
-        if body is None:
-            raise Exception("body cannot be undefined")
-        request_info = self.create_post_request_information(
-            body, request_configuration
-        )
-        if not self.request_adapter:
-            raise Exception("Http core is null") 
-        return await self.request_adapter.send_primitive_async(request_info, "bytes", response_handler, None)
     
     @dataclass
     class RevokeRequestBuilderPostRequestConfiguration():

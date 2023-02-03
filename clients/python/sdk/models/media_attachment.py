@@ -1,8 +1,9 @@
 from __future__ import annotations
 from kiota_abstractions.serialization import AdditionalDataHolder, Parsable, ParseNode, SerializationWriter
+from kiota_abstractions.utils import lazy_import
 from typing import Any, Callable, Dict, List, Optional, Union
 
-from . import media_attachment_meta
+media_attachment_meta = lazy_import('mastodon_client_lib.models.media_attachment_meta')
 
 class MediaAttachment(AdditionalDataHolder, Parsable):
     @property

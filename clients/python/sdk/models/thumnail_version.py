@@ -1,5 +1,6 @@
 from __future__ import annotations
 from kiota_abstractions.serialization import AdditionalDataHolder, Parsable, ParseNode, SerializationWriter
+from kiota_abstractions.utils import lazy_import
 from typing import Any, Callable, Dict, List, Optional, Union
 
 class ThumnailVersion(AdditionalDataHolder, Parsable):
@@ -68,7 +69,7 @@ class ThumnailVersion(AdditionalDataHolder, Parsable):
         """
         Sets the @1x property value. The Onex property
         Args:
-            value: Value to set for the Onex property.
+            value: Value to set for the onex property.
         """
         self._onex = value
     
@@ -97,7 +98,7 @@ class ThumnailVersion(AdditionalDataHolder, Parsable):
         """
         Sets the @2x property value. The Twox property
         Args:
-            value: Value to set for the Twox property.
+            value: Value to set for the twox property.
         """
         self._twox = value
     

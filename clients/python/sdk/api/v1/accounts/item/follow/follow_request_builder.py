@@ -7,9 +7,12 @@ from kiota_abstractions.request_information import RequestInformation
 from kiota_abstractions.request_option import RequestOption
 from kiota_abstractions.response_handler import ResponseHandler
 from kiota_abstractions.serialization import Parsable, ParsableFactory
+from kiota_abstractions.utils import lazy_import
 from typing import Any, Callable, Dict, List, Optional, Union
 
-from ......models import follow_body, relationship, unprocessable_content_error
+follow_body = lazy_import('mastodon_client_lib.models.follow_body')
+relationship = lazy_import('mastodon_client_lib.models.relationship')
+unprocessable_content_error = lazy_import('mastodon_client_lib.models.unprocessable_content_error')
 
 class FollowRequestBuilder():
     """
@@ -33,7 +36,20 @@ class FollowRequestBuilder():
         self.path_parameters = url_tpl_params
         self.request_adapter = request_adapter
     
-    def create_post_request_information(self,body: Optional[follow_body.FollowBody] = None, request_configuration: Optional[FollowRequestBuilderPostRequestConfiguration] = None) -> RequestInformation:
+    async def post(self,body: Optional[follow_body.FollowBody] = None, request_configuration: Optional[FollowRequestBuilderPostRequestConfiguration] = None) -> Optional[relationship.Relationship]:
+        if body is None:
+            raise Exception("body cannot be undefined")
+        request_info = self.to_post_request_information(
+            body, request_configuration
+        )
+        error_mapping: Dict[str, ParsableFactory] = {
+            "422": unprocessable_content_error.UnprocessableContentError,
+        }
+        if not self.request_adapter:
+            raise Exception("Http core is null") 
+        return await self.request_adapter.send_async(request_info, relationship.Relationship, error_mapping)
+    
+    def to_post_request_information(self,body: Optional[follow_body.FollowBody] = None, request_configuration: Optional[FollowRequestBuilderPostRequestConfiguration] = None) -> RequestInformation:
         if body is None:
             raise Exception("body cannot be undefined")
         request_info = RequestInformation()
@@ -46,19 +62,6 @@ class FollowRequestBuilder():
             request_info.add_request_options(request_configuration.options)
         request_info.set_content_from_parsable(self.request_adapter, "application/json", body)
         return request_info
-    
-    async def post(self,body: Optional[follow_body.FollowBody] = None, request_configuration: Optional[FollowRequestBuilderPostRequestConfiguration] = None, response_handler: Optional[ResponseHandler] = None) -> Optional[relationship.Relationship]:
-        if body is None:
-            raise Exception("body cannot be undefined")
-        request_info = self.create_post_request_information(
-            body, request_configuration
-        )
-        error_mapping: Dict[str, ParsableFactory] = {
-            "422": unprocessable_content_error.UnprocessableContentError,
-        }
-        if not self.request_adapter:
-            raise Exception("Http core is null") 
-        return await self.request_adapter.send_async(request_info, relationship.Relationship, response_handler, error_mapping)
     
     @dataclass
     class FollowRequestBuilderPostRequestConfiguration():

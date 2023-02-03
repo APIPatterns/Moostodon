@@ -7,50 +7,57 @@ from kiota_abstractions.request_information import RequestInformation
 from kiota_abstractions.request_option import RequestOption
 from kiota_abstractions.response_handler import ResponseHandler
 from kiota_abstractions.serialization import Parsable, ParsableFactory
+from kiota_abstractions.utils import lazy_import
 from typing import Any, Callable, Dict, List, Optional, Union
 
-from ....models import account
-from .familiar_followers import familiar_followers_request_builder
-from .lookup import lookup_request_builder
-from .relationships import relationships_request_builder
-from .search import search_request_builder
-from .update_credentials import update_credentials_request_builder
-from .verify_credentials import verify_credentials_request_builder
+familiar_followers_request_builder = lazy_import('mastodon_client_lib.api.v1.accounts.familiar_followers.familiar_followers_request_builder')
+lookup_request_builder = lazy_import('mastodon_client_lib.api.v1.accounts.lookup.lookup_request_builder')
+relationships_request_builder = lazy_import('mastodon_client_lib.api.v1.accounts.relationships.relationships_request_builder')
+search_request_builder = lazy_import('mastodon_client_lib.api.v1.accounts.search.search_request_builder')
+update_credentials_request_builder = lazy_import('mastodon_client_lib.api.v1.accounts.update_credentials.update_credentials_request_builder')
+verify_credentials_request_builder = lazy_import('mastodon_client_lib.api.v1.accounts.verify_credentials.verify_credentials_request_builder')
+account = lazy_import('mastodon_client_lib.models.account')
 
 class AccountsRequestBuilder():
     """
     Builds and executes requests for operations under /api/v1/accounts
     """
+    @property
     def familiar_followers(self) -> familiar_followers_request_builder.Familiar_followersRequestBuilder:
         """
         The familiar_followers property
         """
         return familiar_followers_request_builder.Familiar_followersRequestBuilder(self.request_adapter, self.path_parameters)
     
+    @property
     def lookup(self) -> lookup_request_builder.LookupRequestBuilder:
         """
         The lookup property
         """
         return lookup_request_builder.LookupRequestBuilder(self.request_adapter, self.path_parameters)
     
+    @property
     def relationships(self) -> relationships_request_builder.RelationshipsRequestBuilder:
         """
         The relationships property
         """
         return relationships_request_builder.RelationshipsRequestBuilder(self.request_adapter, self.path_parameters)
     
+    @property
     def search(self) -> search_request_builder.SearchRequestBuilder:
         """
         The search property
         """
         return search_request_builder.SearchRequestBuilder(self.request_adapter, self.path_parameters)
     
+    @property
     def update_credentials(self) -> update_credentials_request_builder.Update_credentialsRequestBuilder:
         """
         The update_credentials property
         """
         return update_credentials_request_builder.Update_credentialsRequestBuilder(self.request_adapter, self.path_parameters)
     
+    @property
     def verify_credentials(self) -> verify_credentials_request_builder.Verify_credentialsRequestBuilder:
         """
         The verify_credentials property
@@ -75,7 +82,17 @@ class AccountsRequestBuilder():
         self.path_parameters = url_tpl_params
         self.request_adapter = request_adapter
     
-    def create_post_request_information(self,body: bytes, request_configuration: Optional[AccountsRequestBuilderPostRequestConfiguration] = None) -> RequestInformation:
+    async def post(self,body: bytes, request_configuration: Optional[AccountsRequestBuilderPostRequestConfiguration] = None) -> Optional[account.Account]:
+        if body is None:
+            raise Exception("body cannot be undefined")
+        request_info = self.to_post_request_information(
+            body, request_configuration
+        )
+        if not self.request_adapter:
+            raise Exception("Http core is null") 
+        return await self.request_adapter.send_async(request_info, account.Account, None)
+    
+    def to_post_request_information(self,body: bytes, request_configuration: Optional[AccountsRequestBuilderPostRequestConfiguration] = None) -> RequestInformation:
         if body is None:
             raise Exception("body cannot be undefined")
         request_info = RequestInformation()
@@ -88,16 +105,6 @@ class AccountsRequestBuilder():
             request_info.add_request_options(request_configuration.options)
         request_info.set_stream_content(body)
         return request_info
-    
-    async def post(self,body: bytes, request_configuration: Optional[AccountsRequestBuilderPostRequestConfiguration] = None, response_handler: Optional[ResponseHandler] = None) -> Optional[account.Account]:
-        if body is None:
-            raise Exception("body cannot be undefined")
-        request_info = self.create_post_request_information(
-            body, request_configuration
-        )
-        if not self.request_adapter:
-            raise Exception("Http core is null") 
-        return await self.request_adapter.send_async(request_info, account.Account, response_handler, None)
     
     @dataclass
     class AccountsRequestBuilderPostRequestConfiguration():

@@ -1,8 +1,10 @@
 from __future__ import annotations
 from kiota_abstractions.serialization import AdditionalDataHolder, Parsable, ParseNode, SerializationWriter
+from kiota_abstractions.utils import lazy_import
 from typing import Any, Callable, Dict, List, Optional, Union
 
-from . import emoji, poll_option
+emoji = lazy_import('mastodon_client_lib.models.emoji')
+poll_option = lazy_import('mastodon_client_lib.models.poll_option')
 
 class Poll(AdditionalDataHolder, Parsable):
     @property

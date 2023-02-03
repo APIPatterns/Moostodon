@@ -7,9 +7,10 @@ from kiota_abstractions.request_information import RequestInformation
 from kiota_abstractions.request_option import RequestOption
 from kiota_abstractions.response_handler import ResponseHandler
 from kiota_abstractions.serialization import Parsable, ParsableFactory
+from kiota_abstractions.utils import lazy_import
 from typing import Any, Callable, Dict, List, Optional, Union
 
-from ....models import unprocessable_content_error
+unprocessable_content_error = lazy_import('mastodon_client_lib.models.unprocessable_content_error')
 
 class Domain_blocksRequestBuilder():
     """
@@ -33,7 +34,39 @@ class Domain_blocksRequestBuilder():
         self.path_parameters = url_tpl_params
         self.request_adapter = request_adapter
     
-    def create_delete_request_information(self,request_configuration: Optional[Domain_blocksRequestBuilderDeleteRequestConfiguration] = None) -> RequestInformation:
+    async def delete(self,request_configuration: Optional[Domain_blocksRequestBuilderDeleteRequestConfiguration] = None) -> Optional[str]:
+        request_info = self.to_delete_request_information(
+            request_configuration
+        )
+        error_mapping: Dict[str, ParsableFactory] = {
+            "422": unprocessable_content_error.UnprocessableContentError,
+        }
+        if not self.request_adapter:
+            raise Exception("Http core is null") 
+        return await self.request_adapter.send_primitive_async(request_info, "str", error_mapping)
+    
+    async def get(self,request_configuration: Optional[Domain_blocksRequestBuilderGetRequestConfiguration] = None) -> Optional[List[str]]:
+        request_info = self.to_get_request_information(
+            request_configuration
+        )
+        if not self.request_adapter:
+            raise Exception("Http core is null") 
+        return await self.request_adapter.send_collection_of_primitive_async(request_info, "str", None)
+    
+    async def post(self,body: bytes, request_configuration: Optional[Domain_blocksRequestBuilderPostRequestConfiguration] = None) -> Optional[str]:
+        if body is None:
+            raise Exception("body cannot be undefined")
+        request_info = self.to_post_request_information(
+            body, request_configuration
+        )
+        error_mapping: Dict[str, ParsableFactory] = {
+            "422": unprocessable_content_error.UnprocessableContentError,
+        }
+        if not self.request_adapter:
+            raise Exception("Http core is null") 
+        return await self.request_adapter.send_primitive_async(request_info, "str", error_mapping)
+    
+    def to_delete_request_information(self,request_configuration: Optional[Domain_blocksRequestBuilderDeleteRequestConfiguration] = None) -> RequestInformation:
         request_info = RequestInformation()
         request_info.url_template = self.url_template
         request_info.path_parameters = self.path_parameters
@@ -45,7 +78,7 @@ class Domain_blocksRequestBuilder():
             request_info.add_request_options(request_configuration.options)
         return request_info
     
-    def create_get_request_information(self,request_configuration: Optional[Domain_blocksRequestBuilderGetRequestConfiguration] = None) -> RequestInformation:
+    def to_get_request_information(self,request_configuration: Optional[Domain_blocksRequestBuilderGetRequestConfiguration] = None) -> RequestInformation:
         request_info = RequestInformation()
         request_info.url_template = self.url_template
         request_info.path_parameters = self.path_parameters
@@ -57,7 +90,7 @@ class Domain_blocksRequestBuilder():
             request_info.add_request_options(request_configuration.options)
         return request_info
     
-    def create_post_request_information(self,body: bytes, request_configuration: Optional[Domain_blocksRequestBuilderPostRequestConfiguration] = None) -> RequestInformation:
+    def to_post_request_information(self,body: bytes, request_configuration: Optional[Domain_blocksRequestBuilderPostRequestConfiguration] = None) -> RequestInformation:
         if body is None:
             raise Exception("body cannot be undefined")
         request_info = RequestInformation()
@@ -70,38 +103,6 @@ class Domain_blocksRequestBuilder():
             request_info.add_request_options(request_configuration.options)
         request_info.set_stream_content(body)
         return request_info
-    
-    async def delete(self,request_configuration: Optional[Domain_blocksRequestBuilderDeleteRequestConfiguration] = None, response_handler: Optional[ResponseHandler] = None) -> Optional[str]:
-        request_info = self.create_delete_request_information(
-            request_configuration
-        )
-        error_mapping: Dict[str, ParsableFactory] = {
-            "422": unprocessable_content_error.UnprocessableContentError,
-        }
-        if not self.request_adapter:
-            raise Exception("Http core is null") 
-        return await self.request_adapter.send_primitive_async(request_info, "str", response_handler, error_mapping)
-    
-    async def get(self,request_configuration: Optional[Domain_blocksRequestBuilderGetRequestConfiguration] = None, response_handler: Optional[ResponseHandler] = None) -> Optional[List[str]]:
-        request_info = self.create_get_request_information(
-            request_configuration
-        )
-        if not self.request_adapter:
-            raise Exception("Http core is null") 
-        return await self.request_adapter.send_collection_of_primitive_async(request_info, "str", response_handler, None)
-    
-    async def post(self,body: bytes, request_configuration: Optional[Domain_blocksRequestBuilderPostRequestConfiguration] = None, response_handler: Optional[ResponseHandler] = None) -> Optional[str]:
-        if body is None:
-            raise Exception("body cannot be undefined")
-        request_info = self.create_post_request_information(
-            body, request_configuration
-        )
-        error_mapping: Dict[str, ParsableFactory] = {
-            "422": unprocessable_content_error.UnprocessableContentError,
-        }
-        if not self.request_adapter:
-            raise Exception("Http core is null") 
-        return await self.request_adapter.send_primitive_async(request_info, "str", response_handler, error_mapping)
     
     @dataclass
     class Domain_blocksRequestBuilderDeleteQueryParameters():

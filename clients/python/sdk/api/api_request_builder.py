@@ -1,21 +1,24 @@
 from __future__ import annotations
 from kiota_abstractions.get_path_parameters import get_path_parameters
 from kiota_abstractions.request_adapter import RequestAdapter
+from kiota_abstractions.utils import lazy_import
 from typing import Any, Callable, Dict, List, Optional, Union
 
-from .v1 import v1_request_builder
-from .v2 import v2_request_builder
+v1_request_builder = lazy_import('mastodon_client_lib.api.v1.v1_request_builder')
+v2_request_builder = lazy_import('mastodon_client_lib.api.v2.v2_request_builder')
 
 class ApiRequestBuilder():
     """
     Builds and executes requests for operations under /api
     """
+    @property
     def v1(self) -> v1_request_builder.V1RequestBuilder:
         """
         The v1 property
         """
         return v1_request_builder.V1RequestBuilder(self.request_adapter, self.path_parameters)
     
+    @property
     def v2(self) -> v2_request_builder.V2RequestBuilder:
         """
         The v2 property

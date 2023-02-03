@@ -1,37 +1,42 @@
 from __future__ import annotations
 from kiota_abstractions.get_path_parameters import get_path_parameters
 from kiota_abstractions.request_adapter import RequestAdapter
+from kiota_abstractions.utils import lazy_import
 from typing import Any, Callable, Dict, List, Optional, Union
 
-from .home import home_request_builder
-from .list import list_request_builder
-from .list.item import list_item_request_builder
-from .public import public_request_builder
-from .tag import tag_request_builder
-from .tag.item import with_tag_item_request_builder
+home_request_builder = lazy_import('mastodon_client_lib.api.v1.timelines.home.home_request_builder')
+list_request_builder = lazy_import('mastodon_client_lib.api.v1.timelines.list.list_request_builder')
+list_item_request_builder = lazy_import('mastodon_client_lib.api.v1.timelines.list.item.list_item_request_builder')
+public_request_builder = lazy_import('mastodon_client_lib.api.v1.timelines.public.public_request_builder')
+tag_request_builder = lazy_import('mastodon_client_lib.api.v1.timelines.tag.tag_request_builder')
+with_tag_item_request_builder = lazy_import('mastodon_client_lib.api.v1.timelines.tag.item.with_tag_item_request_builder')
 
 class TimelinesRequestBuilder():
     """
     Builds and executes requests for operations under /api/v1/timelines
     """
+    @property
     def home(self) -> home_request_builder.HomeRequestBuilder:
         """
         The home property
         """
         return home_request_builder.HomeRequestBuilder(self.request_adapter, self.path_parameters)
     
+    @property
     def list(self) -> list_request_builder.ListRequestBuilder:
         """
         The list property
         """
         return list_request_builder.ListRequestBuilder(self.request_adapter, self.path_parameters)
     
+    @property
     def public(self) -> public_request_builder.PublicRequestBuilder:
         """
         The public property
         """
         return public_request_builder.PublicRequestBuilder(self.request_adapter, self.path_parameters)
     
+    @property
     def tag(self) -> tag_request_builder.TagRequestBuilder:
         """
         The tag property

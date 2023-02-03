@@ -3,25 +3,28 @@ from kiota_abstractions.api_client_builder import enable_backing_store_for_seria
 from kiota_abstractions.get_path_parameters import get_path_parameters
 from kiota_abstractions.request_adapter import RequestAdapter
 from kiota_abstractions.serialization import ParseNodeFactoryRegistry, SerializationWriterFactoryRegistry
+from kiota_abstractions.utils import lazy_import
 from kiota_serialization_json.json_parse_node_factory import JsonParseNodeFactory
 from kiota_serialization_json.json_serialization_writer_factory import JsonSerializationWriterFactory
 from kiota_serialization_text.text_parse_node_factory import TextParseNodeFactory
 from kiota_serialization_text.text_serialization_writer_factory import TextSerializationWriterFactory
 from typing import Any, Callable, Dict, List, Optional, Union
 
-from .api import api_request_builder
-from .oauth import oauth_request_builder
+api_request_builder = lazy_import('mastodon_client_lib.api.api_request_builder')
+oauth_request_builder = lazy_import('mastodon_client_lib.oauth.oauth_request_builder')
 
 class MastodonClient():
     """
     The main entry point of the SDK, exposes the configuration and the fluent API.
     """
+    @property
     def api(self) -> api_request_builder.ApiRequestBuilder:
         """
         The api property
         """
         return api_request_builder.ApiRequestBuilder(self.request_adapter, self.path_parameters)
     
+    @property
     def oauth(self) -> oauth_request_builder.OauthRequestBuilder:
         """
         The oauth property
