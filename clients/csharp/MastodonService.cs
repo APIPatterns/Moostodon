@@ -1,4 +1,3 @@
-using System.Text;
 using MastodonClientLib;
 using MastodonClientLib.Models;
 using Microsoft.Kiota.Http.HttpClientLibrary;
