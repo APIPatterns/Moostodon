@@ -8,21 +8,69 @@ namespace MastodonClientLib.Models {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The description property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Description { get; set; }
+#nullable restore
+#else
         public string Description { get; set; }
+#endif
         /// <summary>The id property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Id { get; set; }
+#nullable restore
+#else
         public string Id { get; set; }
+#endif
         /// <summary>The meta property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public MediaAttachmentMeta? Meta { get; set; }
+#nullable restore
+#else
         public MediaAttachmentMeta Meta { get; set; }
+#endif
         /// <summary>The preview_url property</summary>
-        public string Preview_url { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? PreviewUrl { get; set; }
+#nullable restore
+#else
+        public string PreviewUrl { get; set; }
+#endif
         /// <summary>The remote_url property</summary>
-        public string Remote_url { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? RemoteUrl { get; set; }
+#nullable restore
+#else
+        public string RemoteUrl { get; set; }
+#endif
         /// <summary>The text_url property</summary>
-        public string Text_url { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? TextUrl { get; set; }
+#nullable restore
+#else
+        public string TextUrl { get; set; }
+#endif
         /// <summary>The type property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Type { get; set; }
+#nullable restore
+#else
         public string Type { get; set; }
+#endif
         /// <summary>The url property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Url { get; set; }
+#nullable restore
+#else
         public string Url { get; set; }
+#endif
         /// <summary>
         /// Instantiates a new MediaAttachment and sets the default values.
         /// </summary>
@@ -45,9 +93,9 @@ namespace MastodonClientLib.Models {
                 {"description", n => { Description = n.GetStringValue(); } },
                 {"id", n => { Id = n.GetStringValue(); } },
                 {"meta", n => { Meta = n.GetObjectValue<MediaAttachmentMeta>(MediaAttachmentMeta.CreateFromDiscriminatorValue); } },
-                {"preview_url", n => { Preview_url = n.GetStringValue(); } },
-                {"remote_url", n => { Remote_url = n.GetStringValue(); } },
-                {"text_url", n => { Text_url = n.GetStringValue(); } },
+                {"preview_url", n => { PreviewUrl = n.GetStringValue(); } },
+                {"remote_url", n => { RemoteUrl = n.GetStringValue(); } },
+                {"text_url", n => { TextUrl = n.GetStringValue(); } },
                 {"type", n => { Type = n.GetStringValue(); } },
                 {"url", n => { Url = n.GetStringValue(); } },
             };
@@ -61,9 +109,9 @@ namespace MastodonClientLib.Models {
             writer.WriteStringValue("description", Description);
             writer.WriteStringValue("id", Id);
             writer.WriteObjectValue<MediaAttachmentMeta>("meta", Meta);
-            writer.WriteStringValue("preview_url", Preview_url);
-            writer.WriteStringValue("remote_url", Remote_url);
-            writer.WriteStringValue("text_url", Text_url);
+            writer.WriteStringValue("preview_url", PreviewUrl);
+            writer.WriteStringValue("remote_url", RemoteUrl);
+            writer.WriteStringValue("text_url", TextUrl);
             writer.WriteStringValue("type", Type);
             writer.WriteStringValue("url", Url);
             writer.WriteAdditionalData(AdditionalData);

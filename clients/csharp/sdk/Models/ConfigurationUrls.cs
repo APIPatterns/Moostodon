@@ -8,7 +8,13 @@ namespace MastodonClientLib.Models {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The streaming_api property</summary>
-        public string Streaming_api { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? StreamingApi { get; set; }
+#nullable restore
+#else
+        public string StreamingApi { get; set; }
+#endif
         /// <summary>
         /// Instantiates a new ConfigurationUrls and sets the default values.
         /// </summary>
@@ -28,7 +34,7 @@ namespace MastodonClientLib.Models {
         /// </summary>
         public IDictionary<string, Action<IParseNode>> GetFieldDeserializers() {
             return new Dictionary<string, Action<IParseNode>> {
-                {"streaming_api", n => { Streaming_api = n.GetStringValue(); } },
+                {"streaming_api", n => { StreamingApi = n.GetStringValue(); } },
             };
         }
         /// <summary>
@@ -37,7 +43,7 @@ namespace MastodonClientLib.Models {
         /// <param name="writer">Serialization writer to use to serialize this model</param>
         public void Serialize(ISerializationWriter writer) {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
-            writer.WriteStringValue("streaming_api", Streaming_api);
+            writer.WriteStringValue("streaming_api", StreamingApi);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

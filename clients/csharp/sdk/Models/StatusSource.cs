@@ -8,11 +8,29 @@ namespace MastodonClientLib.Models {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The id property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Id { get; set; }
+#nullable restore
+#else
         public string Id { get; set; }
+#endif
         /// <summary>The spoiler_text property</summary>
-        public string Spoiler_text { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? SpoilerText { get; set; }
+#nullable restore
+#else
+        public string SpoilerText { get; set; }
+#endif
         /// <summary>The text property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Text { get; set; }
+#nullable restore
+#else
         public string Text { get; set; }
+#endif
         /// <summary>
         /// Instantiates a new StatusSource and sets the default values.
         /// </summary>
@@ -33,7 +51,7 @@ namespace MastodonClientLib.Models {
         public IDictionary<string, Action<IParseNode>> GetFieldDeserializers() {
             return new Dictionary<string, Action<IParseNode>> {
                 {"id", n => { Id = n.GetStringValue(); } },
-                {"spoiler_text", n => { Spoiler_text = n.GetStringValue(); } },
+                {"spoiler_text", n => { SpoilerText = n.GetStringValue(); } },
                 {"text", n => { Text = n.GetStringValue(); } },
             };
         }
@@ -44,7 +62,7 @@ namespace MastodonClientLib.Models {
         public void Serialize(ISerializationWriter writer) {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("id", Id);
-            writer.WriteStringValue("spoiler_text", Spoiler_text);
+            writer.WriteStringValue("spoiler_text", SpoilerText);
             writer.WriteStringValue("text", Text);
             writer.WriteAdditionalData(AdditionalData);
         }

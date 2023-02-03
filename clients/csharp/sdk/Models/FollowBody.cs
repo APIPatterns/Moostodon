@@ -8,7 +8,13 @@ namespace MastodonClientLib.Models {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The lanuages property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public List<string>? Lanuages { get; set; }
+#nullable restore
+#else
         public List<string> Lanuages { get; set; }
+#endif
         /// <summary>The notify property</summary>
         public bool? Notify { get; set; }
         /// <summary>The reblogs property</summary>

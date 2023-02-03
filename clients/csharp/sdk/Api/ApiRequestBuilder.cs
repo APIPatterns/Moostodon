@@ -7,7 +7,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 namespace MastodonClientLib.Api {
-    /// <summary>Builds and executes requests for operations under \api</summary>
+    /// <summary>
+    /// Builds and executes requests for operations under \api
+    /// </summary>
     public class ApiRequestBuilder {
         /// <summary>Path parameters for the request</summary>
         private Dictionary<string, object> PathParameters { get; set; }
@@ -46,7 +48,7 @@ namespace MastodonClientLib.Api {
             _ = requestAdapter ?? throw new ArgumentNullException(nameof(requestAdapter));
             UrlTemplate = "{+baseurl}/api";
             var urlTplParams = new Dictionary<string, object>();
-            urlTplParams.Add("request-raw-url", rawUrl);
+            if (!string.IsNullOrWhiteSpace(rawUrl)) urlTplParams.Add("request-raw-url", rawUrl);
             PathParameters = urlTplParams;
             RequestAdapter = requestAdapter;
         }

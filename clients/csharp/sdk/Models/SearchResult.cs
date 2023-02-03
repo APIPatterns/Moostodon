@@ -6,13 +6,31 @@ using System.Linq;
 namespace MastodonClientLib.Models {
     public class SearchResult : IAdditionalDataHolder, IParsable {
         /// <summary>The accounts property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public List<Account>? Accounts { get; set; }
+#nullable restore
+#else
         public List<Account> Accounts { get; set; }
+#endif
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The hashtags property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public List<Tag>? Hashtags { get; set; }
+#nullable restore
+#else
         public List<Tag> Hashtags { get; set; }
+#endif
         /// <summary>The statuses property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public List<Status>? Statuses { get; set; }
+#nullable restore
+#else
         public List<Status> Statuses { get; set; }
+#endif
         /// <summary>
         /// Instantiates a new SearchResult and sets the default values.
         /// </summary>

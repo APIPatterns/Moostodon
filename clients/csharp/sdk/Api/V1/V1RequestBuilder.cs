@@ -16,7 +16,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 namespace MastodonClientLib.Api.V1 {
-    /// <summary>Builds and executes requests for operations under \api\v1</summary>
+    /// <summary>
+    /// Builds and executes requests for operations under \api\v1
+    /// </summary>
     public class V1RequestBuilder {
         /// <summary>The accounts property</summary>
         public AccountsRequestBuilder Accounts { get =>
@@ -91,7 +93,7 @@ namespace MastodonClientLib.Api.V1 {
             _ = requestAdapter ?? throw new ArgumentNullException(nameof(requestAdapter));
             UrlTemplate = "{+baseurl}/api/v1";
             var urlTplParams = new Dictionary<string, object>();
-            urlTplParams.Add("request-raw-url", rawUrl);
+            if (!string.IsNullOrWhiteSpace(rawUrl)) urlTplParams.Add("request-raw-url", rawUrl);
             PathParameters = urlTplParams;
             RequestAdapter = requestAdapter;
         }

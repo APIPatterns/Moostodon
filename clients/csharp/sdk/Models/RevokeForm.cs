@@ -8,11 +8,29 @@ namespace MastodonClientLib.Models {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The client_id property</summary>
-        public string Client_id { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? ClientId { get; set; }
+#nullable restore
+#else
+        public string ClientId { get; set; }
+#endif
         /// <summary>The client_secret property</summary>
-        public string Client_secret { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? ClientSecret { get; set; }
+#nullable restore
+#else
+        public string ClientSecret { get; set; }
+#endif
         /// <summary>The token property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Token { get; set; }
+#nullable restore
+#else
         public string Token { get; set; }
+#endif
         /// <summary>
         /// Instantiates a new RevokeForm and sets the default values.
         /// </summary>
@@ -32,8 +50,8 @@ namespace MastodonClientLib.Models {
         /// </summary>
         public IDictionary<string, Action<IParseNode>> GetFieldDeserializers() {
             return new Dictionary<string, Action<IParseNode>> {
-                {"client_id", n => { Client_id = n.GetStringValue(); } },
-                {"client_secret", n => { Client_secret = n.GetStringValue(); } },
+                {"client_id", n => { ClientId = n.GetStringValue(); } },
+                {"client_secret", n => { ClientSecret = n.GetStringValue(); } },
                 {"token", n => { Token = n.GetStringValue(); } },
             };
         }
@@ -43,8 +61,8 @@ namespace MastodonClientLib.Models {
         /// <param name="writer">Serialization writer to use to serialize this model</param>
         public void Serialize(ISerializationWriter writer) {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
-            writer.WriteStringValue("client_id", Client_id);
-            writer.WriteStringValue("client_secret", Client_secret);
+            writer.WriteStringValue("client_id", ClientId);
+            writer.WriteStringValue("client_secret", ClientSecret);
             writer.WriteStringValue("token", Token);
             writer.WriteAdditionalData(AdditionalData);
         }

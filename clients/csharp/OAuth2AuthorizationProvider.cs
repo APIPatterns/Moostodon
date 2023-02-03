@@ -25,11 +25,11 @@ public class OAuth2AuthProvider : IAuthenticationProvider
     private  async Task<TokenResponse> GetToken(string grantType, string code = null, CancellationToken cancellationToken = default)
     {
         var token = await Client.Oauth.Token.PostAsync(new TokenForm() {
-            Client_id = ClientId,
-            Client_secret = ClientSecret,
+            ClientId = ClientId,
+            ClientSecret = ClientSecret,
             Code = code,
-            Redirect_uri = RedirectUri,
-            Grant_type = grantType
+            RedirectUri = RedirectUri,
+            GrantType = grantType
         }, cancellationToken: cancellationToken);
         return token;
     }
@@ -37,7 +37,7 @@ public class OAuth2AuthProvider : IAuthenticationProvider
     // Get an authorization code
     public string GetUserAuthorizationUrl(string scopes)
     {
-        var request = Client.Oauth.Authorize.CreateGetRequestInformation(r => {
+        var request = Client.Oauth.Authorize.ToGetRequestInformation(r => {
             r.QueryParameters.Client_id = ClientId;
             r.QueryParameters.Redirect_uri = RedirectUri;
             r.QueryParameters.Response_type = "code";
@@ -49,12 +49,12 @@ public class OAuth2AuthProvider : IAuthenticationProvider
 
     public async Task LoginApp(CancellationToken cancellationToken = default) {
         var token = await GetToken("client_credentials", cancellationToken: cancellationToken);
-        AccessToken = token.Access_token;
+        AccessToken = token.AccessToken;
     }
 
     public async Task LoginUser(string authCode, CancellationToken cancellationToken = default) {
         var token = await GetToken("authorization_code", authCode, cancellationToken: cancellationToken);
-        AccessToken = token.Access_token;
+        AccessToken = token.AccessToken;
     }
 
     public void Logout() {
@@ -63,7 +63,7 @@ public class OAuth2AuthProvider : IAuthenticationProvider
     
     public Task AuthenticateRequestAsync(RequestInformation request, Dictionary<string, object> additionalAuthenticationContext = null, CancellationToken cancellationToken = default)
     {
-        request.AddHeaders(new Dictionary<string,string>{{ "Authorization", $"Bearer {AccessToken}"}});
+        request.AddHeaders(new RequestHeaders {{ "Authorization", $"Bearer {AccessToken}"}});
         return Task.CompletedTask;
     }
 } 

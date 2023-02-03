@@ -8,13 +8,13 @@ namespace MastodonClientLib.Models {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The max_characters_per_option property</summary>
-        public int? Max_characters_per_option { get; set; }
+        public int? MaxCharactersPerOption { get; set; }
         /// <summary>The max_expiration property</summary>
-        public int? Max_expiration { get; set; }
+        public int? MaxExpiration { get; set; }
         /// <summary>The max_options property</summary>
-        public int? Max_options { get; set; }
+        public int? MaxOptions { get; set; }
         /// <summary>The min_expiration property</summary>
-        public int? Min_expiration { get; set; }
+        public int? MinExpiration { get; set; }
         /// <summary>
         /// Instantiates a new ConfigurationPolls and sets the default values.
         /// </summary>
@@ -34,10 +34,10 @@ namespace MastodonClientLib.Models {
         /// </summary>
         public IDictionary<string, Action<IParseNode>> GetFieldDeserializers() {
             return new Dictionary<string, Action<IParseNode>> {
-                {"max_characters_per_option", n => { Max_characters_per_option = n.GetIntValue(); } },
-                {"max_expiration", n => { Max_expiration = n.GetIntValue(); } },
-                {"max_options", n => { Max_options = n.GetIntValue(); } },
-                {"min_expiration", n => { Min_expiration = n.GetIntValue(); } },
+                {"max_characters_per_option", n => { MaxCharactersPerOption = n.GetIntValue(); } },
+                {"max_expiration", n => { MaxExpiration = n.GetIntValue(); } },
+                {"max_options", n => { MaxOptions = n.GetIntValue(); } },
+                {"min_expiration", n => { MinExpiration = n.GetIntValue(); } },
             };
         }
         /// <summary>
@@ -46,10 +46,10 @@ namespace MastodonClientLib.Models {
         /// <param name="writer">Serialization writer to use to serialize this model</param>
         public void Serialize(ISerializationWriter writer) {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
-            writer.WriteIntValue("max_characters_per_option", Max_characters_per_option);
-            writer.WriteIntValue("max_expiration", Max_expiration);
-            writer.WriteIntValue("max_options", Max_options);
-            writer.WriteIntValue("min_expiration", Min_expiration);
+            writer.WriteIntValue("max_characters_per_option", MaxCharactersPerOption);
+            writer.WriteIntValue("max_expiration", MaxExpiration);
+            writer.WriteIntValue("max_options", MaxOptions);
+            writer.WriteIntValue("min_expiration", MinExpiration);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

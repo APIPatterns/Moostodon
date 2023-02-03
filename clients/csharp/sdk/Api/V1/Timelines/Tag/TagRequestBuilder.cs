@@ -6,7 +6,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 namespace MastodonClientLib.Api.V1.Timelines.Tag {
-    /// <summary>Builds and executes requests for operations under \api\v1\timelines\tag</summary>
+    /// <summary>
+    /// Builds and executes requests for operations under \api\v1\timelines\tag
+    /// </summary>
     public class TagRequestBuilder {
         /// <summary>Path parameters for the request</summary>
         private Dictionary<string, object> PathParameters { get; set; }
@@ -17,7 +19,7 @@ namespace MastodonClientLib.Api.V1.Timelines.Tag {
         /// <summary>Gets an item from the MastodonClientLib.api.v1.timelines.tag.item collection</summary>
         public WithTagItemRequestBuilder this[string position] { get {
             var urlTplParams = new Dictionary<string, object>(PathParameters);
-            urlTplParams.Add("tag", position);
+            if (!string.IsNullOrWhiteSpace(position)) urlTplParams.Add("tag", position);
             return new WithTagItemRequestBuilder(urlTplParams, RequestAdapter);
         } }
         /// <summary>
@@ -43,7 +45,7 @@ namespace MastodonClientLib.Api.V1.Timelines.Tag {
             _ = requestAdapter ?? throw new ArgumentNullException(nameof(requestAdapter));
             UrlTemplate = "{+baseurl}/api/v1/timelines/tag";
             var urlTplParams = new Dictionary<string, object>();
-            urlTplParams.Add("request-raw-url", rawUrl);
+            if (!string.IsNullOrWhiteSpace(rawUrl)) urlTplParams.Add("request-raw-url", rawUrl);
             PathParameters = urlTplParams;
             RequestAdapter = requestAdapter;
         }

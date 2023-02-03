@@ -43,7 +43,7 @@ namespace MoostodonConsole
                     var statuses = await mtdnService.ReadPublicTimeline(cancellationToken);
                     foreach (var s in statuses.Take(10))
                     {
-                        Console.WriteLine(s.Account.Display_name + " : " + s.Content.Substring(0, Math.Min(50, s.Content.Length)));
+                        Console.WriteLine(s.Account.DisplayName + " : " + s.Content.Substring(0, Math.Min(50, s.Content.Length)));
                     }
                     break;
 
@@ -51,7 +51,7 @@ namespace MoostodonConsole
                     Console.WriteLine("Enter a search term:");
                     var searchTerm = Console.ReadLine();
                     var accounts = await mtdnService.SearchAccounts(searchTerm, cancellationToken);
-                    foreach (var account in accounts.OrderBy(a => a.Followers_count))
+                    foreach (var account in accounts.OrderBy(a => a.FollowersCount))
                     {
                         Console.WriteLine($"{account.Id} {account.Username} ({account.Note})");
                     }
@@ -85,7 +85,7 @@ namespace MoostodonConsole
                     var userstatuses = await mtdnService.ReadUserTimeline(cancellationToken);
                     foreach (var s in userstatuses.Take(10))
                     {
-                        Console.WriteLine(s.Account.Display_name + " : " + s.Content.Substring(0, Math.Min(20, s.Content.Length)));
+                        Console.WriteLine(s.Account.DisplayName + " : " + s.Content.Substring(0, Math.Min(20, s.Content.Length)));
                     }
                     break;
 

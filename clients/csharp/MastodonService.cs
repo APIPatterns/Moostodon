@@ -25,9 +25,10 @@ public class MastodonService {
         // Add support for form-urlencoded content type
         SerializationWriterFactoryRegistry
                       .DefaultInstance
-                      .ContentTypeAssociatedFactories.Add(
+                      .ContentTypeAssociatedFactories.AddOrUpdate(
                           "application/x-www-form-urlencoded",
-                          new FormSerializationWriterFactory());
+                          (_) => new FormSerializationWriterFactory(),
+                          (_, _) => new FormSerializationWriterFactory());
 
         client = new MastodonClient(requestAdapter);
         _authProvider.Client = client;  // Enable auth provider to use client
@@ -48,8 +49,8 @@ public class MastodonService {
     public async Task<Application> CreateApp(string appName, string redirectUri, string scopes, string website, CancellationToken cancellationToken = default)
     {
         var app = await client.Api.V1.Apps.PostAsync(new CreateAppForm() {
-            Client_name = appName,
-            Redirect_uris = redirectUri,
+            ClientName = appName,
+            RedirectUris = redirectUri,
             Scopes = scopes,
             Website = website
         }, cancellationToken: cancellationToken);

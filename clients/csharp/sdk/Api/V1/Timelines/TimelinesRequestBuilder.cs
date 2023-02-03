@@ -9,7 +9,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 namespace MastodonClientLib.Api.V1.Timelines {
-    /// <summary>Builds and executes requests for operations under \api\v1\timelines</summary>
+    /// <summary>
+    /// Builds and executes requests for operations under \api\v1\timelines
+    /// </summary>
     public class TimelinesRequestBuilder {
         /// <summary>The home property</summary>
         public HomeRequestBuilder Home { get =>
@@ -56,7 +58,7 @@ namespace MastodonClientLib.Api.V1.Timelines {
             _ = requestAdapter ?? throw new ArgumentNullException(nameof(requestAdapter));
             UrlTemplate = "{+baseurl}/api/v1/timelines";
             var urlTplParams = new Dictionary<string, object>();
-            urlTplParams.Add("request-raw-url", rawUrl);
+            if (!string.IsNullOrWhiteSpace(rawUrl)) urlTplParams.Add("request-raw-url", rawUrl);
             PathParameters = urlTplParams;
             RequestAdapter = requestAdapter;
         }

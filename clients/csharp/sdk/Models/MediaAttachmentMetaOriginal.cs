@@ -12,7 +12,13 @@ namespace MastodonClientLib.Models {
         /// <summary>The height property</summary>
         public int? Height { get; set; }
         /// <summary>The size property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Size { get; set; }
+#nullable restore
+#else
         public string Size { get; set; }
+#endif
         /// <summary>The width property</summary>
         public int? Width { get; set; }
         /// <summary>
