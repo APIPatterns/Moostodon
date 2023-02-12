@@ -4,12 +4,6 @@ exports.Context = void 0;
 const createStatusFromDiscriminatorValue_1 = require("./createStatusFromDiscriminatorValue");
 class Context {
     /**
-     * Instantiates a new Context and sets the default values.
-     */
-    constructor() {
-        this._additionalData = {};
-    }
-    /**
      * Gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
      * @returns a Record<string, unknown>
      */
@@ -41,6 +35,12 @@ class Context {
         this._ancestors = value;
     }
     ;
+    /**
+     * Instantiates a new Context and sets the default values.
+     */
+    constructor() {
+        this._additionalData = {};
+    }
     ;
     /**
      * Gets the descendants property value. The descendants property

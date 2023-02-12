@@ -4,12 +4,6 @@ exports.Contact = void 0;
 const createAccountFromDiscriminatorValue_1 = require("./createAccountFromDiscriminatorValue");
 class Contact {
     /**
-     * Instantiates a new Contact and sets the default values.
-     */
-    constructor() {
-        this._additionalData = {};
-    }
-    /**
      * Gets the account property value. The account property
      * @returns a Account
      */
@@ -41,6 +35,12 @@ class Contact {
         this._additionalData = value;
     }
     ;
+    /**
+     * Instantiates a new Contact and sets the default values.
+     */
+    constructor() {
+        this._additionalData = {};
+    }
     ;
     /**
      * Gets the email property value. The email property

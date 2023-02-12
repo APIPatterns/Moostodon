@@ -1,4 +1,4 @@
-import {Account} from '../../../../models/';
+import {Account, AccountUpdate} from '../../../../models/';
 import {createAccountFromDiscriminatorValue} from '../../../../models/createAccountFromDiscriminatorValue';
 import {AccountsItemRequestBuilderGetRequestConfiguration} from './accountsItemRequestBuilderGetRequestConfiguration';
 import {AccountsItemRequestBuilderPatchRequestConfiguration} from './accountsItemRequestBuilderPatchRequestConfiguration';
@@ -119,7 +119,7 @@ export class AccountsItemRequestBuilder {
      * @param responseHandler Response handler to use in place of the default response handling provided by the core service
      * @returns a Promise of Account
      */
-    public patch(body: Account | undefined, requestConfiguration?: AccountsItemRequestBuilderPatchRequestConfiguration | undefined, responseHandler?: ResponseHandler | undefined) : Promise<Account | undefined> {
+    public patch(body: AccountUpdate | undefined, requestConfiguration?: AccountsItemRequestBuilderPatchRequestConfiguration | undefined, responseHandler?: ResponseHandler | undefined) : Promise<Account | undefined> {
         if(!body) throw new Error("body cannot be undefined");
         const requestInfo = this.toPatchRequestInformation(
             body, requestConfiguration
@@ -147,7 +147,7 @@ export class AccountsItemRequestBuilder {
      * @param requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @returns a RequestInformation
      */
-    public toPatchRequestInformation(body: Account | undefined, requestConfiguration?: AccountsItemRequestBuilderPatchRequestConfiguration | undefined) : RequestInformation {
+    public toPatchRequestInformation(body: AccountUpdate | undefined, requestConfiguration?: AccountsItemRequestBuilderPatchRequestConfiguration | undefined) : RequestInformation {
         if(!body) throw new Error("body cannot be undefined");
         const requestInfo = new RequestInformation();
         requestInfo.urlTemplate = this.urlTemplate;

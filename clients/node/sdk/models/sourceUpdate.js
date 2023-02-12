@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Source = void 0;
+exports.SourceUpdate = void 0;
 const createFieldFromDiscriminatorValue_1 = require("./createFieldFromDiscriminatorValue");
-class Source {
+class SourceUpdate {
     /**
      * Gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
      * @returns a Record<string, unknown>
@@ -20,7 +20,7 @@ class Source {
     }
     ;
     /**
-     * Instantiates a new Source and sets the default values.
+     * Instantiates a new SourceUpdate and sets the default values.
      */
     constructor() {
         this._additionalData = {};
@@ -154,4 +154,4 @@ class Source {
     }
     ;
 }
-exports.Source = Source;
+exports.SourceUpdate = SourceUpdate;

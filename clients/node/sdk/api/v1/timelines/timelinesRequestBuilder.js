@@ -12,21 +12,6 @@ const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
  * Builds and executes requests for operations under /api/v1/timelines
  */
 class TimelinesRequestBuilder {
-    /**
-     * Instantiates a new TimelinesRequestBuilder and sets the default values.
-     * @param pathParameters The raw url or the Url template parameters for the request.
-     * @param requestAdapter The request adapter to use to execute the requests.
-     */
-    constructor(pathParameters, requestAdapter) {
-        if (!pathParameters)
-            throw new Error("pathParameters cannot be undefined");
-        if (!requestAdapter)
-            throw new Error("requestAdapter cannot be undefined");
-        this.urlTemplate = "{+baseurl}/api/v1/timelines";
-        const urlTplParams = (0, kiota_abstractions_1.getPathParameters)(pathParameters);
-        this.pathParameters = urlTplParams;
-        this.requestAdapter = requestAdapter;
-    }
     /** The home property */
     get home() {
         return new homeRequestBuilder_1.HomeRequestBuilder(this.pathParameters, this.requestAdapter);
@@ -42,6 +27,21 @@ class TimelinesRequestBuilder {
     /** The tag property */
     get tag() {
         return new tagRequestBuilder_1.TagRequestBuilder(this.pathParameters, this.requestAdapter);
+    }
+    /**
+     * Instantiates a new TimelinesRequestBuilder and sets the default values.
+     * @param pathParameters The raw url or the Url template parameters for the request.
+     * @param requestAdapter The request adapter to use to execute the requests.
+     */
+    constructor(pathParameters, requestAdapter) {
+        if (!pathParameters)
+            throw new Error("pathParameters cannot be undefined");
+        if (!requestAdapter)
+            throw new Error("requestAdapter cannot be undefined");
+        this.urlTemplate = "{+baseurl}/api/v1/timelines";
+        const urlTplParams = (0, kiota_abstractions_1.getPathParameters)(pathParameters);
+        this.pathParameters = urlTplParams;
+        this.requestAdapter = requestAdapter;
     }
     ;
     /**

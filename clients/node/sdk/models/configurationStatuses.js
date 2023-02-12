@@ -3,12 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConfigurationStatuses = void 0;
 class ConfigurationStatuses {
     /**
-     * Instantiates a new ConfigurationStatuses and sets the default values.
-     */
-    constructor() {
-        this._additionalData = {};
-    }
-    /**
      * Gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
      * @returns a Record<string, unknown>
      */
@@ -40,6 +34,12 @@ class ConfigurationStatuses {
         this._characters_reserved_per_url = value;
     }
     ;
+    /**
+     * Instantiates a new ConfigurationStatuses and sets the default values.
+     */
+    constructor() {
+        this._additionalData = {};
+    }
     ;
     /**
      * The deserialization information for the current model

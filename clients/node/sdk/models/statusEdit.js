@@ -7,12 +7,6 @@ const createMediaAttachmentFromDiscriminatorValue_1 = require("./createMediaAtta
 const createPollFromDiscriminatorValue_1 = require("./createPollFromDiscriminatorValue");
 class StatusEdit {
     /**
-     * Instantiates a new StatusEdit and sets the default values.
-     */
-    constructor() {
-        this._additionalData = {};
-    }
-    /**
      * Gets the account property value. The account property
      * @returns a Account
      */
@@ -44,6 +38,12 @@ class StatusEdit {
         this._additionalData = value;
     }
     ;
+    /**
+     * Instantiates a new StatusEdit and sets the default values.
+     */
+    constructor() {
+        this._additionalData = {};
+    }
     ;
     /**
      * Gets the content property value. The content property

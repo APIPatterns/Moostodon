@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Account = void 0;
-const createAccountFromDiscriminatorValue_1 = require("./createAccountFromDiscriminatorValue");
+exports.AccountUpdate = void 0;
+const createAccountUpdateFromDiscriminatorValue_1 = require("./createAccountUpdateFromDiscriminatorValue");
 const createEmojiFromDiscriminatorValue_1 = require("./createEmojiFromDiscriminatorValue");
 const createFieldFromDiscriminatorValue_1 = require("./createFieldFromDiscriminatorValue");
-const createSourceFromDiscriminatorValue_1 = require("./createSourceFromDiscriminatorValue");
-class Account {
+const createSourceUpdateFromDiscriminatorValue_1 = require("./createSourceUpdateFromDiscriminatorValue");
+class AccountUpdate {
     /**
      * Gets the acct property value. The acct property
      * @returns a string
@@ -87,7 +87,7 @@ class Account {
     }
     ;
     /**
-     * Instantiates a new Account and sets the default values.
+     * Instantiates a new AccountUpdate and sets the default values.
      */
     constructor() {
         this._additionalData = {};
@@ -227,10 +227,10 @@ class Account {
             "id": n => { this.id = n.getStringValue(); },
             "last_status_at": n => { this.last_status_at = n.getStringValue(); },
             "locked": n => { this.locked = n.getBooleanValue(); },
-            "moved": n => { this.moved = n.getObjectValue(createAccountFromDiscriminatorValue_1.createAccountFromDiscriminatorValue); },
+            "moved": n => { this.moved = n.getObjectValue(createAccountUpdateFromDiscriminatorValue_1.createAccountUpdateFromDiscriminatorValue); },
             "mute_expires_at": n => { this.mute_expires_at = n.getStringValue(); },
             "note": n => { this.note = n.getStringValue(); },
-            "souce": n => { this.souce = n.getObjectValue(createSourceFromDiscriminatorValue_1.createSourceFromDiscriminatorValue); },
+            "souce": n => { this.souce = n.getObjectValue(createSourceUpdateFromDiscriminatorValue_1.createSourceUpdateFromDiscriminatorValue); },
             "statuses_count": n => { this.statuses_count = n.getNumberValue(); },
             "suspended": n => { this.suspended = n.getBooleanValue(); },
             "url": n => { this.url = n.getStringValue(); },
@@ -320,7 +320,7 @@ class Account {
     ;
     /**
      * Gets the moved property value. The moved property
-     * @returns a Account
+     * @returns a AccountUpdate
      */
     get moved() {
         return this._moved;
@@ -402,7 +402,7 @@ class Account {
     ;
     /**
      * Gets the souce property value. The souce property
-     * @returns a Source
+     * @returns a SourceUpdate
      */
     get souce() {
         return this._souce;
@@ -481,4 +481,4 @@ class Account {
     }
     ;
 }
-exports.Account = Account;
+exports.AccountUpdate = AccountUpdate;

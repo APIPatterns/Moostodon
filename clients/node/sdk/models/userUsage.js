@@ -3,12 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserUsage = void 0;
 class UserUsage {
     /**
-     * Instantiates a new UserUsage and sets the default values.
-     */
-    constructor() {
-        this._additionalData = {};
-    }
-    /**
      * Gets the active_halfyear property value. The active_halfyear property
      * @returns a int64
      */
@@ -56,6 +50,12 @@ class UserUsage {
         this._additionalData = value;
     }
     ;
+    /**
+     * Instantiates a new UserUsage and sets the default values.
+     */
+    constructor() {
+        this._additionalData = {};
+    }
     ;
     /**
      * The deserialization information for the current model

@@ -13,21 +13,6 @@ const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
  * Builds and executes requests for operations under /api/v1/accounts
  */
 class AccountsRequestBuilder {
-    /**
-     * Instantiates a new AccountsRequestBuilder and sets the default values.
-     * @param pathParameters The raw url or the Url template parameters for the request.
-     * @param requestAdapter The request adapter to use to execute the requests.
-     */
-    constructor(pathParameters, requestAdapter) {
-        if (!pathParameters)
-            throw new Error("pathParameters cannot be undefined");
-        if (!requestAdapter)
-            throw new Error("requestAdapter cannot be undefined");
-        this.urlTemplate = "{+baseurl}/api/v1/accounts";
-        const urlTplParams = (0, kiota_abstractions_1.getPathParameters)(pathParameters);
-        this.pathParameters = urlTplParams;
-        this.requestAdapter = requestAdapter;
-    }
     /** The familiar_followers property */
     get familiar_followers() {
         return new familiar_followersRequestBuilder_1.Familiar_followersRequestBuilder(this.pathParameters, this.requestAdapter);
@@ -51,6 +36,21 @@ class AccountsRequestBuilder {
     /** The verify_credentials property */
     get verify_credentials() {
         return new verify_credentialsRequestBuilder_1.Verify_credentialsRequestBuilder(this.pathParameters, this.requestAdapter);
+    }
+    /**
+     * Instantiates a new AccountsRequestBuilder and sets the default values.
+     * @param pathParameters The raw url or the Url template parameters for the request.
+     * @param requestAdapter The request adapter to use to execute the requests.
+     */
+    constructor(pathParameters, requestAdapter) {
+        if (!pathParameters)
+            throw new Error("pathParameters cannot be undefined");
+        if (!requestAdapter)
+            throw new Error("requestAdapter cannot be undefined");
+        this.urlTemplate = "{+baseurl}/api/v1/accounts";
+        const urlTplParams = (0, kiota_abstractions_1.getPathParameters)(pathParameters);
+        this.pathParameters = urlTplParams;
+        this.requestAdapter = requestAdapter;
     }
     ;
     /**

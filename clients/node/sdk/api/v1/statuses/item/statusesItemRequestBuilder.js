@@ -22,21 +22,6 @@ const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
  * Builds and executes requests for operations under /api/v1/statuses/{id}
  */
 class StatusesItemRequestBuilder {
-    /**
-     * Instantiates a new StatusesItemRequestBuilder and sets the default values.
-     * @param pathParameters The raw url or the Url template parameters for the request.
-     * @param requestAdapter The request adapter to use to execute the requests.
-     */
-    constructor(pathParameters, requestAdapter) {
-        if (!pathParameters)
-            throw new Error("pathParameters cannot be undefined");
-        if (!requestAdapter)
-            throw new Error("requestAdapter cannot be undefined");
-        this.urlTemplate = "{+baseurl}/api/v1/statuses/{id}";
-        const urlTplParams = (0, kiota_abstractions_1.getPathParameters)(pathParameters);
-        this.pathParameters = urlTplParams;
-        this.requestAdapter = requestAdapter;
-    }
     /** The bookmark property */
     get bookmark() {
         return new bookmarkRequestBuilder_1.BookmarkRequestBuilder(this.pathParameters, this.requestAdapter);
@@ -96,6 +81,21 @@ class StatusesItemRequestBuilder {
     /** The unreblog property */
     get unreblog() {
         return new unreblogRequestBuilder_1.UnreblogRequestBuilder(this.pathParameters, this.requestAdapter);
+    }
+    /**
+     * Instantiates a new StatusesItemRequestBuilder and sets the default values.
+     * @param pathParameters The raw url or the Url template parameters for the request.
+     * @param requestAdapter The request adapter to use to execute the requests.
+     */
+    constructor(pathParameters, requestAdapter) {
+        if (!pathParameters)
+            throw new Error("pathParameters cannot be undefined");
+        if (!requestAdapter)
+            throw new Error("requestAdapter cannot be undefined");
+        this.urlTemplate = "{+baseurl}/api/v1/statuses/{id}";
+        const urlTplParams = (0, kiota_abstractions_1.getPathParameters)(pathParameters);
+        this.pathParameters = urlTplParams;
+        this.requestAdapter = requestAdapter;
     }
     ;
     /**

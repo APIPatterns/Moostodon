@@ -11,6 +11,14 @@ const kiota_serialization_text_1 = require("@microsoft/kiota-serialization-text"
  * The main entry point of the SDK, exposes the configuration and the fluent API.
  */
 class MastodonClient {
+    /** The api property */
+    get api() {
+        return new apiRequestBuilder_1.ApiRequestBuilder(this.pathParameters, this.requestAdapter);
+    }
+    /** The oauth property */
+    get oauth() {
+        return new oauthRequestBuilder_1.OauthRequestBuilder(this.pathParameters, this.requestAdapter);
+    }
     /**
      * Instantiates a new MastodonClient and sets the default values.
      * @param requestAdapter The request adapter to use to execute the requests.
@@ -31,14 +39,6 @@ class MastodonClient {
             requestAdapter.baseUrl = "https://mastodon.example";
         }
         this.pathParameters["baseurl"] = requestAdapter.baseUrl;
-    }
-    /** The api property */
-    get api() {
-        return new apiRequestBuilder_1.ApiRequestBuilder(this.pathParameters, this.requestAdapter);
-    }
-    /** The oauth property */
-    get oauth() {
-        return new oauthRequestBuilder_1.OauthRequestBuilder(this.pathParameters, this.requestAdapter);
     }
     ;
 }

@@ -11,12 +11,6 @@ const createStatusFromDiscriminatorValue_1 = require("./createStatusFromDiscrimi
 const createTagFromDiscriminatorValue_1 = require("./createTagFromDiscriminatorValue");
 class Status {
     /**
-     * Instantiates a new Status and sets the default values.
-     */
-    constructor() {
-        this._additionalData = {};
-    }
-    /**
      * Gets the account property value. The account property
      * @returns a Account
      */
@@ -80,6 +74,12 @@ class Status {
         this._card = value;
     }
     ;
+    /**
+     * Instantiates a new Status and sets the default values.
+     */
+    constructor() {
+        this._additionalData = {};
+    }
     ;
     /**
      * Gets the content property value. The content property

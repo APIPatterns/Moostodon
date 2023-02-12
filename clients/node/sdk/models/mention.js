@@ -3,12 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Mention = void 0;
 class Mention {
     /**
-     * Instantiates a new Mention and sets the default values.
-     */
-    constructor() {
-        this._additionalData = {};
-    }
-    /**
      * Gets the acct property value. The acct property
      * @returns a string
      */
@@ -40,6 +34,12 @@ class Mention {
         this._additionalData = value;
     }
     ;
+    /**
+     * Instantiates a new Mention and sets the default values.
+     */
+    constructor() {
+        this._additionalData = {};
+    }
     ;
     /**
      * The deserialization information for the current model

@@ -3,12 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.StatusSource = void 0;
 class StatusSource {
     /**
-     * Instantiates a new StatusSource and sets the default values.
-     */
-    constructor() {
-        this._additionalData = {};
-    }
-    /**
      * Gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
      * @returns a Record<string, unknown>
      */
@@ -24,6 +18,12 @@ class StatusSource {
         this._additionalData = value;
     }
     ;
+    /**
+     * Instantiates a new StatusSource and sets the default values.
+     */
+    constructor() {
+        this._additionalData = {};
+    }
     ;
     /**
      * The deserialization information for the current model

@@ -9,6 +9,10 @@ const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
  * Builds and executes requests for operations under /api/v1/apps
  */
 class AppsRequestBuilder {
+    /** The verify_credentials property */
+    get verify_credentials() {
+        return new verify_credentialsRequestBuilder_1.Verify_credentialsRequestBuilder(this.pathParameters, this.requestAdapter);
+    }
     /**
      * Instantiates a new AppsRequestBuilder and sets the default values.
      * @param pathParameters The raw url or the Url template parameters for the request.
@@ -23,10 +27,6 @@ class AppsRequestBuilder {
         const urlTplParams = (0, kiota_abstractions_1.getPathParameters)(pathParameters);
         this.pathParameters = urlTplParams;
         this.requestAdapter = requestAdapter;
-    }
-    /** The verify_credentials property */
-    get verify_credentials() {
-        return new verify_credentialsRequestBuilder_1.Verify_credentialsRequestBuilder(this.pathParameters, this.requestAdapter);
     }
     ;
     /**
