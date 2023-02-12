@@ -100,9 +100,11 @@ model EditStatusForm {
     status: string;
     spoiler_text: string;
     sensitive: boolean;
-    media_Ids: string[];
-    @friendlyName("pollOptions")
-    "poll[options]": string[];
+    // Not yet supported by Kiota
+    // media_Ids: string[];
+    // Not yet supported by Kiota
+    // @friendlyName("pollOptions")
+    // "poll[options]": string[];
     @friendlyName("pollExpiresIn")
     "poll[expires_in]": int32;
     @friendlyName("pollMultiple")
