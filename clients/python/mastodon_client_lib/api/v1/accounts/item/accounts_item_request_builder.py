@@ -26,6 +26,7 @@ unfollow_request_builder = lazy_import('mastodon_client_lib.api.v1.accounts.item
 unmute_request_builder = lazy_import('mastodon_client_lib.api.v1.accounts.item.unmute.unmute_request_builder')
 unpin_request_builder = lazy_import('mastodon_client_lib.api.v1.accounts.item.unpin.unpin_request_builder')
 account = lazy_import('mastodon_client_lib.models.account')
+account_update = lazy_import('mastodon_client_lib.models.account_update')
 
 class AccountsItemRequestBuilder():
     """
@@ -162,7 +163,7 @@ class AccountsItemRequestBuilder():
             raise Exception("Http core is null") 
         return await self.request_adapter.send_async(request_info, account.Account, None)
     
-    async def patch(self,body: Optional[account.Account] = None, request_configuration: Optional[AccountsItemRequestBuilderPatchRequestConfiguration] = None) -> Optional[account.Account]:
+    async def patch(self,body: Optional[account_update.AccountUpdate] = None, request_configuration: Optional[AccountsItemRequestBuilderPatchRequestConfiguration] = None) -> Optional[account.Account]:
         if body is None:
             raise Exception("body cannot be undefined")
         request_info = self.to_patch_request_information(
@@ -183,7 +184,7 @@ class AccountsItemRequestBuilder():
             request_info.add_request_options(request_configuration.options)
         return request_info
     
-    def to_patch_request_information(self,body: Optional[account.Account] = None, request_configuration: Optional[AccountsItemRequestBuilderPatchRequestConfiguration] = None) -> RequestInformation:
+    def to_patch_request_information(self,body: Optional[account_update.AccountUpdate] = None, request_configuration: Optional[AccountsItemRequestBuilderPatchRequestConfiguration] = None) -> RequestInformation:
         if body is None:
             raise Exception("body cannot be undefined")
         request_info = RequestInformation()

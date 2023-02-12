@@ -50,7 +50,8 @@ class MastodonClient():
         register_default_serializer(TextSerializationWriterFactory)
         register_default_deserializer(JsonParseNodeFactory)
         register_default_deserializer(TextParseNodeFactory)
-        if not request_adapter.base_url:
-            request_adapter.base_url = "https://mastodon.example"
+        if not self.request_adapter.base_url:
+            self.request_adapter.base_url = "https://mastodon.example"
+        self.path_parameters["base_url"] = self.request_adapter.base_url
     
 

@@ -69,7 +69,7 @@ class ThumnailVersion(AdditionalDataHolder, Parsable):
         """
         Sets the @1x property value. The Onex property
         Args:
-            value: Value to set for the onex property.
+            value: Value to set for the Onex property.
         """
         self._onex = value
     
@@ -98,7 +98,7 @@ class ThumnailVersion(AdditionalDataHolder, Parsable):
         """
         Sets the @2x property value. The Twox property
         Args:
-            value: Value to set for the twox property.
+            value: Value to set for the Twox property.
         """
         self._twox = value
     
