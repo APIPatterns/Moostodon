@@ -7,28 +7,12 @@ namespace MastodonClientLib.Models {
     public class EditStatusForm : IAdditionalDataHolder, IParsable {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
-        /// <summary>The media_Ids property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public List<string>? MediaIds { get; set; }
-#nullable restore
-#else
-        public List<string> MediaIds { get; set; }
-#endif
         /// <summary>The pollExpires_in property</summary>
         public int? PollExpiresIn { get; set; }
         /// <summary>The pollHide_totals property</summary>
         public bool? PollHideTotals { get; set; }
         /// <summary>The pollMultiple property</summary>
         public bool? PollMultiple { get; set; }
-        /// <summary>The pollOptions property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public List<string>? PollOptions { get; set; }
-#nullable restore
-#else
-        public List<string> PollOptions { get; set; }
-#endif
         /// <summary>The sensitive property</summary>
         public bool? Sensitive { get; set; }
         /// <summary>The spoiler_text property</summary>
@@ -66,11 +50,9 @@ namespace MastodonClientLib.Models {
         /// </summary>
         public IDictionary<string, Action<IParseNode>> GetFieldDeserializers() {
             return new Dictionary<string, Action<IParseNode>> {
-                {"media_Ids", n => { MediaIds = n.GetCollectionOfPrimitiveValues<string>()?.ToList(); } },
                 {"poll[expires_in]", n => { PollExpiresIn = n.GetIntValue(); } },
                 {"poll[hide_totals]", n => { PollHideTotals = n.GetBoolValue(); } },
                 {"poll[multiple]", n => { PollMultiple = n.GetBoolValue(); } },
-                {"poll[options]", n => { PollOptions = n.GetCollectionOfPrimitiveValues<string>()?.ToList(); } },
                 {"sensitive", n => { Sensitive = n.GetBoolValue(); } },
                 {"spoiler_text", n => { SpoilerText = n.GetStringValue(); } },
                 {"status", n => { Status = n.GetStringValue(); } },
@@ -82,11 +64,9 @@ namespace MastodonClientLib.Models {
         /// <param name="writer">Serialization writer to use to serialize this model</param>
         public void Serialize(ISerializationWriter writer) {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
-            writer.WriteCollectionOfPrimitiveValues<string>("media_Ids", MediaIds);
             writer.WriteIntValue("poll[expires_in]", PollExpiresIn);
             writer.WriteBoolValue("poll[hide_totals]", PollHideTotals);
             writer.WriteBoolValue("poll[multiple]", PollMultiple);
-            writer.WriteCollectionOfPrimitiveValues<string>("poll[options]", PollOptions);
             writer.WriteBoolValue("sensitive", Sensitive);
             writer.WriteStringValue("spoiler_text", SpoilerText);
             writer.WriteStringValue("status", Status);

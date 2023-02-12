@@ -18,10 +18,10 @@ public class MastodonService {
 
         // Use OOB native HttpClient as the underlying HTTP library
         var requestAdapter = new HttpClientRequestAdapter(_authProvider);
+        requestAdapter.BaseUrl = baseUrl;
 
         client = new MastodonClient(requestAdapter);
         _authProvider.Client = client;  // Enable auth provider to use client
-        requestAdapter.BaseUrl = baseUrl;  // Overwrite baseUrl from OpenAPI
     }
 
     // Search for Accounts, status and hashtags

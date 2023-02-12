@@ -32,7 +32,6 @@ namespace MoostodonConsole
 
             using var cts = new CancellationTokenSource();
             var cancellationToken = cts.Token;
-            //AppDomain.CurrentDomain.ProcessExit += (sender, eArgs) => (cts.Cancel();
 
             // Create a new instance of the MastodonService to access the parts of the API our apps needs
             var mtdnService = new MastodonService(serviceUrl);

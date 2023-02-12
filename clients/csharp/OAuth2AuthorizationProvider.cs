@@ -43,7 +43,6 @@ public class OAuth2AuthProvider : IAuthenticationProvider
             r.QueryParameters.Response_type = "code";
             r.QueryParameters.Scope = scopes;
         });
-        request.PathParameters.Add("baseurl", BaseUrl);
         return request.URI.AbsoluteUri;
     }
 
