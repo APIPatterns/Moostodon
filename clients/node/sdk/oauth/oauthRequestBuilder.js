@@ -5,7 +5,9 @@ const authorizeRequestBuilder_1 = require("./authorize/authorizeRequestBuilder")
 const revokeRequestBuilder_1 = require("./revoke/revokeRequestBuilder");
 const tokenRequestBuilder_1 = require("./token/tokenRequestBuilder");
 const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
-/** Builds and executes requests for operations under /oauth */
+/**
+ * Builds and executes requests for operations under /oauth
+ */
 class OauthRequestBuilder {
     /** The authorize property */
     get authorize() {

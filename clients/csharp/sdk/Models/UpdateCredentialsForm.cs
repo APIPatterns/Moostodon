@@ -8,23 +8,59 @@ namespace MastodonClientLib.Models {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The avatar property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Avatar { get; set; }
+#nullable restore
+#else
         public string Avatar { get; set; }
+#endif
         /// <summary>The bot property</summary>
         public bool? Bot { get; set; }
         /// <summary>The discoverable property</summary>
         public bool? Discoverable { get; set; }
         /// <summary>The display_name property</summary>
-        public string Display_name { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? DisplayName { get; set; }
+#nullable restore
+#else
+        public string DisplayName { get; set; }
+#endif
         /// <summary>The header property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Header { get; set; }
+#nullable restore
+#else
         public string Header { get; set; }
+#endif
         /// <summary>The locked property</summary>
         public bool? Locked { get; set; }
         /// <summary>The note property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Note { get; set; }
+#nullable restore
+#else
         public string Note { get; set; }
+#endif
         /// <summary>The sourceLanguage property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? SourceLanguage { get; set; }
+#nullable restore
+#else
         public string SourceLanguage { get; set; }
+#endif
         /// <summary>The sourcePrivacy property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? SourcePrivacy { get; set; }
+#nullable restore
+#else
         public string SourcePrivacy { get; set; }
+#endif
         /// <summary>The sourceSensitive property</summary>
         public bool? SourceSensitive { get; set; }
         /// <summary>
@@ -49,7 +85,7 @@ namespace MastodonClientLib.Models {
                 {"avatar", n => { Avatar = n.GetStringValue(); } },
                 {"bot", n => { Bot = n.GetBoolValue(); } },
                 {"discoverable", n => { Discoverable = n.GetBoolValue(); } },
-                {"display_name", n => { Display_name = n.GetStringValue(); } },
+                {"display_name", n => { DisplayName = n.GetStringValue(); } },
                 {"header", n => { Header = n.GetStringValue(); } },
                 {"locked", n => { Locked = n.GetBoolValue(); } },
                 {"note", n => { Note = n.GetStringValue(); } },
@@ -67,7 +103,7 @@ namespace MastodonClientLib.Models {
             writer.WriteStringValue("avatar", Avatar);
             writer.WriteBoolValue("bot", Bot);
             writer.WriteBoolValue("discoverable", Discoverable);
-            writer.WriteStringValue("display_name", Display_name);
+            writer.WriteStringValue("display_name", DisplayName);
             writer.WriteStringValue("header", Header);
             writer.WriteBoolValue("locked", Locked);
             writer.WriteStringValue("note", Note);

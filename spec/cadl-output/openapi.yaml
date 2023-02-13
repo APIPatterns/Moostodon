@@ -1,0 +1,2686 @@
+openapi: 3.0.0
+info:
+  title: Mastodon
+  version: 1.0.0
+tags: []
+paths:
+  /api/v1/accounts:
+    post:
+      operationId: AccountsResource_createAccount
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Account'
+        '401':
+          description: Access is unauthorized.
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Mastodon.CreateAccountForm'
+  /api/v1/accounts/familiar_followers:
+    get:
+      operationId: AccountsResource_getFamiliarFollowers
+      parameters:
+        - name: id
+          in: query
+          style: form
+          explode: true
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mastodon.FamiliarFollowers'
+                x-cadl-name: Mastodon.FamiliarFollowers[]
+        '401':
+          description: Access is unauthorized.
+        '422':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableContentError'
+  /api/v1/accounts/lookup:
+    get:
+      operationId: AccountsResource_lookup
+      parameters:
+        - name: acct
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: skip_webfinger
+          in: query
+          required: true
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Account'
+        '404':
+          description: The server cannot find the requested resource.
+  /api/v1/accounts/relationships:
+    get:
+      operationId: AccountsResource_getRelationships
+      parameters:
+        - name: id
+          in: query
+          style: form
+          explode: true
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mastodon.Relationship'
+                x-cadl-name: Mastodon.Relationship[]
+        '401':
+          description: Access is unauthorized.
+        '422':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableContentError'
+  /api/v1/accounts/search:
+    get:
+      operationId: AccountsResource_search
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: following
+          in: query
+          required: true
+          schema:
+            type: boolean
+        - name: resolve
+          in: query
+          required: true
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mastodon.Account'
+                x-cadl-name: Mastodon.Account[]
+        '401':
+          description: Access is unauthorized.
+  /api/v1/accounts/update_credentials:
+    patch:
+      operationId: AccountsResource_updateCredentials
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Account'
+        '401':
+          description: Access is unauthorized.
+        '422':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableContentError'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Mastodon.UpdateCredentialsForm'
+  /api/v1/accounts/verify_credentials:
+    get:
+      operationId: AccountsResource_verifyCredentials
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Account'
+        '401':
+          description: Access is unauthorized.
+  /api/v1/accounts/{id}:
+    get:
+      operationId: AccountResource_getAccount
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Account'
+        '401':
+          description: Access is unauthorized.
+        '404':
+          description: The server cannot find the requested resource.
+        '410':
+          description: Client Error
+    patch:
+      operationId: AccountResource_updateAccount
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Account'
+        '401':
+          description: Access is unauthorized.
+        '403':
+          description: Access is forbidden
+        '404':
+          description: The server cannot find the requested resource.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Mastodon.AccountUpdate'
+  /api/v1/accounts/{id}/block:
+    post:
+      operationId: AccountResource_block
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Relationship'
+        '401':
+          description: Access is unauthorized.
+        '422':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableContentError'
+  /api/v1/accounts/{id}/featured_tags:
+    get:
+      operationId: AccountResource_getFeaturedTags
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mastodon.FeaturedTag'
+                x-cadl-name: Mastodon.FeaturedTag[]
+        '401':
+          description: Access is unauthorized.
+        '404':
+          description: The server cannot find the requested resource.
+        '410':
+          description: Client Error
+  /api/v1/accounts/{id}/follow:
+    post:
+      operationId: AccountResource_follow
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Relationship'
+        '401':
+          description: Access is unauthorized.
+        '404':
+          description: The server cannot find the requested resource.
+        '410':
+          description: Client Error
+        '422':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableContentError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Mastodon.FollowBody'
+  /api/v1/accounts/{id}/followers:
+    get:
+      operationId: AccountResource_getFollowers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/RangeParameters.max_Id'
+        - $ref: '#/components/parameters/RangeParameters.sinceId'
+        - $ref: '#/components/parameters/RangeParameters.min_Id'
+        - $ref: '#/components/parameters/RangeParameters.limit'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mastodon.Account'
+                x-cadl-name: Mastodon.Account[]
+        '401':
+          description: Access is unauthorized.
+        '404':
+          description: The server cannot find the requested resource.
+        '410':
+          description: Client Error
+  /api/v1/accounts/{id}/following:
+    get:
+      operationId: AccountResource_getFollowing
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/RangeParameters.max_Id'
+        - $ref: '#/components/parameters/RangeParameters.sinceId'
+        - $ref: '#/components/parameters/RangeParameters.min_Id'
+        - $ref: '#/components/parameters/RangeParameters.limit'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mastodon.Account'
+                x-cadl-name: Mastodon.Account[]
+        '401':
+          description: Access is unauthorized.
+        '404':
+          description: The server cannot find the requested resource.
+        '410':
+          description: Client Error
+  /api/v1/accounts/{id}/lists:
+    get:
+      operationId: AccountResource_getLists
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mastodon.AccountList'
+                x-cadl-name: Mastodon.AccountList[]
+        '401':
+          description: Access is unauthorized.
+        '404':
+          description: The server cannot find the requested resource.
+        '410':
+          description: Client Error
+        '422':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableContentError'
+  /api/v1/accounts/{id}/mute:
+    post:
+      operationId: AccountResource_mute
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Relationship'
+        '401':
+          description: Access is unauthorized.
+        '422':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableContentError'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Mastodon.MuteForm'
+  /api/v1/accounts/{id}/note:
+    post:
+      operationId: AccountResource_setNote
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Relationship'
+        '401':
+          description: Access is unauthorized.
+        '422':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableContentError'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Mastodon.SetNoteForm'
+  /api/v1/accounts/{id}/pin:
+    post:
+      operationId: AccountResource_pin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Relationship'
+        '401':
+          description: Access is unauthorized.
+        '403':
+          description: Access is forbidden
+        '422':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableContentError'
+  /api/v1/accounts/{id}/remove_from_followers:
+    post:
+      operationId: AccountResource_removeFromFollowers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Relationship'
+        '401':
+          description: Access is unauthorized.
+        '422':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableContentError'
+  /api/v1/accounts/{id}/statuses:
+    get:
+      operationId: AccountResource_getStatuses
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/RangeParameters.max_Id'
+        - $ref: '#/components/parameters/RangeParameters.sinceId'
+        - $ref: '#/components/parameters/RangeParameters.min_Id'
+        - $ref: '#/components/parameters/RangeParameters.limit'
+        - name: exclude_reblogs
+          in: query
+          required: true
+          schema:
+            type: boolean
+        - name: tagged
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mastodon.Status'
+                x-cadl-name: Mastodon.Status[]
+        '401':
+          description: Access is unauthorized.
+        '404':
+          description: The server cannot find the requested resource.
+        '410':
+          description: Client Error
+  /api/v1/accounts/{id}/unblock:
+    post:
+      operationId: AccountResource_unblock
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Relationship'
+        '401':
+          description: Access is unauthorized.
+        '422':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableContentError'
+  /api/v1/accounts/{id}/unfollow:
+    post:
+      operationId: AccountResource_unfollow
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Relationship'
+        '401':
+          description: Access is unauthorized.
+        '422':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableContentError'
+  /api/v1/accounts/{id}/unmute:
+    post:
+      operationId: AccountResource_unmute
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Relationship'
+        '401':
+          description: Access is unauthorized.
+        '422':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableContentError'
+  /api/v1/accounts/{id}/unpin:
+    post:
+      operationId: AccountResource_unpin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Relationship'
+        '401':
+          description: Access is unauthorized.
+        '403':
+          description: Access is forbidden
+        '422':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableContentError'
+  /api/v1/apps:
+    post:
+      operationId: appResource_createApp
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Application'
+        '422':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableContentError'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateAppForm'
+  /api/v1/apps/verify_credentials:
+    get:
+      operationId: appResource_verifyCredentials
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Application'
+        '401':
+          description: Access is unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+  /api/v1/blocks:
+    get:
+      operationId: BlocksResource_items
+      parameters:
+        - $ref: '#/components/parameters/RangeParameters.max_Id'
+        - $ref: '#/components/parameters/RangeParameters.sinceId'
+        - $ref: '#/components/parameters/RangeParameters.min_Id'
+        - $ref: '#/components/parameters/RangeParameters.limit'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mastodon.Account'
+                x-cadl-name: Mastodon.Account[]
+  /api/v1/bookmarks:
+    get:
+      operationId: BookmarksResource_items
+      parameters:
+        - $ref: '#/components/parameters/RangeParameters.max_Id'
+        - $ref: '#/components/parameters/RangeParameters.sinceId'
+        - $ref: '#/components/parameters/RangeParameters.min_Id'
+        - $ref: '#/components/parameters/RangeParameters.limit'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mastodon.Status'
+                x-cadl-name: Mastodon.Status[]
+  /api/v1/domain_blocks:
+    get:
+      operationId: DomainBlocksResource_getDomainBlocks
+      parameters:
+        - $ref: '#/components/parameters/RangeParameters.max_Id'
+        - $ref: '#/components/parameters/RangeParameters.sinceId'
+        - $ref: '#/components/parameters/RangeParameters.min_Id'
+        - $ref: '#/components/parameters/RangeParameters.limit'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                x-cadl-name: string[]
+        '401':
+          description: Access is unauthorized.
+    post:
+      operationId: DomainBlocksResource_blockDomain
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Access is unauthorized.
+        '422':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableContentError'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BlockDomainBody'
+    delete:
+      operationId: DomainBlocksResource_unblockDomain
+      parameters:
+        - name: domain
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Access is unauthorized.
+        '422':
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableContentError'
+  /api/v1/endorsements:
+    get:
+      operationId: EndorsementsResource_items
+      parameters:
+        - $ref: '#/components/parameters/RangeParameters.max_Id'
+        - $ref: '#/components/parameters/RangeParameters.sinceId'
+        - $ref: '#/components/parameters/RangeParameters.min_Id'
+        - $ref: '#/components/parameters/RangeParameters.limit'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mastodon.Account'
+                x-cadl-name: Mastodon.Account[]
+  /api/v1/favourites:
+    get:
+      operationId: FavouritesResource_items
+      parameters:
+        - $ref: '#/components/parameters/RangeParameters.max_Id'
+        - $ref: '#/components/parameters/RangeParameters.sinceId'
+        - $ref: '#/components/parameters/RangeParameters.min_Id'
+        - $ref: '#/components/parameters/RangeParameters.limit'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mastodon.Status'
+                x-cadl-name: Mastodon.Status[]
+  /api/v1/instance:
+    get:
+      operationId: InstanceResource_getInstance
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Instance'
+  /api/v1/mutes:
+    get:
+      operationId: MutesResource_items
+      parameters:
+        - $ref: '#/components/parameters/RangeParameters.max_Id'
+        - $ref: '#/components/parameters/RangeParameters.sinceId'
+        - $ref: '#/components/parameters/RangeParameters.min_Id'
+        - $ref: '#/components/parameters/RangeParameters.limit'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mastodon.Account'
+                x-cadl-name: Mastodon.Account[]
+  /api/v1/statuses:
+    post:
+      operationId: StatusesResource_publishStatus
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Status'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateStatusForm'
+  /api/v1/statuses/{id}:
+    get:
+      operationId: StatusResource_getStatus
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Status'
+        '401':
+          description: Access is unauthorized.
+        '404':
+          description: The server cannot find the requested resource.
+    delete:
+      operationId: StatusResource_deleteStatus
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Status'
+        '401':
+          description: Access is unauthorized.
+        '404':
+          description: The server cannot find the requested resource.
+    put:
+      operationId: StatusResource_editStatus
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Status'
+        '401':
+          description: Access is unauthorized.
+        '404':
+          description: The server cannot find the requested resource.
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EditStatusForm'
+  /api/v1/statuses/{id}/bookmark:
+    post:
+      operationId: StatusResource_bookmarkStatus
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Status'
+        '401':
+          description: Access is unauthorized.
+        '404':
+          description: The server cannot find the requested resource.
+  /api/v1/statuses/{id}/context:
+    get:
+      operationId: StatusResource_getContext
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Context'
+        '404':
+          description: The server cannot find the requested resource.
+  /api/v1/statuses/{id}/favourite:
+    post:
+      operationId: StatusResource_favouriteStatus
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Status'
+        '401':
+          description: Access is unauthorized.
+        '404':
+          description: The server cannot find the requested resource.
+  /api/v1/statuses/{id}/favourited_by:
+    get:
+      operationId: StatusResource_getFavouritedBy
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mastodon.Account'
+                x-cadl-name: Mastodon.Account[]
+        '404':
+          description: The server cannot find the requested resource.
+  /api/v1/statuses/{id}/history:
+    get:
+      operationId: StatusResource_getStatusHistory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StatusEdit'
+                x-cadl-name: StatusEdit[]
+        '401':
+          description: Access is unauthorized.
+        '404':
+          description: The server cannot find the requested resource.
+  /api/v1/statuses/{id}/mute:
+    post:
+      operationId: StatusResource_muteStatusNotifications
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Status'
+        '401':
+          description: Access is unauthorized.
+        '404':
+          description: The server cannot find the requested resource.
+  /api/v1/statuses/{id}/pin:
+    post:
+      operationId: StatusResource_pinStatus
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Status'
+        '401':
+          description: Access is unauthorized.
+        '404':
+          description: The server cannot find the requested resource.
+  /api/v1/statuses/{id}/reblog:
+    post:
+      operationId: StatusResource_reblogStatus
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Status'
+        '401':
+          description: Access is unauthorized.
+        '404':
+          description: The server cannot find the requested resource.
+  /api/v1/statuses/{id}/reblogged_by:
+    get:
+      operationId: StatusResource_getRebloggedBy
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mastodon.Account'
+                x-cadl-name: Mastodon.Account[]
+        '404':
+          description: The server cannot find the requested resource.
+  /api/v1/statuses/{id}/source:
+    get:
+      operationId: StatusResource_getStatusSource
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusSource'
+        '401':
+          description: Access is unauthorized.
+        '404':
+          description: The server cannot find the requested resource.
+  /api/v1/statuses/{id}/unbookmark:
+    post:
+      operationId: StatusResource_unbookmarkStatus
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Status'
+        '401':
+          description: Access is unauthorized.
+        '404':
+          description: The server cannot find the requested resource.
+  /api/v1/statuses/{id}/unfavourite:
+    post:
+      operationId: StatusResource_unfavouriteStatus
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Status'
+        '401':
+          description: Access is unauthorized.
+        '404':
+          description: The server cannot find the requested resource.
+  /api/v1/statuses/{id}/unmute:
+    post:
+      operationId: StatusResource_unmuteStatusNotifications
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Status'
+        '401':
+          description: Access is unauthorized.
+        '404':
+          description: The server cannot find the requested resource.
+  /api/v1/statuses/{id}/unpin:
+    post:
+      operationId: StatusResource_unpinStatus
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Status'
+        '401':
+          description: Access is unauthorized.
+        '404':
+          description: The server cannot find the requested resource.
+  /api/v1/statuses/{id}/unreblog:
+    post:
+      operationId: StatusResource_unreblogStatus
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mastodon.Status'
+        '401':
+          description: Access is unauthorized.
+        '404':
+          description: The server cannot find the requested resource.
+  /api/v1/timelines/home:
+    get:
+      operationId: TimelinesResource_getHomeTimeline
+      parameters:
+        - $ref: '#/components/parameters/RangeParameters.max_Id'
+        - $ref: '#/components/parameters/RangeParameters.sinceId'
+        - $ref: '#/components/parameters/RangeParameters.min_Id'
+        - $ref: '#/components/parameters/RangeParameters.limit'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mastodon.Status'
+                x-cadl-name: Mastodon.Status[]
+        '401':
+          description: Access is unauthorized.
+        '404':
+          description: The server cannot find the requested resource.
+  /api/v1/timelines/list/{id}:
+    get:
+      operationId: TimelinesResource_getStatusByList
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/RangeParameters.max_Id'
+        - $ref: '#/components/parameters/RangeParameters.sinceId'
+        - $ref: '#/components/parameters/RangeParameters.min_Id'
+        - $ref: '#/components/parameters/RangeParameters.limit'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mastodon.Status'
+                x-cadl-name: Mastodon.Status[]
+        '404':
+          description: The server cannot find the requested resource.
+  /api/v1/timelines/public:
+    get:
+      operationId: TimelinesResource_publicTimeline
+      parameters:
+        - name: local
+          in: query
+          required: true
+          schema:
+            type: boolean
+        - name: only_media
+          in: query
+          required: true
+          schema:
+            type: boolean
+        - $ref: '#/components/parameters/RangeParameters.max_Id'
+        - $ref: '#/components/parameters/RangeParameters.sinceId'
+        - $ref: '#/components/parameters/RangeParameters.min_Id'
+        - $ref: '#/components/parameters/RangeParameters.limit'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mastodon.Status'
+                x-cadl-name: Mastodon.Status[]
+  /api/v1/timelines/tag/{tag}:
+    get:
+      operationId: TimelinesResource_getStatusByTag
+      parameters:
+        - name: tag
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: local
+          in: query
+          required: true
+          schema:
+            type: boolean
+        - name: only_media
+          in: query
+          required: true
+          schema:
+            type: boolean
+        - $ref: '#/components/parameters/RangeParameters.max_Id'
+        - $ref: '#/components/parameters/RangeParameters.sinceId'
+        - $ref: '#/components/parameters/RangeParameters.min_Id'
+        - $ref: '#/components/parameters/RangeParameters.limit'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mastodon.Status'
+                x-cadl-name: Mastodon.Status[]
+        '404':
+          description: The server cannot find the requested resource.
+  /api/v2/search:
+    get:
+      operationId: SearchResource_search
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - accounts
+              - hashtags
+              - statuses
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResult'
+  /oauth/authorize:
+    get:
+      operationId: oauthResource_authorize
+      parameters:
+        - name: response_type
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: client_id
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: redirect_uri
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: scope
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: force_login
+          in: query
+          required: true
+          schema:
+            type: boolean
+        - name: lang
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          headers:
+            location:
+              required: true
+              schema:
+                type: string
+        '400':
+          description: The server could not understand the request due to invalid syntax.
+  /oauth/revoke:
+    post:
+      operationId: oauthResource_revoke
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+        '403':
+          description: Access is forbidden
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RevokeForm'
+  /oauth/token:
+    post:
+      operationId: oauthResource_token
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '400':
+          description: The server could not understand the request due to invalid syntax.
+        '401':
+          description: Access is unauthorized.
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenForm'
+components:
+  parameters:
+    RangeParameters.limit:
+      name: limit
+      in: query
+      required: false
+      schema:
+        type: integer
+        format: int32
+    RangeParameters.max_Id:
+      name: max_Id
+      in: query
+      required: false
+      schema:
+        type: string
+    RangeParameters.min_Id:
+      name: min_Id
+      in: query
+      required: false
+      schema:
+        type: string
+    RangeParameters.sinceId:
+      name: sinceId
+      in: query
+      required: false
+      schema:
+        type: string
+  schemas:
+    BlockDomainBody:
+      type: object
+      properties:
+        domain:
+          type: string
+      required:
+        - domain
+    Context:
+      type: object
+      properties:
+        ancestors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mastodon.Status'
+          x-cadl-name: Mastodon.Status[]
+        descendants:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mastodon.Status'
+          x-cadl-name: Mastodon.Status[]
+      required:
+        - ancestors
+        - descendants
+    CreateAppForm:
+      type: object
+      properties:
+        client_name:
+          type: string
+        redirect_uris:
+          type: string
+        scopes:
+          type: string
+        website:
+          type: string
+      required:
+        - client_name
+        - redirect_uris
+        - scopes
+        - website
+    CreateStatusForm:
+      type: object
+      properties:
+        status:
+          type: string
+        poll[expires_in]:
+          type: integer
+          format: int32
+        poll[multiple]:
+          type: boolean
+        poll[hide_totals]:
+          type: boolean
+        in_reply_to_id:
+          type: string
+        sensitive:
+          type: boolean
+        spoiler_text:
+          type: string
+        visibility:
+          $ref: '#/components/schemas/Visibility'
+        language:
+          type: string
+        scheduled_at:
+          type: string
+      required:
+        - status
+        - poll[expires_in]
+        - poll[multiple]
+        - poll[hide_totals]
+        - in_reply_to_id
+        - sensitive
+        - spoiler_text
+        - visibility
+        - language
+        - scheduled_at
+    EditStatusForm:
+      type: object
+      properties:
+        status:
+          type: string
+        spoiler_text:
+          type: string
+        sensitive:
+          type: boolean
+        poll[expires_in]:
+          type: integer
+          format: int32
+        poll[multiple]:
+          type: boolean
+        poll[hide_totals]:
+          type: boolean
+      required:
+        - status
+        - spoiler_text
+        - sensitive
+        - poll[expires_in]
+        - poll[multiple]
+        - poll[hide_totals]
+    Mastodon.Account:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        acct:
+          type: string
+        url:
+          type: string
+        display_name:
+          type: string
+        note:
+          type: string
+        avatar:
+          type: string
+        avatar_static:
+          type: string
+        header:
+          type: string
+        header_static:
+          type: string
+        locked:
+          type: boolean
+        emojis:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mastodon.Emoji'
+          x-cadl-name: Mastodon.Emoji[]
+        discoverable:
+          type: boolean
+        created_at:
+          type: string
+        last_status_at:
+          type: string
+        statuses_count:
+          type: integer
+          format: int32
+        followers_count:
+          type: integer
+          format: int32
+        following_count:
+          type: integer
+          format: int32
+        moved:
+          $ref: '#/components/schemas/Mastodon.Account'
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mastodon.Field'
+          x-cadl-name: Mastodon.Field[]
+        bot:
+          type: boolean
+        souce:
+          $ref: '#/components/schemas/Mastodon.Source'
+        suspended:
+          type: boolean
+        mute_expires_at:
+          type: string
+      required:
+        - id
+        - username
+        - acct
+        - url
+        - display_name
+        - note
+        - avatar
+        - avatar_static
+        - header
+        - header_static
+        - locked
+        - emojis
+        - discoverable
+        - created_at
+        - last_status_at
+        - statuses_count
+        - followers_count
+        - following_count
+        - moved
+        - fields
+        - bot
+        - souce
+        - suspended
+        - mute_expires_at
+    Mastodon.AccountList:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+      required:
+        - id
+        - title
+    Mastodon.AccountUpdate:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        acct:
+          type: string
+        url:
+          type: string
+        display_name:
+          type: string
+        note:
+          type: string
+        avatar:
+          type: string
+        avatar_static:
+          type: string
+        header:
+          type: string
+        header_static:
+          type: string
+        locked:
+          type: boolean
+        emojis:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mastodon.Emoji'
+          x-cadl-name: Mastodon.Emoji[]
+        discoverable:
+          type: boolean
+        created_at:
+          type: string
+        last_status_at:
+          type: string
+        statuses_count:
+          type: integer
+          format: int32
+        followers_count:
+          type: integer
+          format: int32
+        following_count:
+          type: integer
+          format: int32
+        moved:
+          $ref: '#/components/schemas/Mastodon.AccountUpdate'
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mastodon.Field'
+          x-cadl-name: Mastodon.Field[]
+        bot:
+          type: boolean
+        souce:
+          $ref: '#/components/schemas/Mastodon.SourceUpdate'
+        suspended:
+          type: boolean
+        mute_expires_at:
+          type: string
+    Mastodon.Application:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        website:
+          type: string
+        redirect_uri:
+          type: string
+        client_id:
+          type: string
+        client_secret:
+          type: string
+        vapid_key:
+          type: string
+      required:
+        - id
+        - name
+        - website
+        - redirect_uri
+        - client_id
+        - client_secret
+        - vapid_key
+    Mastodon.Card:
+      type: object
+      properties:
+        url:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        image:
+          type: string
+      required:
+        - url
+        - title
+        - description
+        - image
+    Mastodon.Configuration:
+      type: object
+      properties:
+        urls:
+          $ref: '#/components/schemas/Mastodon.ConfigurationUrls'
+        accounts:
+          $ref: '#/components/schemas/Mastodon.ConfigurationAccounts'
+        statuses:
+          $ref: '#/components/schemas/Mastodon.ConfigurationStatuses'
+        media_attachments:
+          $ref: '#/components/schemas/Mastodon.ConfigurationMediaAttachments'
+        polls:
+          $ref: '#/components/schemas/Mastodon.ConfigurationPolls'
+        translation:
+          $ref: '#/components/schemas/Mastodon.ConfigurationTranslation'
+      required:
+        - urls
+        - accounts
+        - statuses
+        - media_attachments
+        - polls
+        - translation
+    Mastodon.ConfigurationAccounts:
+      type: object
+      properties:
+        max_feature_tags:
+          type: integer
+          format: int32
+      required:
+        - max_feature_tags
+    Mastodon.ConfigurationMediaAttachments:
+      type: object
+      properties:
+        image_size_limit:
+          type: integer
+          format: int32
+        supported_mime_types:
+          type: array
+          items:
+            type: string
+          x-cadl-name: string[]
+        image_matrix_limit:
+          type: integer
+          format: int32
+        video_size_limit:
+          type: integer
+          format: int32
+        video_matrix_limit:
+          type: integer
+          format: int32
+      required:
+        - image_size_limit
+        - supported_mime_types
+        - image_matrix_limit
+        - video_size_limit
+        - video_matrix_limit
+    Mastodon.ConfigurationPolls:
+      type: object
+      properties:
+        max_options:
+          type: integer
+          format: int32
+        max_characters_per_option:
+          type: integer
+          format: int32
+        min_expiration:
+          type: integer
+          format: int32
+        max_expiration:
+          type: integer
+          format: int32
+      required:
+        - max_options
+        - max_characters_per_option
+        - min_expiration
+        - max_expiration
+    Mastodon.ConfigurationStatuses:
+      type: object
+      properties:
+        max_characters:
+          type: integer
+          format: int32
+        max_media_attachments:
+          type: integer
+          format: int32
+        characters_reserved_per_url:
+          type: integer
+          format: int32
+      required:
+        - max_characters
+        - max_media_attachments
+        - characters_reserved_per_url
+    Mastodon.ConfigurationTranslation:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+      required:
+        - enabled
+    Mastodon.ConfigurationUrls:
+      type: object
+      properties:
+        streaming_api:
+          type: string
+      required:
+        - streaming_api
+    Mastodon.Contact:
+      type: object
+      properties:
+        email:
+          type: string
+        account:
+          $ref: '#/components/schemas/Mastodon.Account'
+      required:
+        - email
+        - account
+    Mastodon.CreateAccountForm:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        agreement:
+          type: boolean
+        locale:
+          type: string
+        reason:
+          type: string
+      required:
+        - username
+        - email
+        - password
+        - agreement
+        - locale
+        - reason
+    Mastodon.Emoji:
+      type: object
+      properties:
+        shortcode:
+          type: string
+        static_url:
+          type: string
+        url:
+          type: string
+        visible_in_picker:
+          type: boolean
+      required:
+        - shortcode
+        - static_url
+        - url
+        - visible_in_picker
+    Mastodon.FamiliarFollowers:
+      type: object
+      properties:
+        id:
+          type: string
+        followers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mastodon.Account'
+          x-cadl-name: Mastodon.Account[]
+      required:
+        - id
+        - followers
+    Mastodon.FeaturedTag:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        url:
+          type: string
+        statuses_count:
+          type: integer
+          format: int32
+        last_status_at:
+          type: string
+      required:
+        - id
+        - name
+        - url
+        - statuses_count
+        - last_status_at
+    Mastodon.FederationUsage:
+      type: object
+      properties:
+        active:
+          type: integer
+          format: int64
+        receiving:
+          type: integer
+          format: int64
+        sending:
+          type: integer
+          format: int64
+      required:
+        - active
+        - receiving
+        - sending
+    Mastodon.Field:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+        verified_at:
+          type: string
+      required:
+        - name
+        - value
+        - verified_at
+    Mastodon.FollowBody:
+      type: object
+      properties:
+        reblogs:
+          type: boolean
+        notify:
+          type: boolean
+        lanuages:
+          type: array
+          items:
+            type: string
+          x-cadl-name: string[]
+      required:
+        - reblogs
+        - notify
+        - lanuages
+    Mastodon.HistoryItem:
+      type: object
+      properties:
+        day:
+          type: string
+        uses:
+          type: string
+        accounts:
+          type: string
+      required:
+        - day
+        - uses
+        - accounts
+    Mastodon.Instance:
+      type: object
+      properties:
+        domain:
+          type: string
+        title:
+          type: string
+        version:
+          type: string
+        source_url:
+          type: string
+        description:
+          type: string
+        usage:
+          $ref: '#/components/schemas/Mastodon.Usage'
+        thumbnail:
+          $ref: '#/components/schemas/Mastodon.Thumbnail'
+        languages:
+          type: array
+          items:
+            type: string
+          x-cadl-name: string[]
+        configuration:
+          $ref: '#/components/schemas/Mastodon.Configuration'
+        registrations:
+          $ref: '#/components/schemas/Mastodon.Registrations'
+        contact:
+          $ref: '#/components/schemas/Mastodon.Contact'
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mastodon.Rule'
+          x-cadl-name: Mastodon.Rule[]
+      required:
+        - domain
+        - title
+        - version
+        - source_url
+        - description
+        - usage
+        - thumbnail
+        - languages
+        - configuration
+        - registrations
+        - contact
+        - rules
+    Mastodon.MediaAttachment:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        url:
+          type: string
+        preview_url:
+          type: string
+        remote_url:
+          type: string
+        text_url:
+          type: string
+        meta:
+          $ref: '#/components/schemas/Mastodon.MediaAttachmentMeta'
+        description:
+          type: string
+      required:
+        - id
+        - type
+        - url
+        - preview_url
+        - remote_url
+        - text_url
+        - meta
+        - description
+    Mastodon.MediaAttachmentMeta:
+      type: object
+      properties:
+        original:
+          $ref: '#/components/schemas/Mastodon.MediaAttachmentMetaOriginal'
+        small:
+          $ref: '#/components/schemas/Mastodon.MediaAttachmentMetaSmall'
+      required:
+        - original
+        - small
+    Mastodon.MediaAttachmentMetaOriginal:
+      type: object
+      properties:
+        width:
+          type: integer
+          format: int32
+        height:
+          type: integer
+          format: int32
+        size:
+          type: string
+        aspect:
+          type: number
+          format: float
+      required:
+        - width
+        - height
+        - size
+        - aspect
+    Mastodon.MediaAttachmentMetaSmall:
+      type: object
+      properties:
+        width:
+          type: integer
+          format: int32
+        height:
+          type: integer
+          format: int32
+        size:
+          type: string
+        aspect:
+          type: number
+          format: float
+      required:
+        - width
+        - height
+        - size
+        - aspect
+    Mastodon.Mention:
+      type: object
+      properties:
+        id:
+          type: string
+        url:
+          type: string
+        username:
+          type: string
+        acct:
+          type: string
+      required:
+        - id
+        - url
+        - username
+        - acct
+    Mastodon.MuteForm:
+      type: object
+      properties:
+        notifications:
+          type: boolean
+        duration:
+          type: integer
+          format: int32
+      required:
+        - notifications
+        - duration
+    Mastodon.Poll:
+      type: object
+      properties:
+        id:
+          type: string
+        expires_at:
+          type: string
+        expired:
+          type: boolean
+        multiple:
+          type: boolean
+        votes_count:
+          type: integer
+          format: int32
+        voters_count:
+          type: integer
+          format: int32
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mastodon.PollOption'
+          x-cadl-name: Mastodon.PollOption[]
+        emojis:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mastodon.Emoji'
+          x-cadl-name: Mastodon.Emoji[]
+        voted:
+          type: boolean
+        own_votes:
+          type: array
+          items:
+            type: integer
+            format: int32
+          x-cadl-name: int32[]
+      required:
+        - id
+        - expires_at
+        - expired
+        - multiple
+        - votes_count
+        - voters_count
+        - options
+        - emojis
+        - voted
+        - own_votes
+    Mastodon.PollOption:
+      type: object
+      properties:
+        title:
+          type: string
+        votes_count:
+          type: integer
+          format: int32
+      required:
+        - title
+        - votes_count
+    Mastodon.Registrations:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        approval_required:
+          type: boolean
+        message:
+          type: string
+      required:
+        - enabled
+        - approval_required
+        - message
+    Mastodon.Relationship:
+      type: object
+      properties:
+        id:
+          type: string
+        following:
+          type: boolean
+        showing_reblogs:
+          type: boolean
+        notifying:
+          type: boolean
+        languages:
+          type: array
+          items:
+            type: string
+          x-cadl-name: string[]
+        followed_by:
+          type: boolean
+        blocking:
+          type: boolean
+        blocked_by:
+          type: boolean
+        muting:
+          type: boolean
+        muting_notifications:
+          type: boolean
+        requested:
+          type: boolean
+        domain_blocking:
+          type: boolean
+        endorsed:
+          type: boolean
+        note:
+          type: string
+      required:
+        - id
+        - following
+        - showing_reblogs
+        - notifying
+        - languages
+        - followed_by
+        - blocking
+        - blocked_by
+        - muting
+        - muting_notifications
+        - requested
+        - domain_blocking
+        - endorsed
+        - note
+    Mastodon.Rule:
+      type: object
+      properties:
+        id:
+          type: string
+        text:
+          type: string
+      required:
+        - id
+        - text
+    Mastodon.SetNoteForm:
+      type: object
+      properties:
+        comment:
+          type: string
+      required:
+        - comment
+    Mastodon.Source:
+      type: object
+      properties:
+        privacy:
+          type: string
+        sensitive:
+          type: boolean
+        language:
+          type: string
+        note:
+          type: string
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mastodon.Field'
+          x-cadl-name: Mastodon.Field[]
+        follower_requests_count:
+          type: integer
+          format: int32
+      required:
+        - privacy
+        - sensitive
+        - language
+        - note
+        - fields
+        - follower_requests_count
+    Mastodon.SourceUpdate:
+      type: object
+      properties:
+        privacy:
+          type: string
+        sensitive:
+          type: boolean
+        language:
+          type: string
+        note:
+          type: string
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mastodon.Field'
+          x-cadl-name: Mastodon.Field[]
+        follower_requests_count:
+          type: integer
+          format: int32
+    Mastodon.Status:
+      type: object
+      properties:
+        id:
+          type: string
+        uri:
+          type: string
+        created_at:
+          type: string
+        account:
+          $ref: '#/components/schemas/Mastodon.Account'
+        content:
+          type: string
+        visibility:
+          type: string
+        sensitive:
+          type: boolean
+        spoiler_text:
+          type: string
+        media_attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mastodon.MediaAttachment'
+          x-cadl-name: Mastodon.MediaAttachment[]
+        mentions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mastodon.Mention'
+          x-cadl-name: Mastodon.Mention[]
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mastodon.Tag'
+          x-cadl-name: Mastodon.Tag[]
+        emojis:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mastodon.Emoji'
+          x-cadl-name: Mastodon.Emoji[]
+        reblogs_count:
+          type: integer
+          format: int32
+        favourites_count:
+          type: integer
+          format: int32
+        replies_count:
+          type: integer
+          format: int32
+        url:
+          type: string
+        in_reply_to_id:
+          type: string
+        in_reply_to_account_id:
+          type: string
+        reblog:
+          $ref: '#/components/schemas/Mastodon.Status'
+        poll:
+          $ref: '#/components/schemas/Mastodon.Poll'
+        card:
+          $ref: '#/components/schemas/Mastodon.Card'
+        language:
+          type: string
+        text:
+          type: string
+        favourited:
+          type: boolean
+        reblogged:
+          type: boolean
+        muted:
+          type: boolean
+        bookmarked:
+          type: boolean
+        pinned:
+          type: boolean
+      required:
+        - id
+        - uri
+        - created_at
+        - account
+        - content
+        - visibility
+        - sensitive
+        - spoiler_text
+        - media_attachments
+        - mentions
+        - tags
+        - emojis
+        - reblogs_count
+        - favourites_count
+        - replies_count
+        - favourited
+        - reblogged
+        - muted
+        - bookmarked
+        - pinned
+    Mastodon.Tag:
+      type: object
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+        history:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mastodon.HistoryItem'
+          x-cadl-name: Mastodon.HistoryItem[]
+        following:
+          type: boolean
+      required:
+        - name
+        - url
+        - history
+        - following
+    Mastodon.Thumbnail:
+      type: object
+      properties:
+        url:
+          type: string
+        blurhash:
+          type: string
+        versions:
+          $ref: '#/components/schemas/Mastodon.ThumnailVersion'
+      required:
+        - url
+        - blurhash
+        - versions
+    Mastodon.ThumnailVersion:
+      type: object
+      properties:
+        '@1x':
+          type: string
+        '@2x':
+          type: string
+      required:
+        - '@1x'
+        - '@2x'
+    Mastodon.UpdateCredentialsForm:
+      type: object
+      properties:
+        discoverable:
+          type: boolean
+        bot:
+          type: boolean
+        display_name:
+          type: string
+        note:
+          type: string
+        avatar:
+          type: string
+        header:
+          type: string
+        locked:
+          type: boolean
+        source[privacy]:
+          type: string
+        source[sensitive]:
+          type: boolean
+        source[language]:
+          type: string
+    Mastodon.Usage:
+      type: object
+      properties:
+        users:
+          $ref: '#/components/schemas/Mastodon.UserUsage'
+        local_posts:
+          type: integer
+          format: int64
+        federation:
+          $ref: '#/components/schemas/Mastodon.FederationUsage'
+      required:
+        - users
+        - local_posts
+        - federation
+    Mastodon.UserUsage:
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int64
+        active_halfyear:
+          type: integer
+          format: int64
+        active_month:
+          type: integer
+          format: int64
+      required:
+        - total
+        - active_halfyear
+        - active_month
+    RevokeForm:
+      type: object
+      properties:
+        client_id:
+          type: string
+        client_secret:
+          type: string
+        token:
+          type: string
+      required:
+        - client_id
+        - client_secret
+        - token
+    SearchResult:
+      type: object
+      properties:
+        accounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mastodon.Account'
+          x-cadl-name: Mastodon.Account[]
+        hashtags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mastodon.Tag'
+          x-cadl-name: Mastodon.Tag[]
+        statuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mastodon.Status'
+          x-cadl-name: Mastodon.Status[]
+      required:
+        - accounts
+        - hashtags
+        - statuses
+    StatusEdit:
+      type: object
+      properties:
+        content:
+          type: string
+        spoiler_text:
+          type: string
+        sensitive:
+          type: boolean
+        created_at:
+          type: string
+        account:
+          $ref: '#/components/schemas/Mastodon.Account'
+        poll:
+          $ref: '#/components/schemas/Mastodon.Poll'
+        media_attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mastodon.MediaAttachment'
+          x-cadl-name: Mastodon.MediaAttachment[]
+        emojis:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mastodon.Emoji'
+          x-cadl-name: Mastodon.Emoji[]
+      required:
+        - content
+        - spoiler_text
+        - sensitive
+        - created_at
+        - account
+        - poll
+        - media_attachments
+        - emojis
+    StatusSource:
+      type: object
+      properties:
+        id:
+          type: string
+        text:
+          type: string
+        spoiler_text:
+          type: string
+      required:
+        - id
+        - text
+        - spoiler_text
+    TokenForm:
+      type: object
+      properties:
+        grant_type:
+          type: string
+        code:
+          type: string
+        client_id:
+          type: string
+        client_secret:
+          type: string
+        redirect_uri:
+          type: string
+        scopes:
+          type: string
+      required:
+        - grant_type
+        - code
+        - client_id
+        - client_secret
+        - redirect_uri
+        - scopes
+    TokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+        scope:
+          type: string
+        created_at:
+          type: integer
+          format: int32
+      required:
+        - access_token
+        - token_type
+        - scope
+        - created_at
+    UnauthorizedError:
+      type: object
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
+      required:
+        - error
+        - error_description
+    UnprocessableContentError:
+      type: object
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
+      required:
+        - error
+        - error_description
+    Visibility:
+      type: string
+      enum:
+        - public
+        - unlisted
+        - private
+        - direct
+servers:
+  - url: https://mastodon.example/
+    description: Actual server to be set during client setup
+    variables: {}

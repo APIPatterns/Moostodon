@@ -8,29 +8,101 @@ namespace MastodonClientLib.Models {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The configuration property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public MastodonClientLib.Models.Configuration? Configuration { get; set; }
+#nullable restore
+#else
         public MastodonClientLib.Models.Configuration Configuration { get; set; }
+#endif
         /// <summary>The contact property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public MastodonClientLib.Models.Contact? Contact { get; set; }
+#nullable restore
+#else
         public MastodonClientLib.Models.Contact Contact { get; set; }
+#endif
         /// <summary>The description property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Description { get; set; }
+#nullable restore
+#else
         public string Description { get; set; }
+#endif
         /// <summary>The domain property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Domain { get; set; }
+#nullable restore
+#else
         public string Domain { get; set; }
+#endif
         /// <summary>The languages property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public List<string>? Languages { get; set; }
+#nullable restore
+#else
         public List<string> Languages { get; set; }
+#endif
         /// <summary>The registrations property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public MastodonClientLib.Models.Registrations? Registrations { get; set; }
+#nullable restore
+#else
         public MastodonClientLib.Models.Registrations Registrations { get; set; }
+#endif
         /// <summary>The rules property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public List<Rule>? Rules { get; set; }
+#nullable restore
+#else
         public List<Rule> Rules { get; set; }
+#endif
         /// <summary>The source_url property</summary>
-        public string Source_url { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? SourceUrl { get; set; }
+#nullable restore
+#else
+        public string SourceUrl { get; set; }
+#endif
         /// <summary>The thumbnail property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public MastodonClientLib.Models.Thumbnail? Thumbnail { get; set; }
+#nullable restore
+#else
         public MastodonClientLib.Models.Thumbnail Thumbnail { get; set; }
+#endif
         /// <summary>The title property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Title { get; set; }
+#nullable restore
+#else
         public string Title { get; set; }
+#endif
         /// <summary>The usage property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public MastodonClientLib.Models.Usage? Usage { get; set; }
+#nullable restore
+#else
         public MastodonClientLib.Models.Usage Usage { get; set; }
+#endif
         /// <summary>The version property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Version { get; set; }
+#nullable restore
+#else
         public string Version { get; set; }
+#endif
         /// <summary>
         /// Instantiates a new Instance and sets the default values.
         /// </summary>
@@ -57,7 +129,7 @@ namespace MastodonClientLib.Models {
                 {"languages", n => { Languages = n.GetCollectionOfPrimitiveValues<string>()?.ToList(); } },
                 {"registrations", n => { Registrations = n.GetObjectValue<MastodonClientLib.Models.Registrations>(MastodonClientLib.Models.Registrations.CreateFromDiscriminatorValue); } },
                 {"rules", n => { Rules = n.GetCollectionOfObjectValues<Rule>(Rule.CreateFromDiscriminatorValue)?.ToList(); } },
-                {"source_url", n => { Source_url = n.GetStringValue(); } },
+                {"source_url", n => { SourceUrl = n.GetStringValue(); } },
                 {"thumbnail", n => { Thumbnail = n.GetObjectValue<MastodonClientLib.Models.Thumbnail>(MastodonClientLib.Models.Thumbnail.CreateFromDiscriminatorValue); } },
                 {"title", n => { Title = n.GetStringValue(); } },
                 {"usage", n => { Usage = n.GetObjectValue<MastodonClientLib.Models.Usage>(MastodonClientLib.Models.Usage.CreateFromDiscriminatorValue); } },
@@ -77,7 +149,7 @@ namespace MastodonClientLib.Models {
             writer.WriteCollectionOfPrimitiveValues<string>("languages", Languages);
             writer.WriteObjectValue<MastodonClientLib.Models.Registrations>("registrations", Registrations);
             writer.WriteCollectionOfObjectValues<Rule>("rules", Rules);
-            writer.WriteStringValue("source_url", Source_url);
+            writer.WriteStringValue("source_url", SourceUrl);
             writer.WriteObjectValue<MastodonClientLib.Models.Thumbnail>("thumbnail", Thumbnail);
             writer.WriteStringValue("title", Title);
             writer.WriteObjectValue<MastodonClientLib.Models.Usage>("usage", Usage);

@@ -1,0 +1,31 @@
+{
+  "descriptionHash": "5F0B60028EFFB6E0B328CD70C289F11A378AB7B105FBAF9F2B0E9D3D249DE55E4C940B448564647B41CE72347F96F13DCF6FCBBF11EA889B02D7D55E5AE3C643",
+  "descriptionLocation": "..\\..\\spec\\cadl-output\\openapi.yaml",
+  "lockFileVersion": "1.0.0",
+  "kiotaVersion": "0.11.0-preview",
+  "clientClassName": "MastodonClient",
+  "clientNamespaceName": "MastodonClientLib",
+  "language": "Python",
+  "usesBackingStore": false,
+  "includeAdditionalData": true,
+  "serializers": [
+    "Microsoft.Kiota.Serialization.Form.FormSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Json.JsonSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Text.TextSerializationWriterFactory"
+  ],
+  "deserializers": [
+    "Microsoft.Kiota.Serialization.Form.FormParseNodeFactory",
+    "Microsoft.Kiota.Serialization.Json.JsonParseNodeFactory",
+    "Microsoft.Kiota.Serialization.Text.TextParseNodeFactory"
+  ],
+  "structuredMimeTypes": [
+    "application/json",
+    "application/xml",
+    "text/plain",
+    "text/xml",
+    "text/yaml"
+  ],
+  "includePatterns": [],
+  "excludePatterns": [],
+  "disabledValidationRules": []
+}

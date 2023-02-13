@@ -4,9 +4,12 @@ exports.MastodonClient = void 0;
 const apiRequestBuilder_1 = require("./api/apiRequestBuilder");
 const oauthRequestBuilder_1 = require("./oauth/oauthRequestBuilder");
 const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
+const kiota_serialization_form_1 = require("@microsoft/kiota-serialization-form");
 const kiota_serialization_json_1 = require("@microsoft/kiota-serialization-json");
 const kiota_serialization_text_1 = require("@microsoft/kiota-serialization-text");
-/** The main entry point of the SDK, exposes the configuration and the fluent API. */
+/**
+ * The main entry point of the SDK, exposes the configuration and the fluent API.
+ */
 class MastodonClient {
     /** The api property */
     get api() {
@@ -28,11 +31,14 @@ class MastodonClient {
         this.requestAdapter = requestAdapter;
         (0, kiota_abstractions_1.registerDefaultSerializer)(kiota_serialization_json_1.JsonSerializationWriterFactory);
         (0, kiota_abstractions_1.registerDefaultSerializer)(kiota_serialization_text_1.TextSerializationWriterFactory);
+        (0, kiota_abstractions_1.registerDefaultSerializer)(kiota_serialization_form_1.FormSerializationWriterFactory);
         (0, kiota_abstractions_1.registerDefaultDeserializer)(kiota_serialization_json_1.JsonParseNodeFactory);
         (0, kiota_abstractions_1.registerDefaultDeserializer)(kiota_serialization_text_1.TextParseNodeFactory);
+        (0, kiota_abstractions_1.registerDefaultDeserializer)(kiota_serialization_form_1.FormParseNodeFactory);
         if (requestAdapter.baseUrl === undefined || requestAdapter.baseUrl === "") {
             requestAdapter.baseUrl = "https://mastodon.example";
         }
+        this.pathParameters["baseurl"] = requestAdapter.baseUrl;
     }
     ;
 }

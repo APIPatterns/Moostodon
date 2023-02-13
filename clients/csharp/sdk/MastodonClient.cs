@@ -1,6 +1,8 @@
 using MastodonClientLib.Api;
 using MastodonClientLib.Oauth;
 using Microsoft.Kiota.Abstractions;
+using Microsoft.Kiota.Abstractions.Extensions;
+using Microsoft.Kiota.Serialization.Form;
 using Microsoft.Kiota.Serialization.Json;
 using Microsoft.Kiota.Serialization.Text;
 using System;
@@ -9,7 +11,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 namespace MastodonClientLib {
-    /// <summary>The main entry point of the SDK, exposes the configuration and the fluent API.</summary>
+    /// <summary>
+    /// The main entry point of the SDK, exposes the configuration and the fluent API.
+    /// </summary>
     public class MastodonClient {
         /// <summary>The api property</summary>
         public ApiRequestBuilder Api { get =>
@@ -34,13 +38,16 @@ namespace MastodonClientLib {
             PathParameters = new Dictionary<string, object>();
             UrlTemplate = "{+baseurl}";
             RequestAdapter = requestAdapter;
+            ApiClientBuilder.RegisterDefaultSerializer<FormSerializationWriterFactory>();
             ApiClientBuilder.RegisterDefaultSerializer<JsonSerializationWriterFactory>();
             ApiClientBuilder.RegisterDefaultSerializer<TextSerializationWriterFactory>();
+            ApiClientBuilder.RegisterDefaultDeserializer<FormParseNodeFactory>();
             ApiClientBuilder.RegisterDefaultDeserializer<JsonParseNodeFactory>();
             ApiClientBuilder.RegisterDefaultDeserializer<TextParseNodeFactory>();
             if (string.IsNullOrEmpty(RequestAdapter.BaseUrl)) {
                 RequestAdapter.BaseUrl = "https://mastodon.example";
             }
+            PathParameters.TryAdd("baseurl", RequestAdapter.BaseUrl);
         }
     }
 }

@@ -8,11 +8,29 @@ namespace MastodonClientLib.Models {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The name property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Name { get; set; }
+#nullable restore
+#else
         public string Name { get; set; }
+#endif
         /// <summary>The value property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Value { get; set; }
+#nullable restore
+#else
         public string Value { get; set; }
+#endif
         /// <summary>The verified_at property</summary>
-        public string Verified_at { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? VerifiedAt { get; set; }
+#nullable restore
+#else
+        public string VerifiedAt { get; set; }
+#endif
         /// <summary>
         /// Instantiates a new Field and sets the default values.
         /// </summary>
@@ -34,7 +52,7 @@ namespace MastodonClientLib.Models {
             return new Dictionary<string, Action<IParseNode>> {
                 {"name", n => { Name = n.GetStringValue(); } },
                 {"value", n => { Value = n.GetStringValue(); } },
-                {"verified_at", n => { Verified_at = n.GetStringValue(); } },
+                {"verified_at", n => { VerifiedAt = n.GetStringValue(); } },
             };
         }
         /// <summary>
@@ -45,7 +63,7 @@ namespace MastodonClientLib.Models {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("name", Name);
             writer.WriteStringValue("value", Value);
-            writer.WriteStringValue("verified_at", Verified_at);
+            writer.WriteStringValue("verified_at", VerifiedAt);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

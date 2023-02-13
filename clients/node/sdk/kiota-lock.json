@@ -1,18 +1,20 @@
 {
-  "descriptionHash": "4C7E71F0F6D67C3023B2EA3B286C6CB7D4DE7E4EAF2D34C1460D06D7C1B4E2BE2129614F85D2FAA148948F86F79214374F0B8C6B08FD25C404FEED56C0080A05",
-  "descriptionLocation": "C:\\Users\\darrmi\\src\\github\\APIPatterns\\Moostodon\\clients\\node\\..\\..\\spec\\cadl-output\\openapi.json",
+  "descriptionHash": "5F0B60028EFFB6E0B328CD70C289F11A378AB7B105FBAF9F2B0E9D3D249DE55E4C940B448564647B41CE72347F96F13DCF6FCBBF11EA889B02D7D55E5AE3C643",
+  "descriptionLocation": "..\\..\\spec\\cadl-output\\openapi.yaml",
   "lockFileVersion": "1.0.0",
-  "kiotaVersion": "0.8.3.0",
+  "kiotaVersion": "0.11.0-preview",
   "clientClassName": "MastodonClient",
   "clientNamespaceName": "NotUsedButRequired",
   "language": "TypeScript",
   "usesBackingStore": false,
   "includeAdditionalData": true,
   "serializers": [
+    "Microsoft.Kiota.Serialization.Form.FormSerializationWriterFactory",
     "Microsoft.Kiota.Serialization.Json.JsonSerializationWriterFactory",
     "Microsoft.Kiota.Serialization.Text.TextSerializationWriterFactory"
   ],
   "deserializers": [
+    "Microsoft.Kiota.Serialization.Form.FormParseNodeFactory",
     "Microsoft.Kiota.Serialization.Json.JsonParseNodeFactory",
     "Microsoft.Kiota.Serialization.Text.TextParseNodeFactory"
   ],
@@ -24,5 +26,6 @@
     "text/yaml"
   ],
   "includePatterns": [],
-  "excludePatterns": []
+  "excludePatterns": [],
+  "disabledValidationRules": []
 }

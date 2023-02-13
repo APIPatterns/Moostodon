@@ -6,9 +6,9 @@ using System.Linq;
 namespace MastodonClientLib.Models {
     public class UserUsage : IAdditionalDataHolder, IParsable {
         /// <summary>The active_halfyear property</summary>
-        public long? Active_halfyear { get; set; }
+        public long? ActiveHalfyear { get; set; }
         /// <summary>The active_month property</summary>
-        public long? Active_month { get; set; }
+        public long? ActiveMonth { get; set; }
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The total property</summary>
@@ -32,8 +32,8 @@ namespace MastodonClientLib.Models {
         /// </summary>
         public IDictionary<string, Action<IParseNode>> GetFieldDeserializers() {
             return new Dictionary<string, Action<IParseNode>> {
-                {"active_halfyear", n => { Active_halfyear = n.GetLongValue(); } },
-                {"active_month", n => { Active_month = n.GetLongValue(); } },
+                {"active_halfyear", n => { ActiveHalfyear = n.GetLongValue(); } },
+                {"active_month", n => { ActiveMonth = n.GetLongValue(); } },
                 {"total", n => { Total = n.GetLongValue(); } },
             };
         }
@@ -43,8 +43,8 @@ namespace MastodonClientLib.Models {
         /// <param name="writer">Serialization writer to use to serialize this model</param>
         public void Serialize(ISerializationWriter writer) {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
-            writer.WriteLongValue("active_halfyear", Active_halfyear);
-            writer.WriteLongValue("active_month", Active_month);
+            writer.WriteLongValue("active_halfyear", ActiveHalfyear);
+            writer.WriteLongValue("active_month", ActiveMonth);
             writer.WriteLongValue("total", Total);
             writer.WriteAdditionalData(AdditionalData);
         }

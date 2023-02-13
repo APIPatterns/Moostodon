@@ -6,19 +6,55 @@ using System.Linq;
 namespace MastodonClientLib.Models {
     public class Configuration : IAdditionalDataHolder, IParsable {
         /// <summary>The accounts property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public ConfigurationAccounts? Accounts { get; set; }
+#nullable restore
+#else
         public ConfigurationAccounts Accounts { get; set; }
+#endif
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The media_attachments property</summary>
-        public ConfigurationMediaAttachments Media_attachments { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public ConfigurationMediaAttachments? MediaAttachments { get; set; }
+#nullable restore
+#else
+        public ConfigurationMediaAttachments MediaAttachments { get; set; }
+#endif
         /// <summary>The polls property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public ConfigurationPolls? Polls { get; set; }
+#nullable restore
+#else
         public ConfigurationPolls Polls { get; set; }
+#endif
         /// <summary>The statuses property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public ConfigurationStatuses? Statuses { get; set; }
+#nullable restore
+#else
         public ConfigurationStatuses Statuses { get; set; }
+#endif
         /// <summary>The translation property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public ConfigurationTranslation? Translation { get; set; }
+#nullable restore
+#else
         public ConfigurationTranslation Translation { get; set; }
+#endif
         /// <summary>The urls property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public ConfigurationUrls? Urls { get; set; }
+#nullable restore
+#else
         public ConfigurationUrls Urls { get; set; }
+#endif
         /// <summary>
         /// Instantiates a new Configuration and sets the default values.
         /// </summary>
@@ -39,7 +75,7 @@ namespace MastodonClientLib.Models {
         public IDictionary<string, Action<IParseNode>> GetFieldDeserializers() {
             return new Dictionary<string, Action<IParseNode>> {
                 {"accounts", n => { Accounts = n.GetObjectValue<ConfigurationAccounts>(ConfigurationAccounts.CreateFromDiscriminatorValue); } },
-                {"media_attachments", n => { Media_attachments = n.GetObjectValue<ConfigurationMediaAttachments>(ConfigurationMediaAttachments.CreateFromDiscriminatorValue); } },
+                {"media_attachments", n => { MediaAttachments = n.GetObjectValue<ConfigurationMediaAttachments>(ConfigurationMediaAttachments.CreateFromDiscriminatorValue); } },
                 {"polls", n => { Polls = n.GetObjectValue<ConfigurationPolls>(ConfigurationPolls.CreateFromDiscriminatorValue); } },
                 {"statuses", n => { Statuses = n.GetObjectValue<ConfigurationStatuses>(ConfigurationStatuses.CreateFromDiscriminatorValue); } },
                 {"translation", n => { Translation = n.GetObjectValue<ConfigurationTranslation>(ConfigurationTranslation.CreateFromDiscriminatorValue); } },
@@ -53,7 +89,7 @@ namespace MastodonClientLib.Models {
         public void Serialize(ISerializationWriter writer) {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
             writer.WriteObjectValue<ConfigurationAccounts>("accounts", Accounts);
-            writer.WriteObjectValue<ConfigurationMediaAttachments>("media_attachments", Media_attachments);
+            writer.WriteObjectValue<ConfigurationMediaAttachments>("media_attachments", MediaAttachments);
             writer.WriteObjectValue<ConfigurationPolls>("polls", Polls);
             writer.WriteObjectValue<ConfigurationStatuses>("statuses", Statuses);
             writer.WriteObjectValue<ConfigurationTranslation>("translation", Translation);

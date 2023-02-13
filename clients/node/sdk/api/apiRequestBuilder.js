@@ -4,7 +4,9 @@ exports.ApiRequestBuilder = void 0;
 const v1RequestBuilder_1 = require("./v1/v1RequestBuilder");
 const v2RequestBuilder_1 = require("./v2/v2RequestBuilder");
 const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
-/** Builds and executes requests for operations under /api */
+/**
+ * Builds and executes requests for operations under /api
+ */
 class ApiRequestBuilder {
     /** The v1 property */
     get v1() {

@@ -31,16 +31,16 @@ class UnprocessableContentError extends kiota_abstractions_1.ApiError {
      * Gets the error property value. The error property
      * @returns a string
      */
-    get error_escaped() {
-        return this._error_escaped;
+    get errorEscaped() {
+        return this._errorEscaped;
     }
     ;
     /**
      * Sets the error property value. The error property
-     * @param value Value to set for the error_escaped property.
+     * @param value Value to set for the errorEscaped property.
      */
-    set error_escaped(value) {
-        this._error_escaped = value;
+    set errorEscaped(value) {
+        this._errorEscaped = value;
     }
     ;
     /**
@@ -65,8 +65,8 @@ class UnprocessableContentError extends kiota_abstractions_1.ApiError {
      */
     getFieldDeserializers() {
         return {
+            "error": n => { this.errorEscaped = n.getStringValue(); },
             "error_description": n => { this.error_description = n.getStringValue(); },
-            "error": n => { this.error_escaped = n.getStringValue(); },
         };
     }
     ;
@@ -77,8 +77,8 @@ class UnprocessableContentError extends kiota_abstractions_1.ApiError {
     serialize(writer) {
         if (!writer)
             throw new Error("writer cannot be undefined");
+        writer.writeStringValue("error", this.errorEscaped);
         writer.writeStringValue("error_description", this.error_description);
-        writer.writeStringValue("error", this.error_escaped);
         writer.writeAdditionalData(this.additionalData);
     }
     ;

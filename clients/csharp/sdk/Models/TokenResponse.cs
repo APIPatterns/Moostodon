@@ -6,15 +6,33 @@ using System.Linq;
 namespace MastodonClientLib.Models {
     public class TokenResponse : IAdditionalDataHolder, IParsable {
         /// <summary>The access_token property</summary>
-        public string Access_token { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? AccessToken { get; set; }
+#nullable restore
+#else
+        public string AccessToken { get; set; }
+#endif
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The created_at property</summary>
-        public int? Created_at { get; set; }
+        public int? CreatedAt { get; set; }
         /// <summary>The scope property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Scope { get; set; }
+#nullable restore
+#else
         public string Scope { get; set; }
+#endif
         /// <summary>The token_type property</summary>
-        public string Token_type { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? TokenType { get; set; }
+#nullable restore
+#else
+        public string TokenType { get; set; }
+#endif
         /// <summary>
         /// Instantiates a new TokenResponse and sets the default values.
         /// </summary>
@@ -34,10 +52,10 @@ namespace MastodonClientLib.Models {
         /// </summary>
         public IDictionary<string, Action<IParseNode>> GetFieldDeserializers() {
             return new Dictionary<string, Action<IParseNode>> {
-                {"access_token", n => { Access_token = n.GetStringValue(); } },
-                {"created_at", n => { Created_at = n.GetIntValue(); } },
+                {"access_token", n => { AccessToken = n.GetStringValue(); } },
+                {"created_at", n => { CreatedAt = n.GetIntValue(); } },
                 {"scope", n => { Scope = n.GetStringValue(); } },
-                {"token_type", n => { Token_type = n.GetStringValue(); } },
+                {"token_type", n => { TokenType = n.GetStringValue(); } },
             };
         }
         /// <summary>
@@ -46,10 +64,10 @@ namespace MastodonClientLib.Models {
         /// <param name="writer">Serialization writer to use to serialize this model</param>
         public void Serialize(ISerializationWriter writer) {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
-            writer.WriteStringValue("access_token", Access_token);
-            writer.WriteIntValue("created_at", Created_at);
+            writer.WriteStringValue("access_token", AccessToken);
+            writer.WriteIntValue("created_at", CreatedAt);
             writer.WriteStringValue("scope", Scope);
-            writer.WriteStringValue("token_type", Token_type);
+            writer.WriteStringValue("token_type", TokenType);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

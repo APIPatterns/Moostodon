@@ -9,9 +9,21 @@ namespace MastodonClientLib.Models {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The error property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Error { get; set; }
+#nullable restore
+#else
         public string Error { get; set; }
+#endif
         /// <summary>The error_description property</summary>
-        public string Error_description { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? ErrorDescription { get; set; }
+#nullable restore
+#else
+        public string ErrorDescription { get; set; }
+#endif
         /// <summary>
         /// Instantiates a new UnprocessableContentError and sets the default values.
         /// </summary>
@@ -32,7 +44,7 @@ namespace MastodonClientLib.Models {
         public IDictionary<string, Action<IParseNode>> GetFieldDeserializers() {
             return new Dictionary<string, Action<IParseNode>> {
                 {"error", n => { Error = n.GetStringValue(); } },
-                {"error_description", n => { Error_description = n.GetStringValue(); } },
+                {"error_description", n => { ErrorDescription = n.GetStringValue(); } },
             };
         }
         /// <summary>
@@ -42,7 +54,7 @@ namespace MastodonClientLib.Models {
         public void Serialize(ISerializationWriter writer) {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("error", Error);
-            writer.WriteStringValue("error_description", Error_description);
+            writer.WriteStringValue("error_description", ErrorDescription);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

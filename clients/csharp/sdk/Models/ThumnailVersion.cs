@@ -8,9 +8,21 @@ namespace MastodonClientLib.Models {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The Onex property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Onex { get; set; }
+#nullable restore
+#else
         public string Onex { get; set; }
+#endif
         /// <summary>The Twox property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Twox { get; set; }
+#nullable restore
+#else
         public string Twox { get; set; }
+#endif
         /// <summary>
         /// Instantiates a new ThumnailVersion and sets the default values.
         /// </summary>

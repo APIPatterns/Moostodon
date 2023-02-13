@@ -8,13 +8,37 @@ namespace MastodonClientLib.Models {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The client_name property</summary>
-        public string Client_name { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? ClientName { get; set; }
+#nullable restore
+#else
+        public string ClientName { get; set; }
+#endif
         /// <summary>The redirect_uris property</summary>
-        public string Redirect_uris { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? RedirectUris { get; set; }
+#nullable restore
+#else
+        public string RedirectUris { get; set; }
+#endif
         /// <summary>The scopes property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Scopes { get; set; }
+#nullable restore
+#else
         public string Scopes { get; set; }
+#endif
         /// <summary>The website property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Website { get; set; }
+#nullable restore
+#else
         public string Website { get; set; }
+#endif
         /// <summary>
         /// Instantiates a new CreateAppForm and sets the default values.
         /// </summary>
@@ -34,8 +58,8 @@ namespace MastodonClientLib.Models {
         /// </summary>
         public IDictionary<string, Action<IParseNode>> GetFieldDeserializers() {
             return new Dictionary<string, Action<IParseNode>> {
-                {"client_name", n => { Client_name = n.GetStringValue(); } },
-                {"redirect_uris", n => { Redirect_uris = n.GetStringValue(); } },
+                {"client_name", n => { ClientName = n.GetStringValue(); } },
+                {"redirect_uris", n => { RedirectUris = n.GetStringValue(); } },
                 {"scopes", n => { Scopes = n.GetStringValue(); } },
                 {"website", n => { Website = n.GetStringValue(); } },
             };
@@ -46,8 +70,8 @@ namespace MastodonClientLib.Models {
         /// <param name="writer">Serialization writer to use to serialize this model</param>
         public void Serialize(ISerializationWriter writer) {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
-            writer.WriteStringValue("client_name", Client_name);
-            writer.WriteStringValue("redirect_uris", Redirect_uris);
+            writer.WriteStringValue("client_name", ClientName);
+            writer.WriteStringValue("redirect_uris", RedirectUris);
             writer.WriteStringValue("scopes", Scopes);
             writer.WriteStringValue("website", Website);
             writer.WriteAdditionalData(AdditionalData);

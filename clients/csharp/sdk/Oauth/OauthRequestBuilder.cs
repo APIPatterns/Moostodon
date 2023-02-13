@@ -8,7 +8,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 namespace MastodonClientLib.Oauth {
-    /// <summary>Builds and executes requests for operations under \oauth</summary>
+    /// <summary>
+    /// Builds and executes requests for operations under \oauth
+    /// </summary>
     public class OauthRequestBuilder {
         /// <summary>The authorize property</summary>
         public AuthorizeRequestBuilder Authorize { get =>
@@ -51,7 +53,7 @@ namespace MastodonClientLib.Oauth {
             _ = requestAdapter ?? throw new ArgumentNullException(nameof(requestAdapter));
             UrlTemplate = "{+baseurl}/oauth";
             var urlTplParams = new Dictionary<string, object>();
-            urlTplParams.Add("request-raw-url", rawUrl);
+            if (!string.IsNullOrWhiteSpace(rawUrl)) urlTplParams.Add("request-raw-url", rawUrl);
             PathParameters = urlTplParams;
             RequestAdapter = requestAdapter;
         }

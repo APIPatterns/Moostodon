@@ -2,7 +2,9 @@ import {V1RequestBuilder} from './v1/v1RequestBuilder';
 import {V2RequestBuilder} from './v2/v2RequestBuilder';
 import {getPathParameters, RequestAdapter} from '@microsoft/kiota-abstractions';
 
-/** Builds and executes requests for operations under /api */
+/**
+ * Builds and executes requests for operations under /api
+ */
 export class ApiRequestBuilder {
     /** Path parameters for the request */
     private pathParameters: Record<string, unknown>;

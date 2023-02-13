@@ -1,7 +1,9 @@
 import {SearchRequestBuilder} from './search/searchRequestBuilder';
 import {getPathParameters, RequestAdapter} from '@microsoft/kiota-abstractions';
 
-/** Builds and executes requests for operations under /api/v2 */
+/**
+ * Builds and executes requests for operations under /api/v2
+ */
 export class V2RequestBuilder {
     /** Path parameters for the request */
     private pathParameters: Record<string, unknown>;

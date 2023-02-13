@@ -2,7 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ListRequestBuilder = void 0;
 const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
-/** Builds and executes requests for operations under /api/v1/timelines/list */
+/**
+ * Builds and executes requests for operations under /api/v1/timelines/list
+ */
 class ListRequestBuilder {
     /**
      * Instantiates a new ListRequestBuilder and sets the default values.
