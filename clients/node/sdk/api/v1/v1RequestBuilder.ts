@@ -13,7 +13,9 @@ import {StatusesRequestBuilder} from './statuses/statusesRequestBuilder';
 import {TimelinesRequestBuilder} from './timelines/timelinesRequestBuilder';
 import {getPathParameters, RequestAdapter} from '@microsoft/kiota-abstractions';
 
-/** Builds and executes requests for operations under /api/v1 */
+/**
+ * Builds and executes requests for operations under /api/v1
+ */
 export class V1RequestBuilder {
     /** The accounts property */
     public get accounts(): AccountsRequestBuilder {

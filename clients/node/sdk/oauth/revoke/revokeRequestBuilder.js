@@ -2,7 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RevokeRequestBuilder = void 0;
 const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
-/** Builds and executes requests for operations under /oauth/revoke */
+/**
+ * Builds and executes requests for operations under /oauth/revoke
+ */
 class RevokeRequestBuilder {
     /**
      * Instantiates a new RevokeRequestBuilder and sets the default values.
@@ -20,7 +22,26 @@ class RevokeRequestBuilder {
         this.requestAdapter = requestAdapter;
     }
     ;
-    createPostRequestInformation(body, requestConfiguration) {
+    /**
+     * @param body Binary request body
+     * @param requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
+     * @param responseHandler Response handler to use in place of the default response handling provided by the core service
+     * @returns a Promise of ArrayBuffer
+     */
+    post(body, requestConfiguration, responseHandler) {
+        var _a, _b;
+        if (!body)
+            throw new Error("body cannot be undefined");
+        const requestInfo = this.toPostRequestInformation(body, requestConfiguration);
+        return (_b = (_a = this.requestAdapter) === null || _a === void 0 ? void 0 : _a.sendPrimitiveAsync(requestInfo, "ArrayBuffer", responseHandler, undefined)) !== null && _b !== void 0 ? _b : Promise.reject(new Error('request adapter is null'));
+    }
+    ;
+    /**
+     * @param body Binary request body
+     * @param requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
+     * @returns a RequestInformation
+     */
+    toPostRequestInformation(body, requestConfiguration) {
         if (!body)
             throw new Error("body cannot be undefined");
         const requestInfo = new kiota_abstractions_1.RequestInformation();
@@ -33,14 +54,6 @@ class RevokeRequestBuilder {
         }
         requestInfo.setStreamContent(body);
         return requestInfo;
-    }
-    ;
-    post(body, requestConfiguration, responseHandler) {
-        var _a, _b;
-        if (!body)
-            throw new Error("body cannot be undefined");
-        const requestInfo = this.createPostRequestInformation(body, requestConfiguration);
-        return (_b = (_a = this.requestAdapter) === null || _a === void 0 ? void 0 : _a.sendPrimitiveAsync(requestInfo, "ArrayBuffer", responseHandler, undefined)) !== null && _b !== void 0 ? _b : Promise.reject(new Error('request adapter is null'));
     }
     ;
 }

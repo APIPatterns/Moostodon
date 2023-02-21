@@ -3,7 +3,9 @@ import {createTokenResponseFromDiscriminatorValue} from '../../models/createToke
 import {TokenRequestBuilderPostRequestConfiguration} from './tokenRequestBuilderPostRequestConfiguration';
 import {getPathParameters, HttpMethod, Parsable, ParsableFactory, RequestAdapter, RequestInformation, RequestOption, ResponseHandler} from '@microsoft/kiota-abstractions';
 
-/** Builds and executes requests for operations under /oauth/token */
+/**
+ * Builds and executes requests for operations under /oauth/token
+ */
 export class TokenRequestBuilder {
     /** Path parameters for the request */
     private pathParameters: Record<string, unknown>;
@@ -24,25 +26,36 @@ export class TokenRequestBuilder {
         this.pathParameters = urlTplParams;
         this.requestAdapter = requestAdapter;
     };
-    public createPostRequestInformation(body: ArrayBuffer | undefined, requestConfiguration?: TokenRequestBuilderPostRequestConfiguration | undefined) : RequestInformation {
+    /**
+     * @param body Binary request body
+     * @param requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
+     * @param responseHandler Response handler to use in place of the default response handling provided by the core service
+     * @returns a Promise of TokenResponse
+     */
+    public post(body: ArrayBuffer | undefined, requestConfiguration?: TokenRequestBuilderPostRequestConfiguration | undefined, responseHandler?: ResponseHandler | undefined) : Promise<TokenResponse | undefined> {
+        if(!body) throw new Error("body cannot be undefined");
+        const requestInfo = this.toPostRequestInformation(
+            body, requestConfiguration
+        );
+        return this.requestAdapter?.sendAsync<TokenResponse>(requestInfo, createTokenResponseFromDiscriminatorValue, responseHandler, undefined) ?? Promise.reject(new Error('request adapter is null'));
+    };
+    /**
+     * @param body Binary request body
+     * @param requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
+     * @returns a RequestInformation
+     */
+    public toPostRequestInformation(body: ArrayBuffer | undefined, requestConfiguration?: TokenRequestBuilderPostRequestConfiguration | undefined) : RequestInformation {
         if(!body) throw new Error("body cannot be undefined");
         const requestInfo = new RequestInformation();
         requestInfo.urlTemplate = this.urlTemplate;
         requestInfo.pathParameters = this.pathParameters;
         requestInfo.httpMethod = HttpMethod.POST;
-        requestInfo.headers["Accept"] = "application/json";
+        requestInfo.headers["Accept"] = ["application/json"];
         if (requestConfiguration) {
             requestInfo.addRequestHeaders(requestConfiguration.headers);
             requestInfo.addRequestOptions(requestConfiguration.options);
         }
         requestInfo.setStreamContent(body);
         return requestInfo;
-    };
-    public post(body: ArrayBuffer | undefined, requestConfiguration?: TokenRequestBuilderPostRequestConfiguration | undefined, responseHandler?: ResponseHandler | undefined) : Promise<TokenResponse | undefined> {
-        if(!body) throw new Error("body cannot be undefined");
-        const requestInfo = this.createPostRequestInformation(
-            body, requestConfiguration
-        );
-        return this.requestAdapter?.sendAsync<TokenResponse>(requestInfo, createTokenResponseFromDiscriminatorValue, responseHandler, undefined) ?? Promise.reject(new Error('request adapter is null'));
     };
 }

@@ -8,11 +8,11 @@ namespace MastodonClientLib.Models {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The characters_reserved_per_url property</summary>
-        public int? Characters_reserved_per_url { get; set; }
+        public int? CharactersReservedPerUrl { get; set; }
         /// <summary>The max_characters property</summary>
-        public int? Max_characters { get; set; }
+        public int? MaxCharacters { get; set; }
         /// <summary>The max_media_attachments property</summary>
-        public int? Max_media_attachments { get; set; }
+        public int? MaxMediaAttachments { get; set; }
         /// <summary>
         /// Instantiates a new ConfigurationStatuses and sets the default values.
         /// </summary>
@@ -32,9 +32,9 @@ namespace MastodonClientLib.Models {
         /// </summary>
         public IDictionary<string, Action<IParseNode>> GetFieldDeserializers() {
             return new Dictionary<string, Action<IParseNode>> {
-                {"characters_reserved_per_url", n => { Characters_reserved_per_url = n.GetIntValue(); } },
-                {"max_characters", n => { Max_characters = n.GetIntValue(); } },
-                {"max_media_attachments", n => { Max_media_attachments = n.GetIntValue(); } },
+                {"characters_reserved_per_url", n => { CharactersReservedPerUrl = n.GetIntValue(); } },
+                {"max_characters", n => { MaxCharacters = n.GetIntValue(); } },
+                {"max_media_attachments", n => { MaxMediaAttachments = n.GetIntValue(); } },
             };
         }
         /// <summary>
@@ -43,9 +43,9 @@ namespace MastodonClientLib.Models {
         /// <param name="writer">Serialization writer to use to serialize this model</param>
         public void Serialize(ISerializationWriter writer) {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
-            writer.WriteIntValue("characters_reserved_per_url", Characters_reserved_per_url);
-            writer.WriteIntValue("max_characters", Max_characters);
-            writer.WriteIntValue("max_media_attachments", Max_media_attachments);
+            writer.WriteIntValue("characters_reserved_per_url", CharactersReservedPerUrl);
+            writer.WriteIntValue("max_characters", MaxCharacters);
+            writer.WriteIntValue("max_media_attachments", MaxMediaAttachments);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

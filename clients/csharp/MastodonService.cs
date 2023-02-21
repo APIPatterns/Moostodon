@@ -1,8 +1,5 @@
-using System.Linq;
-using System.Text;
 using MastodonClientLib;
 using MastodonClientLib.Models;
-using Microsoft.Kiota.Abstractions.Serialization;
 using Microsoft.Kiota.Http.HttpClientLibrary;
 using MoostodonConsole;
 
@@ -21,17 +18,10 @@ public class MastodonService {
 
         // Use OOB native HttpClient as the underlying HTTP library
         var requestAdapter = new HttpClientRequestAdapter(_authProvider);
-
-        // Add support for form-urlencoded content type
-        SerializationWriterFactoryRegistry
-                      .DefaultInstance
-                      .ContentTypeAssociatedFactories.Add(
-                          "application/x-www-form-urlencoded",
-                          new FormSerializationWriterFactory());
+        requestAdapter.BaseUrl = baseUrl;
 
         client = new MastodonClient(requestAdapter);
         _authProvider.Client = client;  // Enable auth provider to use client
-        requestAdapter.BaseUrl = baseUrl;  // Overwrite baseUrl from OpenAPI
     }
 
     // Search for Accounts, status and hashtags
@@ -48,8 +38,8 @@ public class MastodonService {
     public async Task<Application> CreateApp(string appName, string redirectUri, string scopes, string website, CancellationToken cancellationToken = default)
     {
         var app = await client.Api.V1.Apps.PostAsync(new CreateAppForm() {
-            Client_name = appName,
-            Redirect_uris = redirectUri,
+            ClientName = appName,
+            RedirectUris = redirectUri,
             Scopes = scopes,
             Website = website
         }, cancellationToken: cancellationToken);

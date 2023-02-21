@@ -6,7 +6,9 @@ import {WithTagItemRequestBuilder} from './tag/item/withTagItemRequestBuilder';
 import {TagRequestBuilder} from './tag/tagRequestBuilder';
 import {getPathParameters, RequestAdapter} from '@microsoft/kiota-abstractions';
 
-/** Builds and executes requests for operations under /api/v1/timelines */
+/**
+ * Builds and executes requests for operations under /api/v1/timelines
+ */
 export class TimelinesRequestBuilder {
     /** The home property */
     public get home(): HomeRequestBuilder {

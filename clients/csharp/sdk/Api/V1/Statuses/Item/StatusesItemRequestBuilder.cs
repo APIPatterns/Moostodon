@@ -23,7 +23,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 namespace MastodonClientLib.Api.V1.Statuses.Item {
-    /// <summary>Builds and executes requests for operations under \api\v1\statuses\{id}</summary>
+    /// <summary>
+    /// Builds and executes requests for operations under \api\v1\statuses\{id}
+    /// </summary>
     public class StatusesItemRequestBuilder {
         /// <summary>The bookmark property</summary>
         public BookmarkRequestBuilder Bookmark { get =>
@@ -114,11 +116,56 @@ namespace MastodonClientLib.Api.V1.Statuses.Item {
             _ = requestAdapter ?? throw new ArgumentNullException(nameof(requestAdapter));
             UrlTemplate = "{+baseurl}/api/v1/statuses/{id}";
             var urlTplParams = new Dictionary<string, object>();
-            urlTplParams.Add("request-raw-url", rawUrl);
+            if (!string.IsNullOrWhiteSpace(rawUrl)) urlTplParams.Add("request-raw-url", rawUrl);
             PathParameters = urlTplParams;
             RequestAdapter = requestAdapter;
         }
-        public RequestInformation CreateDeleteRequestInformation(Action<StatusesItemRequestBuilderDeleteRequestConfiguration> requestConfiguration = default) {
+        /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public async Task<Status?> DeleteAsync(Action<StatusesItemRequestBuilderDeleteRequestConfiguration>? requestConfiguration = default, CancellationToken cancellationToken = default) {
+#nullable restore
+#else
+        public async Task<Status> DeleteAsync(Action<StatusesItemRequestBuilderDeleteRequestConfiguration> requestConfiguration = default, CancellationToken cancellationToken = default) {
+#endif
+            var requestInfo = ToDeleteRequestInformation(requestConfiguration);
+            return await RequestAdapter.SendAsync<Status>(requestInfo, Status.CreateFromDiscriminatorValue, default, cancellationToken);
+        }
+        /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public async Task<Status?> GetAsync(Action<StatusesItemRequestBuilderGetRequestConfiguration>? requestConfiguration = default, CancellationToken cancellationToken = default) {
+#nullable restore
+#else
+        public async Task<Status> GetAsync(Action<StatusesItemRequestBuilderGetRequestConfiguration> requestConfiguration = default, CancellationToken cancellationToken = default) {
+#endif
+            var requestInfo = ToGetRequestInformation(requestConfiguration);
+            return await RequestAdapter.SendAsync<Status>(requestInfo, Status.CreateFromDiscriminatorValue, default, cancellationToken);
+        }
+        /// <param name="body">The request body</param>
+        /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public async Task<Status?> PutAsync(EditStatusForm body, Action<StatusesItemRequestBuilderPutRequestConfiguration>? requestConfiguration = default, CancellationToken cancellationToken = default) {
+#nullable restore
+#else
+        public async Task<Status> PutAsync(EditStatusForm body, Action<StatusesItemRequestBuilderPutRequestConfiguration> requestConfiguration = default, CancellationToken cancellationToken = default) {
+#endif
+            _ = body ?? throw new ArgumentNullException(nameof(body));
+            var requestInfo = ToPutRequestInformation(body, requestConfiguration);
+            return await RequestAdapter.SendAsync<Status>(requestInfo, Status.CreateFromDiscriminatorValue, default, cancellationToken);
+        }
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public RequestInformation ToDeleteRequestInformation(Action<StatusesItemRequestBuilderDeleteRequestConfiguration>? requestConfiguration = default) {
+#nullable restore
+#else
+        public RequestInformation ToDeleteRequestInformation(Action<StatusesItemRequestBuilderDeleteRequestConfiguration> requestConfiguration = default) {
+#endif
             var requestInfo = new RequestInformation {
                 HttpMethod = Method.DELETE,
                 UrlTemplate = UrlTemplate,
@@ -133,7 +180,14 @@ namespace MastodonClientLib.Api.V1.Statuses.Item {
             }
             return requestInfo;
         }
-        public RequestInformation CreateGetRequestInformation(Action<StatusesItemRequestBuilderGetRequestConfiguration> requestConfiguration = default) {
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public RequestInformation ToGetRequestInformation(Action<StatusesItemRequestBuilderGetRequestConfiguration>? requestConfiguration = default) {
+#nullable restore
+#else
+        public RequestInformation ToGetRequestInformation(Action<StatusesItemRequestBuilderGetRequestConfiguration> requestConfiguration = default) {
+#endif
             var requestInfo = new RequestInformation {
                 HttpMethod = Method.GET,
                 UrlTemplate = UrlTemplate,
@@ -148,7 +202,15 @@ namespace MastodonClientLib.Api.V1.Statuses.Item {
             }
             return requestInfo;
         }
-        public RequestInformation CreatePutRequestInformation(EditStatusForm body, Action<StatusesItemRequestBuilderPutRequestConfiguration> requestConfiguration = default) {
+        /// <param name="body">The request body</param>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public RequestInformation ToPutRequestInformation(EditStatusForm body, Action<StatusesItemRequestBuilderPutRequestConfiguration>? requestConfiguration = default) {
+#nullable restore
+#else
+        public RequestInformation ToPutRequestInformation(EditStatusForm body, Action<StatusesItemRequestBuilderPutRequestConfiguration> requestConfiguration = default) {
+#endif
             _ = body ?? throw new ArgumentNullException(nameof(body));
             var requestInfo = new RequestInformation {
                 HttpMethod = Method.PUT,
@@ -165,23 +227,12 @@ namespace MastodonClientLib.Api.V1.Statuses.Item {
             }
             return requestInfo;
         }
-        public async Task<Status> DeleteAsync(Action<StatusesItemRequestBuilderDeleteRequestConfiguration> requestConfiguration = default, CancellationToken cancellationToken = default) {
-            var requestInfo = CreateDeleteRequestInformation(requestConfiguration);
-            return await RequestAdapter.SendAsync<Status>(requestInfo, Status.CreateFromDiscriminatorValue, default, cancellationToken);
-        }
-        public async Task<Status> GetAsync(Action<StatusesItemRequestBuilderGetRequestConfiguration> requestConfiguration = default, CancellationToken cancellationToken = default) {
-            var requestInfo = CreateGetRequestInformation(requestConfiguration);
-            return await RequestAdapter.SendAsync<Status>(requestInfo, Status.CreateFromDiscriminatorValue, default, cancellationToken);
-        }
-        public async Task<Status> PutAsync(EditStatusForm body, Action<StatusesItemRequestBuilderPutRequestConfiguration> requestConfiguration = default, CancellationToken cancellationToken = default) {
-            _ = body ?? throw new ArgumentNullException(nameof(body));
-            var requestInfo = CreatePutRequestInformation(body, requestConfiguration);
-            return await RequestAdapter.SendAsync<Status>(requestInfo, Status.CreateFromDiscriminatorValue, default, cancellationToken);
-        }
-        /// <summary>Configuration for the request such as headers, query parameters, and middleware options.</summary>
+        /// <summary>
+        /// Configuration for the request such as headers, query parameters, and middleware options.
+        /// </summary>
         public class StatusesItemRequestBuilderDeleteRequestConfiguration {
             /// <summary>Request headers</summary>
-            public IDictionary<string, string> Headers { get; set; }
+            public RequestHeaders Headers { get; set; }
             /// <summary>Request options</summary>
             public IList<IRequestOption> Options { get; set; }
             /// <summary>
@@ -189,13 +240,15 @@ namespace MastodonClientLib.Api.V1.Statuses.Item {
             /// </summary>
             public StatusesItemRequestBuilderDeleteRequestConfiguration() {
                 Options = new List<IRequestOption>();
-                Headers = new Dictionary<string, string>();
+                Headers = new RequestHeaders();
             }
         }
-        /// <summary>Configuration for the request such as headers, query parameters, and middleware options.</summary>
+        /// <summary>
+        /// Configuration for the request such as headers, query parameters, and middleware options.
+        /// </summary>
         public class StatusesItemRequestBuilderGetRequestConfiguration {
             /// <summary>Request headers</summary>
-            public IDictionary<string, string> Headers { get; set; }
+            public RequestHeaders Headers { get; set; }
             /// <summary>Request options</summary>
             public IList<IRequestOption> Options { get; set; }
             /// <summary>
@@ -203,13 +256,15 @@ namespace MastodonClientLib.Api.V1.Statuses.Item {
             /// </summary>
             public StatusesItemRequestBuilderGetRequestConfiguration() {
                 Options = new List<IRequestOption>();
-                Headers = new Dictionary<string, string>();
+                Headers = new RequestHeaders();
             }
         }
-        /// <summary>Configuration for the request such as headers, query parameters, and middleware options.</summary>
+        /// <summary>
+        /// Configuration for the request such as headers, query parameters, and middleware options.
+        /// </summary>
         public class StatusesItemRequestBuilderPutRequestConfiguration {
             /// <summary>Request headers</summary>
-            public IDictionary<string, string> Headers { get; set; }
+            public RequestHeaders Headers { get; set; }
             /// <summary>Request options</summary>
             public IList<IRequestOption> Options { get; set; }
             /// <summary>
@@ -217,7 +272,7 @@ namespace MastodonClientLib.Api.V1.Statuses.Item {
             /// </summary>
             public StatusesItemRequestBuilderPutRequestConfiguration() {
                 Options = new List<IRequestOption>();
-                Headers = new Dictionary<string, string>();
+                Headers = new RequestHeaders();
             }
         }
     }

@@ -8,15 +8,39 @@ namespace MastodonClientLib.Models {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The id property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Id { get; set; }
+#nullable restore
+#else
         public string Id { get; set; }
+#endif
         /// <summary>The last_status_at property</summary>
-        public string Last_status_at { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? LastStatusAt { get; set; }
+#nullable restore
+#else
+        public string LastStatusAt { get; set; }
+#endif
         /// <summary>The name property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Name { get; set; }
+#nullable restore
+#else
         public string Name { get; set; }
+#endif
         /// <summary>The statuses_count property</summary>
-        public int? Statuses_count { get; set; }
+        public int? StatusesCount { get; set; }
         /// <summary>The url property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Url { get; set; }
+#nullable restore
+#else
         public string Url { get; set; }
+#endif
         /// <summary>
         /// Instantiates a new FeaturedTag and sets the default values.
         /// </summary>
@@ -37,9 +61,9 @@ namespace MastodonClientLib.Models {
         public IDictionary<string, Action<IParseNode>> GetFieldDeserializers() {
             return new Dictionary<string, Action<IParseNode>> {
                 {"id", n => { Id = n.GetStringValue(); } },
-                {"last_status_at", n => { Last_status_at = n.GetStringValue(); } },
+                {"last_status_at", n => { LastStatusAt = n.GetStringValue(); } },
                 {"name", n => { Name = n.GetStringValue(); } },
-                {"statuses_count", n => { Statuses_count = n.GetIntValue(); } },
+                {"statuses_count", n => { StatusesCount = n.GetIntValue(); } },
                 {"url", n => { Url = n.GetStringValue(); } },
             };
         }
@@ -50,9 +74,9 @@ namespace MastodonClientLib.Models {
         public void Serialize(ISerializationWriter writer) {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("id", Id);
-            writer.WriteStringValue("last_status_at", Last_status_at);
+            writer.WriteStringValue("last_status_at", LastStatusAt);
             writer.WriteStringValue("name", Name);
-            writer.WriteIntValue("statuses_count", Statuses_count);
+            writer.WriteIntValue("statuses_count", StatusesCount);
             writer.WriteStringValue("url", Url);
             writer.WriteAdditionalData(AdditionalData);
         }

@@ -15,7 +15,9 @@ const statusesItemRequestBuilder_1 = require("./statuses/item/statusesItemReques
 const statusesRequestBuilder_1 = require("./statuses/statusesRequestBuilder");
 const timelinesRequestBuilder_1 = require("./timelines/timelinesRequestBuilder");
 const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
-/** Builds and executes requests for operations under /api/v1 */
+/**
+ * Builds and executes requests for operations under /api/v1
+ */
 class V1RequestBuilder {
     /** The accounts property */
     get accounts() {

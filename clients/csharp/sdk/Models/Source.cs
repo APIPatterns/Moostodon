@@ -8,15 +8,39 @@ namespace MastodonClientLib.Models {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The fields property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public List<Field>? Fields { get; set; }
+#nullable restore
+#else
         public List<Field> Fields { get; set; }
+#endif
         /// <summary>The follower_requests_count property</summary>
-        public int? Follower_requests_count { get; set; }
+        public int? FollowerRequestsCount { get; set; }
         /// <summary>The language property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Language { get; set; }
+#nullable restore
+#else
         public string Language { get; set; }
+#endif
         /// <summary>The note property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Note { get; set; }
+#nullable restore
+#else
         public string Note { get; set; }
+#endif
         /// <summary>The privacy property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Privacy { get; set; }
+#nullable restore
+#else
         public string Privacy { get; set; }
+#endif
         /// <summary>The sensitive property</summary>
         public bool? Sensitive { get; set; }
         /// <summary>
@@ -39,7 +63,7 @@ namespace MastodonClientLib.Models {
         public IDictionary<string, Action<IParseNode>> GetFieldDeserializers() {
             return new Dictionary<string, Action<IParseNode>> {
                 {"fields", n => { Fields = n.GetCollectionOfObjectValues<Field>(Field.CreateFromDiscriminatorValue)?.ToList(); } },
-                {"follower_requests_count", n => { Follower_requests_count = n.GetIntValue(); } },
+                {"follower_requests_count", n => { FollowerRequestsCount = n.GetIntValue(); } },
                 {"language", n => { Language = n.GetStringValue(); } },
                 {"note", n => { Note = n.GetStringValue(); } },
                 {"privacy", n => { Privacy = n.GetStringValue(); } },
@@ -53,7 +77,7 @@ namespace MastodonClientLib.Models {
         public void Serialize(ISerializationWriter writer) {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
             writer.WriteCollectionOfObjectValues<Field>("fields", Fields);
-            writer.WriteIntValue("follower_requests_count", Follower_requests_count);
+            writer.WriteIntValue("follower_requests_count", FollowerRequestsCount);
             writer.WriteStringValue("language", Language);
             writer.WriteStringValue("note", Note);
             writer.WriteStringValue("privacy", Privacy);

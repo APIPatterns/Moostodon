@@ -11,7 +11,7 @@ on:
 
 defaults:
   run:
-    working-directory: clients/csharpMastodonConsole
+    working-directory: clients/csharp
 
 jobs:
   build:

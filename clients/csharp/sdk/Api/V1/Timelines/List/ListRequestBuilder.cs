@@ -6,7 +6,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 namespace MastodonClientLib.Api.V1.Timelines.List {
-    /// <summary>Builds and executes requests for operations under \api\v1\timelines\list</summary>
+    /// <summary>
+    /// Builds and executes requests for operations under \api\v1\timelines\list
+    /// </summary>
     public class ListRequestBuilder {
         /// <summary>Path parameters for the request</summary>
         private Dictionary<string, object> PathParameters { get; set; }
@@ -17,7 +19,7 @@ namespace MastodonClientLib.Api.V1.Timelines.List {
         /// <summary>Gets an item from the MastodonClientLib.api.v1.timelines.list.item collection</summary>
         public ListItemRequestBuilder this[string position] { get {
             var urlTplParams = new Dictionary<string, object>(PathParameters);
-            urlTplParams.Add("id", position);
+            if (!string.IsNullOrWhiteSpace(position)) urlTplParams.Add("id", position);
             return new ListItemRequestBuilder(urlTplParams, RequestAdapter);
         } }
         /// <summary>
@@ -43,7 +45,7 @@ namespace MastodonClientLib.Api.V1.Timelines.List {
             _ = requestAdapter ?? throw new ArgumentNullException(nameof(requestAdapter));
             UrlTemplate = "{+baseurl}/api/v1/timelines/list";
             var urlTplParams = new Dictionary<string, object>();
-            urlTplParams.Add("request-raw-url", rawUrl);
+            if (!string.IsNullOrWhiteSpace(rawUrl)) urlTplParams.Add("request-raw-url", rawUrl);
             PathParameters = urlTplParams;
             RequestAdapter = requestAdapter;
         }

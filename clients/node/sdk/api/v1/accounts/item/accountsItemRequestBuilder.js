@@ -18,7 +18,9 @@ const unfollowRequestBuilder_1 = require("./unfollow/unfollowRequestBuilder");
 const unmuteRequestBuilder_1 = require("./unmute/unmuteRequestBuilder");
 const unpinRequestBuilder_1 = require("./unpin/unpinRequestBuilder");
 const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
-/** Builds and executes requests for operations under /api/v1/accounts/{id} */
+/**
+ * Builds and executes requests for operations under /api/v1/accounts/{id}
+ */
 class AccountsItemRequestBuilder {
     /** The block property */
     get block() {
@@ -96,12 +98,41 @@ class AccountsItemRequestBuilder {
         this.requestAdapter = requestAdapter;
     }
     ;
-    createGetRequestInformation(requestConfiguration) {
+    /**
+     * @param requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
+     * @param responseHandler Response handler to use in place of the default response handling provided by the core service
+     * @returns a Promise of Account
+     */
+    get(requestConfiguration, responseHandler) {
+        var _a, _b;
+        const requestInfo = this.toGetRequestInformation(requestConfiguration);
+        return (_b = (_a = this.requestAdapter) === null || _a === void 0 ? void 0 : _a.sendAsync(requestInfo, createAccountFromDiscriminatorValue_1.createAccountFromDiscriminatorValue, responseHandler, undefined)) !== null && _b !== void 0 ? _b : Promise.reject(new Error('request adapter is null'));
+    }
+    ;
+    /**
+     * @param body The request body
+     * @param requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
+     * @param responseHandler Response handler to use in place of the default response handling provided by the core service
+     * @returns a Promise of Account
+     */
+    patch(body, requestConfiguration, responseHandler) {
+        var _a, _b;
+        if (!body)
+            throw new Error("body cannot be undefined");
+        const requestInfo = this.toPatchRequestInformation(body, requestConfiguration);
+        return (_b = (_a = this.requestAdapter) === null || _a === void 0 ? void 0 : _a.sendAsync(requestInfo, createAccountFromDiscriminatorValue_1.createAccountFromDiscriminatorValue, responseHandler, undefined)) !== null && _b !== void 0 ? _b : Promise.reject(new Error('request adapter is null'));
+    }
+    ;
+    /**
+     * @param requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
+     * @returns a RequestInformation
+     */
+    toGetRequestInformation(requestConfiguration) {
         const requestInfo = new kiota_abstractions_1.RequestInformation();
         requestInfo.urlTemplate = this.urlTemplate;
         requestInfo.pathParameters = this.pathParameters;
         requestInfo.httpMethod = kiota_abstractions_1.HttpMethod.GET;
-        requestInfo.headers["Accept"] = "application/json";
+        requestInfo.headers["Accept"] = ["application/json"];
         if (requestConfiguration) {
             requestInfo.addRequestHeaders(requestConfiguration.headers);
             requestInfo.addRequestOptions(requestConfiguration.options);
@@ -109,34 +140,25 @@ class AccountsItemRequestBuilder {
         return requestInfo;
     }
     ;
-    createPatchRequestInformation(body, requestConfiguration) {
+    /**
+     * @param body The request body
+     * @param requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
+     * @returns a RequestInformation
+     */
+    toPatchRequestInformation(body, requestConfiguration) {
         if (!body)
             throw new Error("body cannot be undefined");
         const requestInfo = new kiota_abstractions_1.RequestInformation();
         requestInfo.urlTemplate = this.urlTemplate;
         requestInfo.pathParameters = this.pathParameters;
         requestInfo.httpMethod = kiota_abstractions_1.HttpMethod.PATCH;
-        requestInfo.headers["Accept"] = "application/json";
+        requestInfo.headers["Accept"] = ["application/json"];
         if (requestConfiguration) {
             requestInfo.addRequestHeaders(requestConfiguration.headers);
             requestInfo.addRequestOptions(requestConfiguration.options);
         }
         requestInfo.setContentFromParsable(this.requestAdapter, "application/json", body);
         return requestInfo;
-    }
-    ;
-    get(requestConfiguration, responseHandler) {
-        var _a, _b;
-        const requestInfo = this.createGetRequestInformation(requestConfiguration);
-        return (_b = (_a = this.requestAdapter) === null || _a === void 0 ? void 0 : _a.sendAsync(requestInfo, createAccountFromDiscriminatorValue_1.createAccountFromDiscriminatorValue, responseHandler, undefined)) !== null && _b !== void 0 ? _b : Promise.reject(new Error('request adapter is null'));
-    }
-    ;
-    patch(body, requestConfiguration, responseHandler) {
-        var _a, _b;
-        if (!body)
-            throw new Error("body cannot be undefined");
-        const requestInfo = this.createPatchRequestInformation(body, requestConfiguration);
-        return (_b = (_a = this.requestAdapter) === null || _a === void 0 ? void 0 : _a.sendAsync(requestInfo, createAccountFromDiscriminatorValue_1.createAccountFromDiscriminatorValue, responseHandler, undefined)) !== null && _b !== void 0 ? _b : Promise.reject(new Error('request adapter is null'));
     }
     ;
 }

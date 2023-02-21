@@ -8,7 +8,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 namespace MastodonClientLib.Api.V1.Bookmarks {
-    /// <summary>Builds and executes requests for operations under \api\v1\bookmarks</summary>
+    /// <summary>
+    /// Builds and executes requests for operations under \api\v1\bookmarks
+    /// </summary>
     public class BookmarksRequestBuilder {
         /// <summary>Path parameters for the request</summary>
         private Dictionary<string, object> PathParameters { get; set; }
@@ -39,11 +41,31 @@ namespace MastodonClientLib.Api.V1.Bookmarks {
             _ = requestAdapter ?? throw new ArgumentNullException(nameof(requestAdapter));
             UrlTemplate = "{+baseurl}/api/v1/bookmarks{?max_Id*,sinceId*,min_Id*,limit*}";
             var urlTplParams = new Dictionary<string, object>();
-            urlTplParams.Add("request-raw-url", rawUrl);
+            if (!string.IsNullOrWhiteSpace(rawUrl)) urlTplParams.Add("request-raw-url", rawUrl);
             PathParameters = urlTplParams;
             RequestAdapter = requestAdapter;
         }
-        public RequestInformation CreateGetRequestInformation(Action<BookmarksRequestBuilderGetRequestConfiguration> requestConfiguration = default) {
+        /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public async Task<List<Status>?> GetAsync(Action<BookmarksRequestBuilderGetRequestConfiguration>? requestConfiguration = default, CancellationToken cancellationToken = default) {
+#nullable restore
+#else
+        public async Task<List<Status>> GetAsync(Action<BookmarksRequestBuilderGetRequestConfiguration> requestConfiguration = default, CancellationToken cancellationToken = default) {
+#endif
+            var requestInfo = ToGetRequestInformation(requestConfiguration);
+            var collectionResult = await RequestAdapter.SendCollectionAsync<Status>(requestInfo, Status.CreateFromDiscriminatorValue, default, cancellationToken);
+            return collectionResult?.ToList();
+        }
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public RequestInformation ToGetRequestInformation(Action<BookmarksRequestBuilderGetRequestConfiguration>? requestConfiguration = default) {
+#nullable restore
+#else
+        public RequestInformation ToGetRequestInformation(Action<BookmarksRequestBuilderGetRequestConfiguration> requestConfiguration = default) {
+#endif
             var requestInfo = new RequestInformation {
                 HttpMethod = Method.GET,
                 UrlTemplate = UrlTemplate,
@@ -59,21 +81,36 @@ namespace MastodonClientLib.Api.V1.Bookmarks {
             }
             return requestInfo;
         }
-        public async Task<List<Status>> GetAsync(Action<BookmarksRequestBuilderGetRequestConfiguration> requestConfiguration = default, CancellationToken cancellationToken = default) {
-            var requestInfo = CreateGetRequestInformation(requestConfiguration);
-            var collectionResult = await RequestAdapter.SendCollectionAsync<Status>(requestInfo, Status.CreateFromDiscriminatorValue, default, cancellationToken);
-            return collectionResult.ToList();
-        }
         public class BookmarksRequestBuilderGetQueryParameters {
             public int? Limit { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+            public string? Max_Id { get; set; }
+#nullable restore
+#else
             public string Max_Id { get; set; }
+#endif
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+            public string? Min_Id { get; set; }
+#nullable restore
+#else
             public string Min_Id { get; set; }
+#endif
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+            public string? SinceId { get; set; }
+#nullable restore
+#else
             public string SinceId { get; set; }
+#endif
         }
-        /// <summary>Configuration for the request such as headers, query parameters, and middleware options.</summary>
+        /// <summary>
+        /// Configuration for the request such as headers, query parameters, and middleware options.
+        /// </summary>
         public class BookmarksRequestBuilderGetRequestConfiguration {
             /// <summary>Request headers</summary>
-            public IDictionary<string, string> Headers { get; set; }
+            public RequestHeaders Headers { get; set; }
             /// <summary>Request options</summary>
             public IList<IRequestOption> Options { get; set; }
             /// <summary>Request query parameters</summary>
@@ -83,7 +120,7 @@ namespace MastodonClientLib.Api.V1.Bookmarks {
             /// </summary>
             public BookmarksRequestBuilderGetRequestConfiguration() {
                 Options = new List<IRequestOption>();
-                Headers = new Dictionary<string, string>();
+                Headers = new RequestHeaders();
             }
         }
     }

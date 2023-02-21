@@ -11,10 +11,17 @@ interface StatusesService {
 
 model CreateStatusForm is Form {
     status: string;
-    media_Ids: string[];
 
-    @friendlyName("pollOptions")
-    "poll[options]": string[];
+    // /* 
+    // Not currently supported by Kiota https://github.com/microsoft/kiota/issues/2291
+    // media_Ids: string[];
+    // */
+
+    // /* 
+    // Not currently supported by Kiota https://github.com/microsoft/kiota/issues/2291
+    // @friendlyName("pollOptions")
+    // "poll[options]": string[];
+    // */
 
     @friendlyName("pollExpiresIn")
     "poll[expires_in]": int32;

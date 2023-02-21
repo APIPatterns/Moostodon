@@ -8,11 +8,29 @@ namespace MastodonClientLib.Models {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The blurhash property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Blurhash { get; set; }
+#nullable restore
+#else
         public string Blurhash { get; set; }
+#endif
         /// <summary>The url property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Url { get; set; }
+#nullable restore
+#else
         public string Url { get; set; }
+#endif
         /// <summary>The versions property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public ThumnailVersion? Versions { get; set; }
+#nullable restore
+#else
         public ThumnailVersion Versions { get; set; }
+#endif
         /// <summary>
         /// Instantiates a new Thumbnail and sets the default values.
         /// </summary>

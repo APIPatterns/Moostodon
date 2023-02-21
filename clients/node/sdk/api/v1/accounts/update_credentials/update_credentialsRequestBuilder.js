@@ -4,7 +4,9 @@ exports.Update_credentialsRequestBuilder = void 0;
 const createAccountFromDiscriminatorValue_1 = require("../../../../models/createAccountFromDiscriminatorValue");
 const createUnprocessableContentErrorFromDiscriminatorValue_1 = require("../../../../models/createUnprocessableContentErrorFromDiscriminatorValue");
 const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
-/** Builds and executes requests for operations under /api/v1/accounts/update_credentials */
+/**
+ * Builds and executes requests for operations under /api/v1/accounts/update_credentials
+ */
 class Update_credentialsRequestBuilder {
     /**
      * Instantiates a new Update_credentialsRequestBuilder and sets the default values.
@@ -22,31 +24,42 @@ class Update_credentialsRequestBuilder {
         this.requestAdapter = requestAdapter;
     }
     ;
-    createPatchRequestInformation(body, requestConfiguration) {
+    /**
+     * @param body Binary request body
+     * @param requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
+     * @param responseHandler Response handler to use in place of the default response handling provided by the core service
+     * @returns a Promise of Account
+     */
+    patch(body, requestConfiguration, responseHandler) {
+        var _a, _b;
+        if (!body)
+            throw new Error("body cannot be undefined");
+        const requestInfo = this.toPatchRequestInformation(body, requestConfiguration);
+        const errorMapping = {
+            "422": createUnprocessableContentErrorFromDiscriminatorValue_1.createUnprocessableContentErrorFromDiscriminatorValue,
+        };
+        return (_b = (_a = this.requestAdapter) === null || _a === void 0 ? void 0 : _a.sendAsync(requestInfo, createAccountFromDiscriminatorValue_1.createAccountFromDiscriminatorValue, responseHandler, errorMapping)) !== null && _b !== void 0 ? _b : Promise.reject(new Error('request adapter is null'));
+    }
+    ;
+    /**
+     * @param body Binary request body
+     * @param requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
+     * @returns a RequestInformation
+     */
+    toPatchRequestInformation(body, requestConfiguration) {
         if (!body)
             throw new Error("body cannot be undefined");
         const requestInfo = new kiota_abstractions_1.RequestInformation();
         requestInfo.urlTemplate = this.urlTemplate;
         requestInfo.pathParameters = this.pathParameters;
         requestInfo.httpMethod = kiota_abstractions_1.HttpMethod.PATCH;
-        requestInfo.headers["Accept"] = "application/json";
+        requestInfo.headers["Accept"] = ["application/json"];
         if (requestConfiguration) {
             requestInfo.addRequestHeaders(requestConfiguration.headers);
             requestInfo.addRequestOptions(requestConfiguration.options);
         }
         requestInfo.setStreamContent(body);
         return requestInfo;
-    }
-    ;
-    patch(body, requestConfiguration, responseHandler) {
-        var _a, _b;
-        if (!body)
-            throw new Error("body cannot be undefined");
-        const requestInfo = this.createPatchRequestInformation(body, requestConfiguration);
-        const errorMapping = {
-            "422": createUnprocessableContentErrorFromDiscriminatorValue_1.createUnprocessableContentErrorFromDiscriminatorValue,
-        };
-        return (_b = (_a = this.requestAdapter) === null || _a === void 0 ? void 0 : _a.sendAsync(requestInfo, createAccountFromDiscriminatorValue_1.createAccountFromDiscriminatorValue, responseHandler, errorMapping)) !== null && _b !== void 0 ? _b : Promise.reject(new Error('request adapter is null'));
     }
     ;
 }

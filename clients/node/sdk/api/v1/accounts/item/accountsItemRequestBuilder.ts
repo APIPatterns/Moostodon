@@ -1,4 +1,4 @@
-import {Account} from '../../../../models/';
+import {Account, AccountUpdate} from '../../../../models/';
 import {createAccountFromDiscriminatorValue} from '../../../../models/createAccountFromDiscriminatorValue';
 import {AccountsItemRequestBuilderGetRequestConfiguration} from './accountsItemRequestBuilderGetRequestConfiguration';
 import {AccountsItemRequestBuilderPatchRequestConfiguration} from './accountsItemRequestBuilderPatchRequestConfiguration';
@@ -19,7 +19,9 @@ import {UnmuteRequestBuilder} from './unmute/unmuteRequestBuilder';
 import {UnpinRequestBuilder} from './unpin/unpinRequestBuilder';
 import {getPathParameters, HttpMethod, Parsable, ParsableFactory, RequestAdapter, RequestInformation, RequestOption, ResponseHandler} from '@microsoft/kiota-abstractions';
 
-/** Builds and executes requests for operations under /api/v1/accounts/{id} */
+/**
+ * Builds and executes requests for operations under /api/v1/accounts/{id}
+ */
 export class AccountsItemRequestBuilder {
     /** The block property */
     public get block(): BlockRequestBuilder {
@@ -100,43 +102,63 @@ export class AccountsItemRequestBuilder {
         this.pathParameters = urlTplParams;
         this.requestAdapter = requestAdapter;
     };
-    public createGetRequestInformation(requestConfiguration?: AccountsItemRequestBuilderGetRequestConfiguration | undefined) : RequestInformation {
+    /**
+     * @param requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
+     * @param responseHandler Response handler to use in place of the default response handling provided by the core service
+     * @returns a Promise of Account
+     */
+    public get(requestConfiguration?: AccountsItemRequestBuilderGetRequestConfiguration | undefined, responseHandler?: ResponseHandler | undefined) : Promise<Account | undefined> {
+        const requestInfo = this.toGetRequestInformation(
+            requestConfiguration
+        );
+        return this.requestAdapter?.sendAsync<Account>(requestInfo, createAccountFromDiscriminatorValue, responseHandler, undefined) ?? Promise.reject(new Error('request adapter is null'));
+    };
+    /**
+     * @param body The request body
+     * @param requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
+     * @param responseHandler Response handler to use in place of the default response handling provided by the core service
+     * @returns a Promise of Account
+     */
+    public patch(body: AccountUpdate | undefined, requestConfiguration?: AccountsItemRequestBuilderPatchRequestConfiguration | undefined, responseHandler?: ResponseHandler | undefined) : Promise<Account | undefined> {
+        if(!body) throw new Error("body cannot be undefined");
+        const requestInfo = this.toPatchRequestInformation(
+            body, requestConfiguration
+        );
+        return this.requestAdapter?.sendAsync<Account>(requestInfo, createAccountFromDiscriminatorValue, responseHandler, undefined) ?? Promise.reject(new Error('request adapter is null'));
+    };
+    /**
+     * @param requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
+     * @returns a RequestInformation
+     */
+    public toGetRequestInformation(requestConfiguration?: AccountsItemRequestBuilderGetRequestConfiguration | undefined) : RequestInformation {
         const requestInfo = new RequestInformation();
         requestInfo.urlTemplate = this.urlTemplate;
         requestInfo.pathParameters = this.pathParameters;
         requestInfo.httpMethod = HttpMethod.GET;
-        requestInfo.headers["Accept"] = "application/json";
+        requestInfo.headers["Accept"] = ["application/json"];
         if (requestConfiguration) {
             requestInfo.addRequestHeaders(requestConfiguration.headers);
             requestInfo.addRequestOptions(requestConfiguration.options);
         }
         return requestInfo;
     };
-    public createPatchRequestInformation(body: Account | undefined, requestConfiguration?: AccountsItemRequestBuilderPatchRequestConfiguration | undefined) : RequestInformation {
+    /**
+     * @param body The request body
+     * @param requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
+     * @returns a RequestInformation
+     */
+    public toPatchRequestInformation(body: AccountUpdate | undefined, requestConfiguration?: AccountsItemRequestBuilderPatchRequestConfiguration | undefined) : RequestInformation {
         if(!body) throw new Error("body cannot be undefined");
         const requestInfo = new RequestInformation();
         requestInfo.urlTemplate = this.urlTemplate;
         requestInfo.pathParameters = this.pathParameters;
         requestInfo.httpMethod = HttpMethod.PATCH;
-        requestInfo.headers["Accept"] = "application/json";
+        requestInfo.headers["Accept"] = ["application/json"];
         if (requestConfiguration) {
             requestInfo.addRequestHeaders(requestConfiguration.headers);
             requestInfo.addRequestOptions(requestConfiguration.options);
         }
         requestInfo.setContentFromParsable(this.requestAdapter, "application/json", body);
         return requestInfo;
-    };
-    public get(requestConfiguration?: AccountsItemRequestBuilderGetRequestConfiguration | undefined, responseHandler?: ResponseHandler | undefined) : Promise<Account | undefined> {
-        const requestInfo = this.createGetRequestInformation(
-            requestConfiguration
-        );
-        return this.requestAdapter?.sendAsync<Account>(requestInfo, createAccountFromDiscriminatorValue, responseHandler, undefined) ?? Promise.reject(new Error('request adapter is null'));
-    };
-    public patch(body: Account | undefined, requestConfiguration?: AccountsItemRequestBuilderPatchRequestConfiguration | undefined, responseHandler?: ResponseHandler | undefined) : Promise<Account | undefined> {
-        if(!body) throw new Error("body cannot be undefined");
-        const requestInfo = this.createPatchRequestInformation(
-            body, requestConfiguration
-        );
-        return this.requestAdapter?.sendAsync<Account>(requestInfo, createAccountFromDiscriminatorValue, responseHandler, undefined) ?? Promise.reject(new Error('request adapter is null'));
     };
 }

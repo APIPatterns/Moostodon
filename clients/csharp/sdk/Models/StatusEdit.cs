@@ -6,23 +6,65 @@ using System.Linq;
 namespace MastodonClientLib.Models {
     public class StatusEdit : IAdditionalDataHolder, IParsable {
         /// <summary>The account property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public MastodonClientLib.Models.Account? Account { get; set; }
+#nullable restore
+#else
         public MastodonClientLib.Models.Account Account { get; set; }
+#endif
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The content property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Content { get; set; }
+#nullable restore
+#else
         public string Content { get; set; }
+#endif
         /// <summary>The created_at property</summary>
-        public string Created_at { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? CreatedAt { get; set; }
+#nullable restore
+#else
+        public string CreatedAt { get; set; }
+#endif
         /// <summary>The emojis property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public List<Emoji>? Emojis { get; set; }
+#nullable restore
+#else
         public List<Emoji> Emojis { get; set; }
+#endif
         /// <summary>The media_attachments property</summary>
-        public List<MediaAttachment> Media_attachments { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public List<MediaAttachment>? MediaAttachments { get; set; }
+#nullable restore
+#else
+        public List<MediaAttachment> MediaAttachments { get; set; }
+#endif
         /// <summary>The poll property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public MastodonClientLib.Models.Poll? Poll { get; set; }
+#nullable restore
+#else
         public MastodonClientLib.Models.Poll Poll { get; set; }
+#endif
         /// <summary>The sensitive property</summary>
         public bool? Sensitive { get; set; }
         /// <summary>The spoiler_text property</summary>
-        public string Spoiler_text { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? SpoilerText { get; set; }
+#nullable restore
+#else
+        public string SpoilerText { get; set; }
+#endif
         /// <summary>
         /// Instantiates a new StatusEdit and sets the default values.
         /// </summary>
@@ -44,12 +86,12 @@ namespace MastodonClientLib.Models {
             return new Dictionary<string, Action<IParseNode>> {
                 {"account", n => { Account = n.GetObjectValue<MastodonClientLib.Models.Account>(MastodonClientLib.Models.Account.CreateFromDiscriminatorValue); } },
                 {"content", n => { Content = n.GetStringValue(); } },
-                {"created_at", n => { Created_at = n.GetStringValue(); } },
+                {"created_at", n => { CreatedAt = n.GetStringValue(); } },
                 {"emojis", n => { Emojis = n.GetCollectionOfObjectValues<Emoji>(Emoji.CreateFromDiscriminatorValue)?.ToList(); } },
-                {"media_attachments", n => { Media_attachments = n.GetCollectionOfObjectValues<MediaAttachment>(MediaAttachment.CreateFromDiscriminatorValue)?.ToList(); } },
+                {"media_attachments", n => { MediaAttachments = n.GetCollectionOfObjectValues<MediaAttachment>(MediaAttachment.CreateFromDiscriminatorValue)?.ToList(); } },
                 {"poll", n => { Poll = n.GetObjectValue<MastodonClientLib.Models.Poll>(MastodonClientLib.Models.Poll.CreateFromDiscriminatorValue); } },
                 {"sensitive", n => { Sensitive = n.GetBoolValue(); } },
-                {"spoiler_text", n => { Spoiler_text = n.GetStringValue(); } },
+                {"spoiler_text", n => { SpoilerText = n.GetStringValue(); } },
             };
         }
         /// <summary>
@@ -60,12 +102,12 @@ namespace MastodonClientLib.Models {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
             writer.WriteObjectValue<MastodonClientLib.Models.Account>("account", Account);
             writer.WriteStringValue("content", Content);
-            writer.WriteStringValue("created_at", Created_at);
+            writer.WriteStringValue("created_at", CreatedAt);
             writer.WriteCollectionOfObjectValues<Emoji>("emojis", Emojis);
-            writer.WriteCollectionOfObjectValues<MediaAttachment>("media_attachments", Media_attachments);
+            writer.WriteCollectionOfObjectValues<MediaAttachment>("media_attachments", MediaAttachments);
             writer.WriteObjectValue<MastodonClientLib.Models.Poll>("poll", Poll);
             writer.WriteBoolValue("sensitive", Sensitive);
-            writer.WriteStringValue("spoiler_text", Spoiler_text);
+            writer.WriteStringValue("spoiler_text", SpoilerText);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

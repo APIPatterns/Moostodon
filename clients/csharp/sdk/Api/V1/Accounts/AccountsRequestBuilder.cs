@@ -15,7 +15,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 namespace MastodonClientLib.Api.V1.Accounts {
-    /// <summary>Builds and executes requests for operations under \api\v1\accounts</summary>
+    /// <summary>
+    /// Builds and executes requests for operations under \api\v1\accounts
+    /// </summary>
     public class AccountsRequestBuilder {
         /// <summary>The familiar_followers property</summary>
         public Familiar_followersRequestBuilder Familiar_followers { get =>
@@ -50,7 +52,7 @@ namespace MastodonClientLib.Api.V1.Accounts {
         /// <summary>Gets an item from the MastodonClientLib.api.v1.accounts.item collection</summary>
         public AccountsItemRequestBuilder this[string position] { get {
             var urlTplParams = new Dictionary<string, object>(PathParameters);
-            urlTplParams.Add("id", position);
+            if (!string.IsNullOrWhiteSpace(position)) urlTplParams.Add("id", position);
             return new AccountsItemRequestBuilder(urlTplParams, RequestAdapter);
         } }
         /// <summary>
@@ -76,11 +78,33 @@ namespace MastodonClientLib.Api.V1.Accounts {
             _ = requestAdapter ?? throw new ArgumentNullException(nameof(requestAdapter));
             UrlTemplate = "{+baseurl}/api/v1/accounts";
             var urlTplParams = new Dictionary<string, object>();
-            urlTplParams.Add("request-raw-url", rawUrl);
+            if (!string.IsNullOrWhiteSpace(rawUrl)) urlTplParams.Add("request-raw-url", rawUrl);
             PathParameters = urlTplParams;
             RequestAdapter = requestAdapter;
         }
-        public RequestInformation CreatePostRequestInformation(CreateAccountForm body, Action<AccountsRequestBuilderPostRequestConfiguration> requestConfiguration = default) {
+        /// <param name="body">The request body</param>
+        /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public async Task<Account?> PostAsync(CreateAccountForm body, Action<AccountsRequestBuilderPostRequestConfiguration>? requestConfiguration = default, CancellationToken cancellationToken = default) {
+#nullable restore
+#else
+        public async Task<Account> PostAsync(CreateAccountForm body, Action<AccountsRequestBuilderPostRequestConfiguration> requestConfiguration = default, CancellationToken cancellationToken = default) {
+#endif
+            _ = body ?? throw new ArgumentNullException(nameof(body));
+            var requestInfo = ToPostRequestInformation(body, requestConfiguration);
+            return await RequestAdapter.SendAsync<Account>(requestInfo, Account.CreateFromDiscriminatorValue, default, cancellationToken);
+        }
+        /// <param name="body">The request body</param>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public RequestInformation ToPostRequestInformation(CreateAccountForm body, Action<AccountsRequestBuilderPostRequestConfiguration>? requestConfiguration = default) {
+#nullable restore
+#else
+        public RequestInformation ToPostRequestInformation(CreateAccountForm body, Action<AccountsRequestBuilderPostRequestConfiguration> requestConfiguration = default) {
+#endif
             _ = body ?? throw new ArgumentNullException(nameof(body));
             var requestInfo = new RequestInformation {
                 HttpMethod = Method.POST,
@@ -97,15 +121,12 @@ namespace MastodonClientLib.Api.V1.Accounts {
             }
             return requestInfo;
         }
-        public async Task<Account> PostAsync(CreateAccountForm body, Action<AccountsRequestBuilderPostRequestConfiguration> requestConfiguration = default, CancellationToken cancellationToken = default) {
-            _ = body ?? throw new ArgumentNullException(nameof(body));
-            var requestInfo = CreatePostRequestInformation(body, requestConfiguration);
-            return await RequestAdapter.SendAsync<Account>(requestInfo, Account.CreateFromDiscriminatorValue, default, cancellationToken);
-        }
-        /// <summary>Configuration for the request such as headers, query parameters, and middleware options.</summary>
+        /// <summary>
+        /// Configuration for the request such as headers, query parameters, and middleware options.
+        /// </summary>
         public class AccountsRequestBuilderPostRequestConfiguration {
             /// <summary>Request headers</summary>
-            public IDictionary<string, string> Headers { get; set; }
+            public RequestHeaders Headers { get; set; }
             /// <summary>Request options</summary>
             public IList<IRequestOption> Options { get; set; }
             /// <summary>
@@ -113,7 +134,7 @@ namespace MastodonClientLib.Api.V1.Accounts {
             /// </summary>
             public AccountsRequestBuilderPostRequestConfiguration() {
                 Options = new List<IRequestOption>();
-                Headers = new Dictionary<string, string>();
+                Headers = new RequestHeaders();
             }
         }
     }

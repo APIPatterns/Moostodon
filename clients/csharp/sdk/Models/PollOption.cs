@@ -8,9 +8,15 @@ namespace MastodonClientLib.Models {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The title property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Title { get; set; }
+#nullable restore
+#else
         public string Title { get; set; }
+#endif
         /// <summary>The votes_count property</summary>
-        public int? Votes_count { get; set; }
+        public int? VotesCount { get; set; }
         /// <summary>
         /// Instantiates a new PollOption and sets the default values.
         /// </summary>
@@ -31,7 +37,7 @@ namespace MastodonClientLib.Models {
         public IDictionary<string, Action<IParseNode>> GetFieldDeserializers() {
             return new Dictionary<string, Action<IParseNode>> {
                 {"title", n => { Title = n.GetStringValue(); } },
-                {"votes_count", n => { Votes_count = n.GetIntValue(); } },
+                {"votes_count", n => { VotesCount = n.GetIntValue(); } },
             };
         }
         /// <summary>
@@ -41,7 +47,7 @@ namespace MastodonClientLib.Models {
         public void Serialize(ISerializationWriter writer) {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("title", Title);
-            writer.WriteIntValue("votes_count", Votes_count);
+            writer.WriteIntValue("votes_count", VotesCount);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

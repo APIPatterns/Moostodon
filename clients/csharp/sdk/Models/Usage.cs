@@ -8,11 +8,23 @@ namespace MastodonClientLib.Models {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The federation property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public FederationUsage? Federation { get; set; }
+#nullable restore
+#else
         public FederationUsage Federation { get; set; }
+#endif
         /// <summary>The local_posts property</summary>
-        public long? Local_posts { get; set; }
+        public long? LocalPosts { get; set; }
         /// <summary>The users property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public UserUsage? Users { get; set; }
+#nullable restore
+#else
         public UserUsage Users { get; set; }
+#endif
         /// <summary>
         /// Instantiates a new Usage and sets the default values.
         /// </summary>
@@ -33,7 +45,7 @@ namespace MastodonClientLib.Models {
         public IDictionary<string, Action<IParseNode>> GetFieldDeserializers() {
             return new Dictionary<string, Action<IParseNode>> {
                 {"federation", n => { Federation = n.GetObjectValue<FederationUsage>(FederationUsage.CreateFromDiscriminatorValue); } },
-                {"local_posts", n => { Local_posts = n.GetLongValue(); } },
+                {"local_posts", n => { LocalPosts = n.GetLongValue(); } },
                 {"users", n => { Users = n.GetObjectValue<UserUsage>(UserUsage.CreateFromDiscriminatorValue); } },
             };
         }
@@ -44,7 +56,7 @@ namespace MastodonClientLib.Models {
         public void Serialize(ISerializationWriter writer) {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
             writer.WriteObjectValue<FederationUsage>("federation", Federation);
-            writer.WriteLongValue("local_posts", Local_posts);
+            writer.WriteLongValue("local_posts", LocalPosts);
             writer.WriteObjectValue<UserUsage>("users", Users);
             writer.WriteAdditionalData(AdditionalData);
         }

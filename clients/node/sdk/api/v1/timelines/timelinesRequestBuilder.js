@@ -8,7 +8,9 @@ const publicRequestBuilder_1 = require("./public/publicRequestBuilder");
 const withTagItemRequestBuilder_1 = require("./tag/item/withTagItemRequestBuilder");
 const tagRequestBuilder_1 = require("./tag/tagRequestBuilder");
 const kiota_abstractions_1 = require("@microsoft/kiota-abstractions");
-/** Builds and executes requests for operations under /api/v1/timelines */
+/**
+ * Builds and executes requests for operations under /api/v1/timelines
+ */
 class TimelinesRequestBuilder {
     /** The home property */
     get home() {

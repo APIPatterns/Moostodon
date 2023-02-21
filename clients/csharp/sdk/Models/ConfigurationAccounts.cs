@@ -8,7 +8,7 @@ namespace MastodonClientLib.Models {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The max_feature_tags property</summary>
-        public int? Max_feature_tags { get; set; }
+        public int? MaxFeatureTags { get; set; }
         /// <summary>
         /// Instantiates a new ConfigurationAccounts and sets the default values.
         /// </summary>
@@ -28,7 +28,7 @@ namespace MastodonClientLib.Models {
         /// </summary>
         public IDictionary<string, Action<IParseNode>> GetFieldDeserializers() {
             return new Dictionary<string, Action<IParseNode>> {
-                {"max_feature_tags", n => { Max_feature_tags = n.GetIntValue(); } },
+                {"max_feature_tags", n => { MaxFeatureTags = n.GetIntValue(); } },
             };
         }
         /// <summary>
@@ -37,7 +37,7 @@ namespace MastodonClientLib.Models {
         /// <param name="writer">Serialization writer to use to serialize this model</param>
         public void Serialize(ISerializationWriter writer) {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
-            writer.WriteIntValue("max_feature_tags", Max_feature_tags);
+            writer.WriteIntValue("max_feature_tags", MaxFeatureTags);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

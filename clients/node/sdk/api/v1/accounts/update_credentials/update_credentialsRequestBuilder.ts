@@ -4,7 +4,9 @@ import {createUnprocessableContentErrorFromDiscriminatorValue} from '../../../..
 import {Update_credentialsRequestBuilderPatchRequestConfiguration} from './update_credentialsRequestBuilderPatchRequestConfiguration';
 import {getPathParameters, HttpMethod, Parsable, ParsableFactory, RequestAdapter, RequestInformation, RequestOption, ResponseHandler} from '@microsoft/kiota-abstractions';
 
-/** Builds and executes requests for operations under /api/v1/accounts/update_credentials */
+/**
+ * Builds and executes requests for operations under /api/v1/accounts/update_credentials
+ */
 export class Update_credentialsRequestBuilder {
     /** Path parameters for the request */
     private pathParameters: Record<string, unknown>;
@@ -25,28 +27,39 @@ export class Update_credentialsRequestBuilder {
         this.pathParameters = urlTplParams;
         this.requestAdapter = requestAdapter;
     };
-    public createPatchRequestInformation(body: ArrayBuffer | undefined, requestConfiguration?: Update_credentialsRequestBuilderPatchRequestConfiguration | undefined) : RequestInformation {
-        if(!body) throw new Error("body cannot be undefined");
-        const requestInfo = new RequestInformation();
-        requestInfo.urlTemplate = this.urlTemplate;
-        requestInfo.pathParameters = this.pathParameters;
-        requestInfo.httpMethod = HttpMethod.PATCH;
-        requestInfo.headers["Accept"] = "application/json";
-        if (requestConfiguration) {
-            requestInfo.addRequestHeaders(requestConfiguration.headers);
-            requestInfo.addRequestOptions(requestConfiguration.options);
-        }
-        requestInfo.setStreamContent(body);
-        return requestInfo;
-    };
+    /**
+     * @param body Binary request body
+     * @param requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
+     * @param responseHandler Response handler to use in place of the default response handling provided by the core service
+     * @returns a Promise of Account
+     */
     public patch(body: ArrayBuffer | undefined, requestConfiguration?: Update_credentialsRequestBuilderPatchRequestConfiguration | undefined, responseHandler?: ResponseHandler | undefined) : Promise<Account | undefined> {
         if(!body) throw new Error("body cannot be undefined");
-        const requestInfo = this.createPatchRequestInformation(
+        const requestInfo = this.toPatchRequestInformation(
             body, requestConfiguration
         );
         const errorMapping: Record<string, ParsableFactory<Parsable>> = {
             "422": createUnprocessableContentErrorFromDiscriminatorValue,
         };
         return this.requestAdapter?.sendAsync<Account>(requestInfo, createAccountFromDiscriminatorValue, responseHandler, errorMapping) ?? Promise.reject(new Error('request adapter is null'));
+    };
+    /**
+     * @param body Binary request body
+     * @param requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
+     * @returns a RequestInformation
+     */
+    public toPatchRequestInformation(body: ArrayBuffer | undefined, requestConfiguration?: Update_credentialsRequestBuilderPatchRequestConfiguration | undefined) : RequestInformation {
+        if(!body) throw new Error("body cannot be undefined");
+        const requestInfo = new RequestInformation();
+        requestInfo.urlTemplate = this.urlTemplate;
+        requestInfo.pathParameters = this.pathParameters;
+        requestInfo.httpMethod = HttpMethod.PATCH;
+        requestInfo.headers["Accept"] = ["application/json"];
+        if (requestConfiguration) {
+            requestInfo.addRequestHeaders(requestConfiguration.headers);
+            requestInfo.addRequestOptions(requestConfiguration.options);
+        }
+        requestInfo.setStreamContent(body);
+        return requestInfo;
     };
 }
