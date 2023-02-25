@@ -1,0 +1,25 @@
+name: Mastodon API repository for Kiota index
+description: This is an independently created API description for the Mastodon API using a TypeSpec(fka CADL) description
+tags:
+    - application programming interface
+    - API
+    - Kiota
+    - OpenApi
+    - Diabetes
+created: '2023-02-24'
+specificationVersion: '0.15'
+apis:
+    - 
+        name: Mastodon
+        description: API for accessing a Mastodon server
+        baseURL: 'https://mastodon.example'
+        properties:
+            - 
+                type: X-openapi
+                url: 'https://raw.githubusercontent.com/APIPatterns/Moostodon/main/spec/cadl-output/openapi.yaml'
+
+maintainers:
+    - 
+        FN: Darrel
+        X-mastodon: "@darrel_miller@mastodon.social"
+        email: darrel@tavis.ca
