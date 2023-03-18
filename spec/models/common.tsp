@@ -1,6 +1,6 @@
 namespace Mastodon;
-using Cadl.Http;
-  
+using TypeSpec.Http;
+
 model Error {
   error: string;
   error_description: string;

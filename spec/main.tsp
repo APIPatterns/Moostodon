@@ -1,16 +1,17 @@
-import "@cadl-lang/rest";
-import "./services/apps.cadl";
-import "./services/auth.cadl";
-import "./services/accounts.cadl";
-import "./services/account.cadl";
-import "./services/timelines.cadl";
-import "./services/search.cadl";
-import "./services/instance.cadl";
-import "./services/domain_blocks.cadl";
-import "./services/statuses.cadl";
-import "./services/status.cadl";
+import "@typespec/http";
+import "./services/apps.tsp";
+import "./services/auth.tsp";
+import "./services/accounts.tsp";
+import "./services/account.tsp";
+import "./services/timelines.tsp";
+import "./services/search.tsp";
+import "./services/instance.tsp";
+import "./services/domain_blocks.tsp";
+import "./services/statuses.tsp";
+import "./services/status.tsp";
 
-using Cadl.Http;
+
+using TypeSpec.Http;
 
 @service({
   title: "Mastodon",
@@ -19,21 +20,22 @@ using Cadl.Http;
   termsOfService: "https://docs.joinmastodon.org/api/",
   contact: {
     name: "Mastodon",
-    url: "https://joinmastodon.org/"
-  }
+    url: "https://joinmastodon.org/",
+  },
 })
-@server("https://mastodon.example/", "Actual server to be set during client setup")
+@server(
+  "https://mastodon.example/",
+  "Actual server to be set during client setup"
+)
 @route("/")
-namespace MastodonApi {  // This namespace actually generates operations
-
-  using Mastodon;  // This namespace contains all models and interfaces
+namespace MastodonApi { // This namespace actually generates operations
+  using Mastodon; // This namespace contains all models and interfaces
 
   @route("oauth")
   interface oauthResource extends OAuthService {}
 
   @route("api/v1")
   namespace v1 {
-  
     @route("apps")
     interface appResource extends AppsService {}
 
@@ -44,19 +46,19 @@ namespace MastodonApi {  // This namespace actually generates operations
     interface AccountResource extends AccountService {}
 
     @route("bookmarks")
-    interface BookmarksResource extends NamedSet<Status>{ }
+    interface BookmarksResource extends NamedSet<Status> {}
 
     @route("favourites")
-    interface FavouritesResource extends NamedSet<Status>{ }
+    interface FavouritesResource extends NamedSet<Status> {}
 
     @route("mutes")
-    interface MutesResource extends NamedSet<Account>{ }
+    interface MutesResource extends NamedSet<Account> {}
 
     @route("blocks")
-    interface BlocksResource extends NamedSet<Account>{ }
+    interface BlocksResource extends NamedSet<Account> {}
 
     @route("endorsements")
-    interface EndorsementsResource extends NamedSet<Account>{ }
+    interface EndorsementsResource extends NamedSet<Account> {}
 
     @route("timelines")
     interface TimelinesResource extends TimelinesService {}
@@ -71,16 +73,12 @@ namespace MastodonApi {  // This namespace actually generates operations
     interface InstanceResource extends InstanceService {}
 
     @route("domain_blocks")
-    interface DomainBlocksResource extends DomainBlocksService{ }
-
+    interface DomainBlocksResource extends DomainBlocksService {}
   }
 
   @route("api/v2")
   namespace v2 {
-
     @route("search")
     interface SearchResource extends SearchService {}
   }
-
 }
-
