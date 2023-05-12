@@ -18,6 +18,7 @@ paths:
         '401':
           description: Access is unauthorized.
       requestBody:
+        required: true
         content:
           application/x-www-form-urlencoded:
             schema:
@@ -28,8 +29,7 @@ paths:
       parameters:
         - name: id
           in: query
-          style: form
-          explode: true
+          style: simple
           required: true
           schema:
             type: array
@@ -82,8 +82,7 @@ paths:
       parameters:
         - name: id
           in: query
-          style: form
-          explode: true
+          style: simple
           required: true
           schema:
             type: array
@@ -164,6 +163,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/UnprocessableContentError'
       requestBody:
+        required: true
         content:
           application/x-www-form-urlencoded:
             schema:
@@ -225,6 +225,7 @@ paths:
         '404':
           description: The server cannot find the requested resource.
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -307,6 +308,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/UnprocessableContentError'
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -425,6 +427,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/UnprocessableContentError'
       requestBody:
+        required: true
         content:
           application/x-www-form-urlencoded:
             schema:
@@ -454,6 +457,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/UnprocessableContentError'
       requestBody:
+        required: true
         content:
           application/x-www-form-urlencoded:
             schema:
@@ -663,6 +667,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/UnprocessableContentError'
       requestBody:
+        required: true
         content:
           application/x-www-form-urlencoded:
             schema:
@@ -759,6 +764,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/UnprocessableContentError'
       requestBody:
+        required: true
         content:
           application/x-www-form-urlencoded:
             schema:
@@ -863,6 +869,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Mastodon.Status'
       requestBody:
+        required: true
         content:
           application/x-www-form-urlencoded:
             schema:
@@ -926,6 +933,7 @@ paths:
         '404':
           description: The server cannot find the requested resource.
       requestBody:
+        required: true
         content:
           application/x-www-form-urlencoded:
             schema:
@@ -1422,6 +1430,7 @@ paths:
         '403':
           description: Access is forbidden
       requestBody:
+        required: true
         content:
           application/x-www-form-urlencoded:
             schema:
@@ -1442,6 +1451,7 @@ paths:
         '401':
           description: Access is unauthorized.
       requestBody:
+        required: true
         content:
           application/x-www-form-urlencoded:
             schema:
