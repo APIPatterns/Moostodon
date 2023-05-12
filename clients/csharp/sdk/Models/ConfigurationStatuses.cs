@@ -1,24 +1,16 @@
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 namespace MastodonClientLib.Models {
-    public class ConfigurationStatuses : IAdditionalDataHolder, IParsable {
-        /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
-        public IDictionary<string, object> AdditionalData { get; set; }
+    public class ConfigurationStatuses : IParsable {
         /// <summary>The characters_reserved_per_url property</summary>
         public int? CharactersReservedPerUrl { get; set; }
         /// <summary>The max_characters property</summary>
         public int? MaxCharacters { get; set; }
         /// <summary>The max_media_attachments property</summary>
         public int? MaxMediaAttachments { get; set; }
-        /// <summary>
-        /// Instantiates a new ConfigurationStatuses and sets the default values.
-        /// </summary>
-        public ConfigurationStatuses() {
-            AdditionalData = new Dictionary<string, object>();
-        }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
@@ -46,7 +38,6 @@ namespace MastodonClientLib.Models {
             writer.WriteIntValue("characters_reserved_per_url", CharactersReservedPerUrl);
             writer.WriteIntValue("max_characters", MaxCharacters);
             writer.WriteIntValue("max_media_attachments", MaxMediaAttachments);
-            writer.WriteAdditionalData(AdditionalData);
         }
     }
 }

@@ -10,11 +10,11 @@
   <ItemGroup>
     <PackageReference Include="Azure.Monitor.OpenTelemetry.Exporter" Version="1.0.0-beta.6" />
     <PackageReference Include="DotNetEnv" Version="2.5.0" />
-    <PackageReference Include="Microsoft.Kiota.Abstractions" Version="1.0.0-rc.7" />
-    <PackageReference Include="Microsoft.Kiota.Http.HttpClientLibrary" Version="1.0.0-rc.6" />
-    <PackageReference Include="Microsoft.Kiota.Serialization.Form" Version="1.0.0-rc.4" />
-    <PackageReference Include="Microsoft.Kiota.Serialization.Json" Version="1.0.0-rc.3" />
-    <PackageReference Include="Microsoft.Kiota.Serialization.Text" Version="1.0.0-rc.3" />
+    <PackageReference Include="Microsoft.Kiota.Abstractions" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Kiota.Http.HttpClientLibrary" Version="1.0.2" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Form" Version="1.0.1" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Json" Version="1.0.5" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Text" Version="1.0.1" />
   </ItemGroup>
 
 </Project>

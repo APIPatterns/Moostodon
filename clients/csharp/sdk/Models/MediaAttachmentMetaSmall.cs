@@ -1,12 +1,10 @@
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 namespace MastodonClientLib.Models {
-    public class MediaAttachmentMetaSmall : IAdditionalDataHolder, IParsable {
-        /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
-        public IDictionary<string, object> AdditionalData { get; set; }
+    public class MediaAttachmentMetaSmall : IParsable {
         /// <summary>The aspect property</summary>
         public float? Aspect { get; set; }
         /// <summary>The height property</summary>
@@ -21,12 +19,6 @@ namespace MastodonClientLib.Models {
 #endif
         /// <summary>The width property</summary>
         public int? Width { get; set; }
-        /// <summary>
-        /// Instantiates a new MediaAttachmentMetaSmall and sets the default values.
-        /// </summary>
-        public MediaAttachmentMetaSmall() {
-            AdditionalData = new Dictionary<string, object>();
-        }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
@@ -56,7 +48,6 @@ namespace MastodonClientLib.Models {
             writer.WriteIntValue("height", Height);
             writer.WriteStringValue("size", Size);
             writer.WriteIntValue("width", Width);
-            writer.WriteAdditionalData(AdditionalData);
         }
     }
 }

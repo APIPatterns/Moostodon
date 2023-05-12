@@ -1,12 +1,10 @@
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 namespace MastodonClientLib.Models {
-    public class Relationship : IAdditionalDataHolder, IParsable {
-        /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
-        public IDictionary<string, object> AdditionalData { get; set; }
+    public class Relationship : IParsable {
         /// <summary>The blocked_by property</summary>
         public bool? BlockedBy { get; set; }
         /// <summary>The blocking property</summary>
@@ -53,12 +51,6 @@ namespace MastodonClientLib.Models {
         public bool? Requested { get; set; }
         /// <summary>The showing_reblogs property</summary>
         public bool? ShowingReblogs { get; set; }
-        /// <summary>
-        /// Instantiates a new Relationship and sets the default values.
-        /// </summary>
-        public Relationship() {
-            AdditionalData = new Dictionary<string, object>();
-        }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
@@ -108,7 +100,6 @@ namespace MastodonClientLib.Models {
             writer.WriteBoolValue("notifying", Notifying);
             writer.WriteBoolValue("requested", Requested);
             writer.WriteBoolValue("showing_reblogs", ShowingReblogs);
-            writer.WriteAdditionalData(AdditionalData);
         }
     }
 }

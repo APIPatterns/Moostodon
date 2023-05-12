@@ -1,10 +1,10 @@
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 namespace MastodonClientLib.Models {
-    public class Account : IAdditionalDataHolder, IParsable {
+    public class Account : IParsable {
         /// <summary>The acct property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -13,8 +13,6 @@ namespace MastodonClientLib.Models {
 #else
         public string Acct { get; set; }
 #endif
-        /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
-        public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The avatar property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -158,12 +156,6 @@ namespace MastodonClientLib.Models {
         public string Username { get; set; }
 #endif
         /// <summary>
-        /// Instantiates a new Account and sets the default values.
-        /// </summary>
-        public Account() {
-            AdditionalData = new Dictionary<string, object>();
-        }
-        /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
@@ -232,7 +224,6 @@ namespace MastodonClientLib.Models {
             writer.WriteBoolValue("suspended", Suspended);
             writer.WriteStringValue("url", Url);
             writer.WriteStringValue("username", Username);
-            writer.WriteAdditionalData(AdditionalData);
         }
     }
 }

@@ -1,12 +1,10 @@
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 namespace MastodonClientLib.Models {
-    public class Instance : IAdditionalDataHolder, IParsable {
-        /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
-        public IDictionary<string, object> AdditionalData { get; set; }
+    public class Instance : IParsable {
         /// <summary>The configuration property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -104,12 +102,6 @@ namespace MastodonClientLib.Models {
         public string Version { get; set; }
 #endif
         /// <summary>
-        /// Instantiates a new Instance and sets the default values.
-        /// </summary>
-        public Instance() {
-            AdditionalData = new Dictionary<string, object>();
-        }
-        /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
@@ -154,7 +146,6 @@ namespace MastodonClientLib.Models {
             writer.WriteStringValue("title", Title);
             writer.WriteObjectValue<MastodonClientLib.Models.Usage>("usage", Usage);
             writer.WriteStringValue("version", Version);
-            writer.WriteAdditionalData(AdditionalData);
         }
     }
 }

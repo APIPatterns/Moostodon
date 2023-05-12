@@ -1,22 +1,14 @@
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 namespace MastodonClientLib.Models {
-    public class MuteForm : IAdditionalDataHolder, IParsable {
-        /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
-        public IDictionary<string, object> AdditionalData { get; set; }
+    public class MuteForm : IParsable {
         /// <summary>The duration property</summary>
         public int? Duration { get; set; }
         /// <summary>The notifications property</summary>
         public bool? Notifications { get; set; }
-        /// <summary>
-        /// Instantiates a new MuteForm and sets the default values.
-        /// </summary>
-        public MuteForm() {
-            AdditionalData = new Dictionary<string, object>();
-        }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
@@ -42,7 +34,6 @@ namespace MastodonClientLib.Models {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
             writer.WriteIntValue("duration", Duration);
             writer.WriteBoolValue("notifications", Notifications);
-            writer.WriteAdditionalData(AdditionalData);
         }
     }
 }

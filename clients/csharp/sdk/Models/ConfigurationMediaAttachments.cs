@@ -1,12 +1,10 @@
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 namespace MastodonClientLib.Models {
-    public class ConfigurationMediaAttachments : IAdditionalDataHolder, IParsable {
-        /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
-        public IDictionary<string, object> AdditionalData { get; set; }
+    public class ConfigurationMediaAttachments : IParsable {
         /// <summary>The image_matrix_limit property</summary>
         public int? ImageMatrixLimit { get; set; }
         /// <summary>The image_size_limit property</summary>
@@ -23,12 +21,6 @@ namespace MastodonClientLib.Models {
         public int? VideoMatrixLimit { get; set; }
         /// <summary>The video_size_limit property</summary>
         public int? VideoSizeLimit { get; set; }
-        /// <summary>
-        /// Instantiates a new ConfigurationMediaAttachments and sets the default values.
-        /// </summary>
-        public ConfigurationMediaAttachments() {
-            AdditionalData = new Dictionary<string, object>();
-        }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
@@ -60,7 +52,6 @@ namespace MastodonClientLib.Models {
             writer.WriteCollectionOfPrimitiveValues<string>("supported_mime_types", SupportedMimeTypes);
             writer.WriteIntValue("video_matrix_limit", VideoMatrixLimit);
             writer.WriteIntValue("video_size_limit", VideoSizeLimit);
-            writer.WriteAdditionalData(AdditionalData);
         }
     }
 }

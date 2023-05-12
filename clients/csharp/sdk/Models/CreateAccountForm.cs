@@ -1,12 +1,10 @@
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 namespace MastodonClientLib.Models {
-    public class CreateAccountForm : IAdditionalDataHolder, IParsable {
-        /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
-        public IDictionary<string, object> AdditionalData { get; set; }
+    public class CreateAccountForm : IParsable {
         /// <summary>The agreement property</summary>
         public bool? Agreement { get; set; }
         /// <summary>The email property</summary>
@@ -50,12 +48,6 @@ namespace MastodonClientLib.Models {
         public string Username { get; set; }
 #endif
         /// <summary>
-        /// Instantiates a new CreateAccountForm and sets the default values.
-        /// </summary>
-        public CreateAccountForm() {
-            AdditionalData = new Dictionary<string, object>();
-        }
-        /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
@@ -88,7 +80,6 @@ namespace MastodonClientLib.Models {
             writer.WriteStringValue("password", Password);
             writer.WriteStringValue("reason", Reason);
             writer.WriteStringValue("username", Username);
-            writer.WriteAdditionalData(AdditionalData);
         }
     }
 }

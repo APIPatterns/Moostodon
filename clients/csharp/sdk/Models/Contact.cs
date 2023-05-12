@@ -1,10 +1,10 @@
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 namespace MastodonClientLib.Models {
-    public class Contact : IAdditionalDataHolder, IParsable {
+    public class Contact : IParsable {
         /// <summary>The account property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -13,8 +13,6 @@ namespace MastodonClientLib.Models {
 #else
         public MastodonClientLib.Models.Account Account { get; set; }
 #endif
-        /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
-        public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The email property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -23,12 +21,6 @@ namespace MastodonClientLib.Models {
 #else
         public string Email { get; set; }
 #endif
-        /// <summary>
-        /// Instantiates a new Contact and sets the default values.
-        /// </summary>
-        public Contact() {
-            AdditionalData = new Dictionary<string, object>();
-        }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
@@ -54,7 +46,6 @@ namespace MastodonClientLib.Models {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
             writer.WriteObjectValue<MastodonClientLib.Models.Account>("account", Account);
             writer.WriteStringValue("email", Email);
-            writer.WriteAdditionalData(AdditionalData);
         }
     }
 }

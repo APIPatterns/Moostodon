@@ -1,10 +1,10 @@
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 namespace MastodonClientLib.Models {
-    public class Mention : IAdditionalDataHolder, IParsable {
+    public class Mention : IParsable {
         /// <summary>The acct property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -13,8 +13,6 @@ namespace MastodonClientLib.Models {
 #else
         public string Acct { get; set; }
 #endif
-        /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
-        public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The id property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -39,12 +37,6 @@ namespace MastodonClientLib.Models {
 #else
         public string Username { get; set; }
 #endif
-        /// <summary>
-        /// Instantiates a new Mention and sets the default values.
-        /// </summary>
-        public Mention() {
-            AdditionalData = new Dictionary<string, object>();
-        }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
@@ -74,7 +66,6 @@ namespace MastodonClientLib.Models {
             writer.WriteStringValue("id", Id);
             writer.WriteStringValue("url", Url);
             writer.WriteStringValue("username", Username);
-            writer.WriteAdditionalData(AdditionalData);
         }
     }
 }

@@ -6,19 +6,19 @@ using MastodonClientLib.Api.V1.Accounts.Search;
 using MastodonClientLib.Api.V1.Accounts.Update_credentials;
 using MastodonClientLib.Api.V1.Accounts.Verify_credentials;
 using MastodonClientLib.Models;
-using Microsoft.Kiota.Abstractions;
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
+using Microsoft.Kiota.Abstractions;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
+using System.Threading;
+using System;
 namespace MastodonClientLib.Api.V1.Accounts {
     /// <summary>
     /// Builds and executes requests for operations under \api\v1\accounts
     /// </summary>
-    public class AccountsRequestBuilder {
+    public class AccountsRequestBuilder : BaseRequestBuilder {
         /// <summary>The familiar_followers property</summary>
         public Familiar_followersRequestBuilder Familiar_followers { get =>
             new Familiar_followersRequestBuilder(PathParameters, RequestAdapter);
@@ -27,14 +27,10 @@ namespace MastodonClientLib.Api.V1.Accounts {
         public LookupRequestBuilder Lookup { get =>
             new LookupRequestBuilder(PathParameters, RequestAdapter);
         }
-        /// <summary>Path parameters for the request</summary>
-        private Dictionary<string, object> PathParameters { get; set; }
         /// <summary>The relationships property</summary>
         public RelationshipsRequestBuilder Relationships { get =>
             new RelationshipsRequestBuilder(PathParameters, RequestAdapter);
         }
-        /// <summary>The request adapter to use to execute the requests.</summary>
-        private IRequestAdapter RequestAdapter { get; set; }
         /// <summary>The search property</summary>
         public SearchRequestBuilder Search { get =>
             new SearchRequestBuilder(PathParameters, RequestAdapter);
@@ -43,8 +39,6 @@ namespace MastodonClientLib.Api.V1.Accounts {
         public Update_credentialsRequestBuilder Update_credentials { get =>
             new Update_credentialsRequestBuilder(PathParameters, RequestAdapter);
         }
-        /// <summary>Url template to use to build the URL for the current request builder</summary>
-        private string UrlTemplate { get; set; }
         /// <summary>The verify_credentials property</summary>
         public Verify_credentialsRequestBuilder Verify_credentials { get =>
             new Verify_credentialsRequestBuilder(PathParameters, RequestAdapter);
@@ -60,27 +54,14 @@ namespace MastodonClientLib.Api.V1.Accounts {
         /// </summary>
         /// <param name="pathParameters">Path parameters for the request</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public AccountsRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) {
-            _ = pathParameters ?? throw new ArgumentNullException(nameof(pathParameters));
-            _ = requestAdapter ?? throw new ArgumentNullException(nameof(requestAdapter));
-            UrlTemplate = "{+baseurl}/api/v1/accounts";
-            var urlTplParams = new Dictionary<string, object>(pathParameters);
-            PathParameters = urlTplParams;
-            RequestAdapter = requestAdapter;
+        public AccountsRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/accounts", pathParameters) {
         }
         /// <summary>
         /// Instantiates a new AccountsRequestBuilder and sets the default values.
         /// </summary>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public AccountsRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) {
-            if(string.IsNullOrEmpty(rawUrl)) throw new ArgumentNullException(nameof(rawUrl));
-            _ = requestAdapter ?? throw new ArgumentNullException(nameof(requestAdapter));
-            UrlTemplate = "{+baseurl}/api/v1/accounts";
-            var urlTplParams = new Dictionary<string, object>();
-            if (!string.IsNullOrWhiteSpace(rawUrl)) urlTplParams.Add("request-raw-url", rawUrl);
-            PathParameters = urlTplParams;
-            RequestAdapter = requestAdapter;
+        public AccountsRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/accounts", rawUrl) {
         }
         /// <param name="body">The request body</param>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>

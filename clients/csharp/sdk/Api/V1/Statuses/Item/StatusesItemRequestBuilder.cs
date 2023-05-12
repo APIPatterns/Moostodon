@@ -14,19 +14,19 @@ using MastodonClientLib.Api.V1.Statuses.Item.Unmute;
 using MastodonClientLib.Api.V1.Statuses.Item.Unpin;
 using MastodonClientLib.Api.V1.Statuses.Item.Unreblog;
 using MastodonClientLib.Models;
-using Microsoft.Kiota.Abstractions;
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
+using Microsoft.Kiota.Abstractions;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
+using System.Threading;
+using System;
 namespace MastodonClientLib.Api.V1.Statuses.Item {
     /// <summary>
     /// Builds and executes requests for operations under \api\v1\statuses\{id}
     /// </summary>
-    public class StatusesItemRequestBuilder {
+    public class StatusesItemRequestBuilder : BaseRequestBuilder {
         /// <summary>The bookmark property</summary>
         public BookmarkRequestBuilder Bookmark { get =>
             new BookmarkRequestBuilder(PathParameters, RequestAdapter);
@@ -51,8 +51,6 @@ namespace MastodonClientLib.Api.V1.Statuses.Item {
         public MuteRequestBuilder Mute { get =>
             new MuteRequestBuilder(PathParameters, RequestAdapter);
         }
-        /// <summary>Path parameters for the request</summary>
-        private Dictionary<string, object> PathParameters { get; set; }
         /// <summary>The pin property</summary>
         public PinRequestBuilder Pin { get =>
             new PinRequestBuilder(PathParameters, RequestAdapter);
@@ -65,8 +63,6 @@ namespace MastodonClientLib.Api.V1.Statuses.Item {
         public Reblogged_byRequestBuilder Reblogged_by { get =>
             new Reblogged_byRequestBuilder(PathParameters, RequestAdapter);
         }
-        /// <summary>The request adapter to use to execute the requests.</summary>
-        private IRequestAdapter RequestAdapter { get; set; }
         /// <summary>The source property</summary>
         public SourceRequestBuilder Source { get =>
             new SourceRequestBuilder(PathParameters, RequestAdapter);
@@ -91,34 +87,19 @@ namespace MastodonClientLib.Api.V1.Statuses.Item {
         public UnreblogRequestBuilder Unreblog { get =>
             new UnreblogRequestBuilder(PathParameters, RequestAdapter);
         }
-        /// <summary>Url template to use to build the URL for the current request builder</summary>
-        private string UrlTemplate { get; set; }
         /// <summary>
         /// Instantiates a new StatusesItemRequestBuilder and sets the default values.
         /// </summary>
         /// <param name="pathParameters">Path parameters for the request</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public StatusesItemRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) {
-            _ = pathParameters ?? throw new ArgumentNullException(nameof(pathParameters));
-            _ = requestAdapter ?? throw new ArgumentNullException(nameof(requestAdapter));
-            UrlTemplate = "{+baseurl}/api/v1/statuses/{id}";
-            var urlTplParams = new Dictionary<string, object>(pathParameters);
-            PathParameters = urlTplParams;
-            RequestAdapter = requestAdapter;
+        public StatusesItemRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/statuses/{id}", pathParameters) {
         }
         /// <summary>
         /// Instantiates a new StatusesItemRequestBuilder and sets the default values.
         /// </summary>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public StatusesItemRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) {
-            if(string.IsNullOrEmpty(rawUrl)) throw new ArgumentNullException(nameof(rawUrl));
-            _ = requestAdapter ?? throw new ArgumentNullException(nameof(requestAdapter));
-            UrlTemplate = "{+baseurl}/api/v1/statuses/{id}";
-            var urlTplParams = new Dictionary<string, object>();
-            if (!string.IsNullOrWhiteSpace(rawUrl)) urlTplParams.Add("request-raw-url", rawUrl);
-            PathParameters = urlTplParams;
-            RequestAdapter = requestAdapter;
+        public StatusesItemRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1/statuses/{id}", rawUrl) {
         }
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>

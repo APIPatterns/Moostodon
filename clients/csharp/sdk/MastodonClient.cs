@@ -1,20 +1,20 @@
 using MastodonClientLib.Api;
 using MastodonClientLib.Oauth;
-using Microsoft.Kiota.Abstractions;
 using Microsoft.Kiota.Abstractions.Extensions;
+using Microsoft.Kiota.Abstractions;
 using Microsoft.Kiota.Serialization.Form;
 using Microsoft.Kiota.Serialization.Json;
 using Microsoft.Kiota.Serialization.Text;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 namespace MastodonClientLib {
     /// <summary>
     /// The main entry point of the SDK, exposes the configuration and the fluent API.
     /// </summary>
-    public class MastodonClient {
+    public class MastodonClient : BaseRequestBuilder {
         /// <summary>The api property</summary>
         public ApiRequestBuilder Api { get =>
             new ApiRequestBuilder(PathParameters, RequestAdapter);
@@ -23,27 +23,17 @@ namespace MastodonClientLib {
         public OauthRequestBuilder Oauth { get =>
             new OauthRequestBuilder(PathParameters, RequestAdapter);
         }
-        /// <summary>Path parameters for the request</summary>
-        private Dictionary<string, object> PathParameters { get; set; }
-        /// <summary>The request adapter to use to execute the requests.</summary>
-        private IRequestAdapter RequestAdapter { get; set; }
-        /// <summary>Url template to use to build the URL for the current request builder</summary>
-        private string UrlTemplate { get; set; }
         /// <summary>
         /// Instantiates a new MastodonClient and sets the default values.
         /// </summary>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public MastodonClient(IRequestAdapter requestAdapter) {
-            _ = requestAdapter ?? throw new ArgumentNullException(nameof(requestAdapter));
-            PathParameters = new Dictionary<string, object>();
-            UrlTemplate = "{+baseurl}";
-            RequestAdapter = requestAdapter;
-            ApiClientBuilder.RegisterDefaultSerializer<FormSerializationWriterFactory>();
+        public MastodonClient(IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}", new Dictionary<string, object>()) {
             ApiClientBuilder.RegisterDefaultSerializer<JsonSerializationWriterFactory>();
             ApiClientBuilder.RegisterDefaultSerializer<TextSerializationWriterFactory>();
-            ApiClientBuilder.RegisterDefaultDeserializer<FormParseNodeFactory>();
+            ApiClientBuilder.RegisterDefaultSerializer<FormSerializationWriterFactory>();
             ApiClientBuilder.RegisterDefaultDeserializer<JsonParseNodeFactory>();
             ApiClientBuilder.RegisterDefaultDeserializer<TextParseNodeFactory>();
+            ApiClientBuilder.RegisterDefaultDeserializer<FormParseNodeFactory>();
             if (string.IsNullOrEmpty(RequestAdapter.BaseUrl)) {
                 RequestAdapter.BaseUrl = "https://mastodon.example";
             }
