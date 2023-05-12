@@ -1,7 +1,7 @@
-import "@cadl-lang/rest";
-import "../models/common.cadl";
+import "@typespec/http";
+import "../models/common.tsp";
 
-using Cadl.Http;
+using TypeSpec.Http;
 using Mastodon;
 
 model RangeParameters {
@@ -12,15 +12,13 @@ model RangeParameters {
 }
 
 model UnprocessableContentError is Error {
-    @statusCode statusCode: 422;
-  }
-
-model UnauthorizedError is Error {
-    @statusCode statusCode: 401;
-  }
-
-
-interface NamedSet<T> {
-  @get items(...RangeParameters): T[];  
+  @statusCode statusCode: 422;
 }
 
+model UnauthorizedError is Error {
+  @statusCode statusCode: 401;
+}
+
+interface NamedSet<T> {
+  @get items(...RangeParameters): T[];
+}

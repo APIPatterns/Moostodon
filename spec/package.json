@@ -1,10 +1,10 @@
 {
   "name": "KiotaCadl",
   "dependencies": {
-    "@cadl-lang/compiler": "^0.40.0",
-    "@cadl-lang/openapi3": "^0.40.0",
-    "@cadl-lang/rest": "^0.40.0",
-    "package": "^1.0.1"
+    "package": "^1.0.1",
+    "@typespec/compiler": "0.42.0",
+    "@typespec/openapi3": "0.42.0",
+    "@typespec/http": "0.42.0"
   },
   "private": true
 }

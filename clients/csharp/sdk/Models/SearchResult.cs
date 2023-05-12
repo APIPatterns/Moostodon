@@ -1,10 +1,10 @@
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 namespace MastodonClientLib.Models {
-    public class SearchResult : IAdditionalDataHolder, IParsable {
+    public class SearchResult : IParsable {
         /// <summary>The accounts property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -13,8 +13,6 @@ namespace MastodonClientLib.Models {
 #else
         public List<Account> Accounts { get; set; }
 #endif
-        /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
-        public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The hashtags property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -31,12 +29,6 @@ namespace MastodonClientLib.Models {
 #else
         public List<Status> Statuses { get; set; }
 #endif
-        /// <summary>
-        /// Instantiates a new SearchResult and sets the default values.
-        /// </summary>
-        public SearchResult() {
-            AdditionalData = new Dictionary<string, object>();
-        }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
@@ -64,7 +56,6 @@ namespace MastodonClientLib.Models {
             writer.WriteCollectionOfObjectValues<Account>("accounts", Accounts);
             writer.WriteCollectionOfObjectValues<Tag>("hashtags", Hashtags);
             writer.WriteCollectionOfObjectValues<Status>("statuses", Statuses);
-            writer.WriteAdditionalData(AdditionalData);
         }
     }
 }

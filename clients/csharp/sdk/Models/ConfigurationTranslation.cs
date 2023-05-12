@@ -1,20 +1,12 @@
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 namespace MastodonClientLib.Models {
-    public class ConfigurationTranslation : IAdditionalDataHolder, IParsable {
-        /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
-        public IDictionary<string, object> AdditionalData { get; set; }
+    public class ConfigurationTranslation : IParsable {
         /// <summary>The enabled property</summary>
         public bool? Enabled { get; set; }
-        /// <summary>
-        /// Instantiates a new ConfigurationTranslation and sets the default values.
-        /// </summary>
-        public ConfigurationTranslation() {
-            AdditionalData = new Dictionary<string, object>();
-        }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
@@ -38,7 +30,6 @@ namespace MastodonClientLib.Models {
         public void Serialize(ISerializationWriter writer) {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
             writer.WriteBoolValue("enabled", Enabled);
-            writer.WriteAdditionalData(AdditionalData);
         }
     }
 }

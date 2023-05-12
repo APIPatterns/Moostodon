@@ -1,12 +1,10 @@
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 namespace MastodonClientLib.Models {
-    public class Context : IAdditionalDataHolder, IParsable {
-        /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
-        public IDictionary<string, object> AdditionalData { get; set; }
+    public class Context : IParsable {
         /// <summary>The ancestors property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -23,12 +21,6 @@ namespace MastodonClientLib.Models {
 #else
         public List<Status> Descendants { get; set; }
 #endif
-        /// <summary>
-        /// Instantiates a new Context and sets the default values.
-        /// </summary>
-        public Context() {
-            AdditionalData = new Dictionary<string, object>();
-        }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
@@ -54,7 +46,6 @@ namespace MastodonClientLib.Models {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
             writer.WriteCollectionOfObjectValues<Status>("ancestors", Ancestors);
             writer.WriteCollectionOfObjectValues<Status>("descendants", Descendants);
-            writer.WriteAdditionalData(AdditionalData);
         }
     }
 }

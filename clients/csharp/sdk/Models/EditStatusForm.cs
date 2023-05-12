@@ -1,12 +1,10 @@
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 namespace MastodonClientLib.Models {
-    public class EditStatusForm : IAdditionalDataHolder, IParsable {
-        /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
-        public IDictionary<string, object> AdditionalData { get; set; }
+    public class EditStatusForm : IParsable {
         /// <summary>The pollExpires_in property</summary>
         public int? PollExpiresIn { get; set; }
         /// <summary>The pollHide_totals property</summary>
@@ -31,12 +29,6 @@ namespace MastodonClientLib.Models {
 #else
         public string Status { get; set; }
 #endif
-        /// <summary>
-        /// Instantiates a new EditStatusForm and sets the default values.
-        /// </summary>
-        public EditStatusForm() {
-            AdditionalData = new Dictionary<string, object>();
-        }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
@@ -70,7 +62,6 @@ namespace MastodonClientLib.Models {
             writer.WriteBoolValue("sensitive", Sensitive);
             writer.WriteStringValue("spoiler_text", SpoilerText);
             writer.WriteStringValue("status", Status);
-            writer.WriteAdditionalData(AdditionalData);
         }
     }
 }

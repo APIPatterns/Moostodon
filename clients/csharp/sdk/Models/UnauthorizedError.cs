@@ -1,13 +1,11 @@
-using Microsoft.Kiota.Abstractions;
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
+using Microsoft.Kiota.Abstractions;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 namespace MastodonClientLib.Models {
-    public class UnauthorizedError : ApiException, IAdditionalDataHolder, IParsable {
-        /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
-        public IDictionary<string, object> AdditionalData { get; set; }
+    public class UnauthorizedError : ApiException, IParsable {
         /// <summary>The error property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -24,12 +22,6 @@ namespace MastodonClientLib.Models {
 #else
         public string ErrorDescription { get; set; }
 #endif
-        /// <summary>
-        /// Instantiates a new UnauthorizedError and sets the default values.
-        /// </summary>
-        public UnauthorizedError() {
-            AdditionalData = new Dictionary<string, object>();
-        }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
@@ -55,7 +47,6 @@ namespace MastodonClientLib.Models {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("error", Error);
             writer.WriteStringValue("error_description", ErrorDescription);
-            writer.WriteAdditionalData(AdditionalData);
         }
     }
 }

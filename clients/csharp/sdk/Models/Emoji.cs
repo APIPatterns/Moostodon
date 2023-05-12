@@ -1,12 +1,13 @@
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 namespace MastodonClientLib.Models {
-    public class Emoji : IAdditionalDataHolder, IParsable {
-        /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
-        public IDictionary<string, object> AdditionalData { get; set; }
+    /// <summary>
+    /// {shortcode}: Shortcode for the emoji{static_url}: Static URL for the emoji{url}: URL for the emoji{visible_in_picker}: Whether the emoji is visible in the picker
+    /// </summary>
+    public class Emoji : IParsable {
         /// <summary>The shortcode property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -33,12 +34,6 @@ namespace MastodonClientLib.Models {
 #endif
         /// <summary>The visible_in_picker property</summary>
         public bool? VisibleInPicker { get; set; }
-        /// <summary>
-        /// Instantiates a new Emoji and sets the default values.
-        /// </summary>
-        public Emoji() {
-            AdditionalData = new Dictionary<string, object>();
-        }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
@@ -68,7 +63,6 @@ namespace MastodonClientLib.Models {
             writer.WriteStringValue("static_url", StaticUrl);
             writer.WriteStringValue("url", Url);
             writer.WriteBoolValue("visible_in_picker", VisibleInPicker);
-            writer.WriteAdditionalData(AdditionalData);
         }
     }
 }

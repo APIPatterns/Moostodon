@@ -1,5 +1,0 @@
-emit:
-  - "@cadl-lang/openapi3"
-options:
-  "@cadl-lang/openapi3":
-    emitter-output-dir: "{cwd}/cadl-output"

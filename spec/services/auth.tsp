@@ -1,14 +1,14 @@
 using Mastodon;
-using Cadl.Http;
+using TypeSpec.Http;
 
 interface OAuthService {
-
   // Call authorize endpoint to get an authorization code
   @route("/authorize")
-  @get authorize(
+  @get
+  authorize(
     @query response_type: string,
     @query client_id: string,
-    @query redirect_uri: string,    
+    @query redirect_uri: string,
     @query scope: string,
     @query force_login: boolean,
     @query lang: string
@@ -16,11 +16,15 @@ interface OAuthService {
 
   // Get a token
   @route("/token")
-  @post token(@body body: TokenForm): TokenResponse | BadRequestResponse | UnauthorizedResponse;
+  @post
+  token(
+    @body body: TokenForm
+  ): TokenResponse | BadRequestResponse | UnauthorizedResponse;
 
   // Revoke a token
   @route("/revoke")
-  @post revoke(@body body: RevokeForm): OkResponse | ForbiddenResponse;
+  @post
+  revoke(@body body: RevokeForm): OkResponse | ForbiddenResponse;
 }
 
 model RevokeForm is Form {
@@ -49,5 +53,3 @@ model AuthorizeResponse {
   @statusCode statusCode: 200;
   @header location: string;
 }
-
-

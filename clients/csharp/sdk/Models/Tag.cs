@@ -1,12 +1,10 @@
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 namespace MastodonClientLib.Models {
-    public class Tag : IAdditionalDataHolder, IParsable {
-        /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
-        public IDictionary<string, object> AdditionalData { get; set; }
+    public class Tag : IParsable {
         /// <summary>The following property</summary>
         public bool? Following { get; set; }
         /// <summary>The history property</summary>
@@ -33,12 +31,6 @@ namespace MastodonClientLib.Models {
 #else
         public string Url { get; set; }
 #endif
-        /// <summary>
-        /// Instantiates a new Tag and sets the default values.
-        /// </summary>
-        public Tag() {
-            AdditionalData = new Dictionary<string, object>();
-        }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
@@ -68,7 +60,6 @@ namespace MastodonClientLib.Models {
             writer.WriteCollectionOfObjectValues<HistoryItem>("history", History);
             writer.WriteStringValue("name", Name);
             writer.WriteStringValue("url", Url);
-            writer.WriteAdditionalData(AdditionalData);
         }
     }
 }

@@ -10,16 +10,16 @@ using MastodonClientLib.Api.V1.Mutes;
 using MastodonClientLib.Api.V1.Statuses;
 using MastodonClientLib.Api.V1.Timelines;
 using Microsoft.Kiota.Abstractions;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 namespace MastodonClientLib.Api.V1 {
     /// <summary>
     /// Builds and executes requests for operations under \api\v1
     /// </summary>
-    public class V1RequestBuilder {
+    public class V1RequestBuilder : BaseRequestBuilder {
         /// <summary>The accounts property</summary>
         public AccountsRequestBuilder Accounts { get =>
             new AccountsRequestBuilder(PathParameters, RequestAdapter);
@@ -56,10 +56,6 @@ namespace MastodonClientLib.Api.V1 {
         public MutesRequestBuilder Mutes { get =>
             new MutesRequestBuilder(PathParameters, RequestAdapter);
         }
-        /// <summary>Path parameters for the request</summary>
-        private Dictionary<string, object> PathParameters { get; set; }
-        /// <summary>The request adapter to use to execute the requests.</summary>
-        private IRequestAdapter RequestAdapter { get; set; }
         /// <summary>The statuses property</summary>
         public StatusesRequestBuilder Statuses { get =>
             new StatusesRequestBuilder(PathParameters, RequestAdapter);
@@ -68,34 +64,19 @@ namespace MastodonClientLib.Api.V1 {
         public TimelinesRequestBuilder Timelines { get =>
             new TimelinesRequestBuilder(PathParameters, RequestAdapter);
         }
-        /// <summary>Url template to use to build the URL for the current request builder</summary>
-        private string UrlTemplate { get; set; }
         /// <summary>
         /// Instantiates a new V1RequestBuilder and sets the default values.
         /// </summary>
         /// <param name="pathParameters">Path parameters for the request</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public V1RequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) {
-            _ = pathParameters ?? throw new ArgumentNullException(nameof(pathParameters));
-            _ = requestAdapter ?? throw new ArgumentNullException(nameof(requestAdapter));
-            UrlTemplate = "{+baseurl}/api/v1";
-            var urlTplParams = new Dictionary<string, object>(pathParameters);
-            PathParameters = urlTplParams;
-            RequestAdapter = requestAdapter;
+        public V1RequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1", pathParameters) {
         }
         /// <summary>
         /// Instantiates a new V1RequestBuilder and sets the default values.
         /// </summary>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public V1RequestBuilder(string rawUrl, IRequestAdapter requestAdapter) {
-            if(string.IsNullOrEmpty(rawUrl)) throw new ArgumentNullException(nameof(rawUrl));
-            _ = requestAdapter ?? throw new ArgumentNullException(nameof(requestAdapter));
-            UrlTemplate = "{+baseurl}/api/v1";
-            var urlTplParams = new Dictionary<string, object>();
-            if (!string.IsNullOrWhiteSpace(rawUrl)) urlTplParams.Add("request-raw-url", rawUrl);
-            PathParameters = urlTplParams;
-            RequestAdapter = requestAdapter;
+        public V1RequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/v1", rawUrl) {
         }
     }
 }

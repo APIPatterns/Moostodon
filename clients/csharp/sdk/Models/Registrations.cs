@@ -1,12 +1,10 @@
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 namespace MastodonClientLib.Models {
-    public class Registrations : IAdditionalDataHolder, IParsable {
-        /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
-        public IDictionary<string, object> AdditionalData { get; set; }
+    public class Registrations : IParsable {
         /// <summary>The approval_required property</summary>
         public bool? ApprovalRequired { get; set; }
         /// <summary>The enabled property</summary>
@@ -19,12 +17,6 @@ namespace MastodonClientLib.Models {
 #else
         public string Message { get; set; }
 #endif
-        /// <summary>
-        /// Instantiates a new Registrations and sets the default values.
-        /// </summary>
-        public Registrations() {
-            AdditionalData = new Dictionary<string, object>();
-        }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
@@ -52,7 +44,6 @@ namespace MastodonClientLib.Models {
             writer.WriteBoolValue("approval_required", ApprovalRequired);
             writer.WriteBoolValue("enabled", Enabled);
             writer.WriteStringValue("message", Message);
-            writer.WriteAdditionalData(AdditionalData);
         }
     }
 }

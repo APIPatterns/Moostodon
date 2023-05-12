@@ -1,24 +1,16 @@
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 namespace MastodonClientLib.Models {
-    public class UserUsage : IAdditionalDataHolder, IParsable {
+    public class UserUsage : IParsable {
         /// <summary>The active_halfyear property</summary>
         public long? ActiveHalfyear { get; set; }
         /// <summary>The active_month property</summary>
         public long? ActiveMonth { get; set; }
-        /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
-        public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The total property</summary>
         public long? Total { get; set; }
-        /// <summary>
-        /// Instantiates a new UserUsage and sets the default values.
-        /// </summary>
-        public UserUsage() {
-            AdditionalData = new Dictionary<string, object>();
-        }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
@@ -46,7 +38,6 @@ namespace MastodonClientLib.Models {
             writer.WriteLongValue("active_halfyear", ActiveHalfyear);
             writer.WriteLongValue("active_month", ActiveMonth);
             writer.WriteLongValue("total", Total);
-            writer.WriteAdditionalData(AdditionalData);
         }
     }
 }

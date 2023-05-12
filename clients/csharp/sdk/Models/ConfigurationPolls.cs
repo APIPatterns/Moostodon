@@ -1,12 +1,10 @@
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 namespace MastodonClientLib.Models {
-    public class ConfigurationPolls : IAdditionalDataHolder, IParsable {
-        /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
-        public IDictionary<string, object> AdditionalData { get; set; }
+    public class ConfigurationPolls : IParsable {
         /// <summary>The max_characters_per_option property</summary>
         public int? MaxCharactersPerOption { get; set; }
         /// <summary>The max_expiration property</summary>
@@ -15,12 +13,6 @@ namespace MastodonClientLib.Models {
         public int? MaxOptions { get; set; }
         /// <summary>The min_expiration property</summary>
         public int? MinExpiration { get; set; }
-        /// <summary>
-        /// Instantiates a new ConfigurationPolls and sets the default values.
-        /// </summary>
-        public ConfigurationPolls() {
-            AdditionalData = new Dictionary<string, object>();
-        }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
@@ -50,7 +42,6 @@ namespace MastodonClientLib.Models {
             writer.WriteIntValue("max_expiration", MaxExpiration);
             writer.WriteIntValue("max_options", MaxOptions);
             writer.WriteIntValue("min_expiration", MinExpiration);
-            writer.WriteAdditionalData(AdditionalData);
         }
     }
 }

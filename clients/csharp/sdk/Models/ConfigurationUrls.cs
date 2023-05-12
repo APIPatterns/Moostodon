@@ -1,12 +1,10 @@
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 namespace MastodonClientLib.Models {
-    public class ConfigurationUrls : IAdditionalDataHolder, IParsable {
-        /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
-        public IDictionary<string, object> AdditionalData { get; set; }
+    public class ConfigurationUrls : IParsable {
         /// <summary>The streaming_api property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -15,12 +13,6 @@ namespace MastodonClientLib.Models {
 #else
         public string StreamingApi { get; set; }
 #endif
-        /// <summary>
-        /// Instantiates a new ConfigurationUrls and sets the default values.
-        /// </summary>
-        public ConfigurationUrls() {
-            AdditionalData = new Dictionary<string, object>();
-        }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
@@ -44,7 +36,6 @@ namespace MastodonClientLib.Models {
         public void Serialize(ISerializationWriter writer) {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("streaming_api", StreamingApi);
-            writer.WriteAdditionalData(AdditionalData);
         }
     }
 }

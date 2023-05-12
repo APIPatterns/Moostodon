@@ -44,7 +44,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.FamiliarFollowers'
-                x-cadl-name: Mastodon.FamiliarFollowers[]
+                x-typespec-name: Mastodon.FamiliarFollowers[]
         '401':
           description: Access is unauthorized.
         '422':
@@ -98,7 +98,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Relationship'
-                x-cadl-name: Mastodon.Relationship[]
+                x-typespec-name: Mastodon.Relationship[]
         '401':
           description: Access is unauthorized.
         '422':
@@ -141,7 +141,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Account'
-                x-cadl-name: Mastodon.Account[]
+                x-typespec-name: Mastodon.Account[]
         '401':
           description: Access is unauthorized.
   /api/v1/accounts/update_credentials:
@@ -271,7 +271,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.FeaturedTag'
-                x-cadl-name: Mastodon.FeaturedTag[]
+                x-typespec-name: Mastodon.FeaturedTag[]
         '401':
           description: Access is unauthorized.
         '404':
@@ -333,7 +333,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Account'
-                x-cadl-name: Mastodon.Account[]
+                x-typespec-name: Mastodon.Account[]
         '401':
           description: Access is unauthorized.
         '404':
@@ -362,7 +362,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Account'
-                x-cadl-name: Mastodon.Account[]
+                x-typespec-name: Mastodon.Account[]
         '401':
           description: Access is unauthorized.
         '404':
@@ -387,7 +387,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.AccountList'
-                x-cadl-name: Mastodon.AccountList[]
+                x-typespec-name: Mastodon.AccountList[]
         '401':
           description: Access is unauthorized.
         '404':
@@ -540,7 +540,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Status'
-                x-cadl-name: Mastodon.Status[]
+                x-typespec-name: Mastodon.Status[]
         '401':
           description: Access is unauthorized.
         '404':
@@ -701,7 +701,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Account'
-                x-cadl-name: Mastodon.Account[]
+                x-typespec-name: Mastodon.Account[]
   /api/v1/bookmarks:
     get:
       operationId: BookmarksResource_items
@@ -719,7 +719,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Status'
-                x-cadl-name: Mastodon.Status[]
+                x-typespec-name: Mastodon.Status[]
   /api/v1/domain_blocks:
     get:
       operationId: DomainBlocksResource_getDomainBlocks
@@ -737,7 +737,7 @@ paths:
                 type: array
                 items:
                   type: string
-                x-cadl-name: string[]
+                x-typespec-name: string[]
         '401':
           description: Access is unauthorized.
     post:
@@ -803,7 +803,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Account'
-                x-cadl-name: Mastodon.Account[]
+                x-typespec-name: Mastodon.Account[]
   /api/v1/favourites:
     get:
       operationId: FavouritesResource_items
@@ -821,7 +821,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Status'
-                x-cadl-name: Mastodon.Status[]
+                x-typespec-name: Mastodon.Status[]
   /api/v1/instance:
     get:
       operationId: InstanceResource_getInstance
@@ -850,7 +850,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Account'
-                x-cadl-name: Mastodon.Account[]
+                x-typespec-name: Mastodon.Account[]
   /api/v1/statuses:
     post:
       operationId: StatusesResource_publishStatus
@@ -1006,7 +1006,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Account'
-                x-cadl-name: Mastodon.Account[]
+                x-typespec-name: Mastodon.Account[]
         '404':
           description: The server cannot find the requested resource.
   /api/v1/statuses/{id}/history:
@@ -1027,7 +1027,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/StatusEdit'
-                x-cadl-name: StatusEdit[]
+                x-typespec-name: StatusEdit[]
         '401':
           description: Access is unauthorized.
         '404':
@@ -1110,7 +1110,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Account'
-                x-cadl-name: Mastodon.Account[]
+                x-typespec-name: Mastodon.Account[]
         '404':
           description: The server cannot find the requested resource.
   /api/v1/statuses/{id}/source:
@@ -1250,7 +1250,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Status'
-                x-cadl-name: Mastodon.Status[]
+                x-typespec-name: Mastodon.Status[]
         '401':
           description: Access is unauthorized.
         '404':
@@ -1277,7 +1277,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Status'
-                x-cadl-name: Mastodon.Status[]
+                x-typespec-name: Mastodon.Status[]
         '404':
           description: The server cannot find the requested resource.
   /api/v1/timelines/public:
@@ -1307,7 +1307,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Status'
-                x-cadl-name: Mastodon.Status[]
+                x-typespec-name: Mastodon.Status[]
   /api/v1/timelines/tag/{tag}:
     get:
       operationId: TimelinesResource_getStatusByTag
@@ -1340,7 +1340,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Status'
-                x-cadl-name: Mastodon.Status[]
+                x-typespec-name: Mastodon.Status[]
         '404':
           description: The server cannot find the requested resource.
   /api/v2/search:
@@ -1488,12 +1488,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Status'
-          x-cadl-name: Mastodon.Status[]
+          x-typespec-name: Mastodon.Status[]
         descendants:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Status'
-          x-cadl-name: Mastodon.Status[]
+          x-typespec-name: Mastodon.Status[]
       required:
         - ancestors
         - descendants
@@ -1600,7 +1600,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Emoji'
-          x-cadl-name: Mastodon.Emoji[]
+          x-typespec-name: Mastodon.Emoji[]
         discoverable:
           type: boolean
         created_at:
@@ -1622,7 +1622,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Field'
-          x-cadl-name: Mastodon.Field[]
+          x-typespec-name: Mastodon.Field[]
         bot:
           type: boolean
         souce:
@@ -1695,7 +1695,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Emoji'
-          x-cadl-name: Mastodon.Emoji[]
+          x-typespec-name: Mastodon.Emoji[]
         discoverable:
           type: boolean
         created_at:
@@ -1717,7 +1717,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Field'
-          x-cadl-name: Mastodon.Field[]
+          x-typespec-name: Mastodon.Field[]
         bot:
           type: boolean
         souce:
@@ -1762,6 +1762,10 @@ components:
           type: string
         image:
           type: string
+      description: |-
+        {url2}: URL of the card
+        {title}: Title of the card
+        {description}: Description of the card
       required:
         - url
         - title
@@ -1807,7 +1811,7 @@ components:
           type: array
           items:
             type: string
-          x-cadl-name: string[]
+          x-typespec-name: string[]
         image_matrix_limit:
           type: integer
           format: int32
@@ -1916,6 +1920,11 @@ components:
           type: string
         visible_in_picker:
           type: boolean
+      description: |-
+        {shortcode}: Shortcode for the emoji
+        {static_url}: Static URL for the emoji
+        {url}: URL for the emoji
+        {visible_in_picker}: Whether the emoji is visible in the picker
       required:
         - shortcode
         - static_url
@@ -1930,7 +1939,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Account'
-          x-cadl-name: Mastodon.Account[]
+          x-typespec-name: Mastodon.Account[]
       required:
         - id
         - followers
@@ -1994,7 +2003,7 @@ components:
           type: array
           items:
             type: string
-          x-cadl-name: string[]
+          x-typespec-name: string[]
       required:
         - reblogs
         - notify
@@ -2033,7 +2042,7 @@ components:
           type: array
           items:
             type: string
-          x-cadl-name: string[]
+          x-typespec-name: string[]
         configuration:
           $ref: '#/components/schemas/Mastodon.Configuration'
         registrations:
@@ -2044,7 +2053,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Rule'
-          x-cadl-name: Mastodon.Rule[]
+          x-typespec-name: Mastodon.Rule[]
       required:
         - domain
         - title
@@ -2182,12 +2191,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.PollOption'
-          x-cadl-name: Mastodon.PollOption[]
+          x-typespec-name: Mastodon.PollOption[]
         emojis:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Emoji'
-          x-cadl-name: Mastodon.Emoji[]
+          x-typespec-name: Mastodon.Emoji[]
         voted:
           type: boolean
         own_votes:
@@ -2195,7 +2204,18 @@ components:
           items:
             type: integer
             format: int32
-          x-cadl-name: int32[]
+          x-typespec-name: int32[]
+      description: |-
+        {id}: Id of the poll
+        {expires_at}: Date and time when the poll expires
+        {expired}: Whether the poll has expired
+        {multiple}: Whether the poll allows multiple choices
+        {votes_count}: Number of votes for the poll
+        {voters_count}: Number of voters for the poll
+        {options}: Options for the poll
+        {emojis}: Emojis for the poll
+        {voted}: Whether the authorized user has voted for the poll
+        {own_votes}: Indexes of options voted for by the authorized user
       required:
         - id
         - expires_at
@@ -2215,6 +2235,9 @@ components:
         votes_count:
           type: integer
           format: int32
+      description: |2-
+          {title}: Title of the poll option
+          {votes_count}: Number of votes for the poll option
       required:
         - title
         - votes_count
@@ -2246,7 +2269,7 @@ components:
           type: array
           items:
             type: string
-          x-cadl-name: string[]
+          x-typespec-name: string[]
         followed_by:
           type: boolean
         blocking:
@@ -2312,7 +2335,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Field'
-          x-cadl-name: Mastodon.Field[]
+          x-typespec-name: Mastodon.Field[]
         follower_requests_count:
           type: integer
           format: int32
@@ -2338,7 +2361,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Field'
-          x-cadl-name: Mastodon.Field[]
+          x-typespec-name: Mastodon.Field[]
         follower_requests_count:
           type: integer
           format: int32
@@ -2347,40 +2370,52 @@ components:
       properties:
         id:
           type: string
+          description: Idenfier for a status message
         uri:
           type: string
+          description: URI for a status message
         created_at:
           type: string
+          description: Date and time when the status was created
         account:
-          $ref: '#/components/schemas/Mastodon.Account'
+          allOf:
+            - $ref: '#/components/schemas/Mastodon.Account'
+          description: Account that posted the status
         content:
           type: string
+          description: HTML content of the status
         visibility:
           type: string
+          description: Visibility of the status
         sensitive:
           type: boolean
+          description: Whether the status is marked as sensitive
         spoiler_text:
           type: string
+          description: Text to be shown as a warning before the actual content
         media_attachments:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.MediaAttachment'
-          x-cadl-name: Mastodon.MediaAttachment[]
+          x-typespec-name: Mastodon.MediaAttachment[]
+          description: Media attachments for the status
         mentions:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Mention'
-          x-cadl-name: Mastodon.Mention[]
+          x-typespec-name: Mastodon.Mention[]
+          description: Mentions for the status
         tags:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Tag'
-          x-cadl-name: Mastodon.Tag[]
+          x-typespec-name: Mastodon.Tag[]
+          description: Tags for the status
         emojis:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Emoji'
-          x-cadl-name: Mastodon.Emoji[]
+          x-typespec-name: Mastodon.Emoji[]
         reblogs_count:
           type: integer
           format: int32
@@ -2448,7 +2483,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.HistoryItem'
-          x-cadl-name: Mastodon.HistoryItem[]
+          x-typespec-name: Mastodon.HistoryItem[]
         following:
           type: boolean
       required:
@@ -2552,17 +2587,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Account'
-          x-cadl-name: Mastodon.Account[]
+          x-typespec-name: Mastodon.Account[]
         hashtags:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Tag'
-          x-cadl-name: Mastodon.Tag[]
+          x-typespec-name: Mastodon.Tag[]
         statuses:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Status'
-          x-cadl-name: Mastodon.Status[]
+          x-typespec-name: Mastodon.Status[]
       required:
         - accounts
         - hashtags
@@ -2586,12 +2621,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.MediaAttachment'
-          x-cadl-name: Mastodon.MediaAttachment[]
+          x-typespec-name: Mastodon.MediaAttachment[]
         emojis:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Emoji'
-          x-cadl-name: Mastodon.Emoji[]
+          x-typespec-name: Mastodon.Emoji[]
       required:
         - content
         - spoiler_text

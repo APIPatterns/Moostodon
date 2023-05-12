@@ -1,24 +1,16 @@
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 namespace MastodonClientLib.Models {
-    public class FederationUsage : IAdditionalDataHolder, IParsable {
+    public class FederationUsage : IParsable {
         /// <summary>The active property</summary>
         public long? Active { get; set; }
-        /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
-        public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The receiving property</summary>
         public long? Receiving { get; set; }
         /// <summary>The sending property</summary>
         public long? Sending { get; set; }
-        /// <summary>
-        /// Instantiates a new FederationUsage and sets the default values.
-        /// </summary>
-        public FederationUsage() {
-            AdditionalData = new Dictionary<string, object>();
-        }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
@@ -46,7 +38,6 @@ namespace MastodonClientLib.Models {
             writer.WriteLongValue("active", Active);
             writer.WriteLongValue("receiving", Receiving);
             writer.WriteLongValue("sending", Sending);
-            writer.WriteAdditionalData(AdditionalData);
         }
     }
 }

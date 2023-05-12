@@ -1,12 +1,13 @@
 using Microsoft.Kiota.Abstractions.Serialization;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 namespace MastodonClientLib.Models {
-    public class Poll : IAdditionalDataHolder, IParsable {
-        /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
-        public IDictionary<string, object> AdditionalData { get; set; }
+    /// <summary>
+    /// {id}: Id of the poll{expires_at}: Date and time when the poll expires{expired}: Whether the poll has expired{multiple}: Whether the poll allows multiple choices{votes_count}: Number of votes for the poll{voters_count}: Number of voters for the poll{options}: Options for the poll{emojis}: Emojis for the poll{voted}: Whether the authorized user has voted for the poll{own_votes}: Indexes of options voted for by the authorized user
+    /// </summary>
+    public class Poll : IParsable {
         /// <summary>The emojis property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -58,12 +59,6 @@ namespace MastodonClientLib.Models {
         /// <summary>The votes_count property</summary>
         public int? VotesCount { get; set; }
         /// <summary>
-        /// Instantiates a new Poll and sets the default values.
-        /// </summary>
-        public Poll() {
-            AdditionalData = new Dictionary<string, object>();
-        }
-        /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
@@ -104,7 +99,6 @@ namespace MastodonClientLib.Models {
             writer.WriteBoolValue("voted", Voted);
             writer.WriteIntValue("voters_count", VotersCount);
             writer.WriteIntValue("votes_count", VotesCount);
-            writer.WriteAdditionalData(AdditionalData);
         }
     }
 }
