@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 namespace MastodonClientLib.Models {
+    /// <summary>
+    ///   {title}: Title of the poll option  {votes_count}: Number of votes for the poll option
+    /// </summary>
     public class PollOption : IAdditionalDataHolder, IParsable {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }

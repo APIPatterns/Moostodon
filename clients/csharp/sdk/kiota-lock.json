@@ -1,8 +1,8 @@
 {
-  "descriptionHash": "5F0B60028EFFB6E0B328CD70C289F11A378AB7B105FBAF9F2B0E9D3D249DE55E4C940B448564647B41CE72347F96F13DCF6FCBBF11EA889B02D7D55E5AE3C643",
-  "descriptionLocation": "..\\..\\spec\\cadl-output\\openapi.yaml",
+  "descriptionHash": "D13DC24329148C18F0A6FC0806D28ADD715373051353840B06A262E6E5E9A9D162BD22174F14F9E13128B6062DBBDB3C5255B2A22F5BBA56229BB7544BF83879",
+  "descriptionLocation": "..\\..\\spec\\tsp-output\\@typespec\\openapi3\\openapi.yaml",
   "lockFileVersion": "1.0.0",
-  "kiotaVersion": "0.11.0-preview",
+  "kiotaVersion": "1.0.1",
   "clientClassName": "MastodonClient",
   "clientNamespaceName": "MastodonClientLib",
   "language": "CSharp",

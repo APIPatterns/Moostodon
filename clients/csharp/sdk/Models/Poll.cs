@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 namespace MastodonClientLib.Models {
+    /// <summary>
+    /// {id}: Id of the poll{expires_at}: Date and time when the poll expires{expired}: Whether the poll has expired{multiple}: Whether the poll allows multiple choices{votes_count}: Number of votes for the poll{voters_count}: Number of voters for the poll{options}: Options for the poll{emojis}: Emojis for the poll{voted}: Whether the authorized user has voted for the poll{own_votes}: Indexes of options voted for by the authorized user
+    /// </summary>
     public class Poll : IAdditionalDataHolder, IParsable {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }

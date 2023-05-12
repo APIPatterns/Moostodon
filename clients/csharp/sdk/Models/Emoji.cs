@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 namespace MastodonClientLib.Models {
+    /// <summary>
+    /// {shortcode}: Shortcode for the emoji{static_url}: Static URL for the emoji{url}: URL for the emoji{visible_in_picker}: Whether the emoji is visible in the picker
+    /// </summary>
     public class Emoji : IAdditionalDataHolder, IParsable {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }

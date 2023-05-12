@@ -47,7 +47,7 @@ namespace MastodonClientLib.Models {
 #else
         public List<MediaAttachment> MediaAttachments { get; set; }
 #endif
-        /// <summary>The poll property</summary>
+        /// <summary>{id}: Id of the poll{expires_at}: Date and time when the poll expires{expired}: Whether the poll has expired{multiple}: Whether the poll allows multiple choices{votes_count}: Number of votes for the poll{voters_count}: Number of voters for the poll{options}: Options for the poll{emojis}: Emojis for the poll{voted}: Whether the authorized user has voted for the poll{own_votes}: Indexes of options voted for by the authorized user</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public MastodonClientLib.Models.Poll? Poll { get; set; }

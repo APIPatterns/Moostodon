@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 namespace MastodonClientLib.Models {
+    /// <summary>
+    /// {url2}: URL of the card{title}: Title of the card{description}: Description of the card
+    /// </summary>
     public class Card : IAdditionalDataHolder, IParsable {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }

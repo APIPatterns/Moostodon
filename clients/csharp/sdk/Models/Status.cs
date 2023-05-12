@@ -5,19 +5,19 @@ using System.IO;
 using System.Linq;
 namespace MastodonClientLib.Models {
     public class Status : IAdditionalDataHolder, IParsable {
-        /// <summary>The account property</summary>
+        /// <summary>Account that posted the status</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public MastodonClientLib.Models.Account? Account { get; set; }
+        public Status_account? Account { get; set; }
 #nullable restore
 #else
-        public MastodonClientLib.Models.Account Account { get; set; }
+        public Status_account Account { get; set; }
 #endif
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The bookmarked property</summary>
         public bool? Bookmarked { get; set; }
-        /// <summary>The card property</summary>
+        /// <summary>{url2}: URL of the card{title}: Title of the card{description}: Description of the card</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public MastodonClientLib.Models.Card? Card { get; set; }
@@ -25,7 +25,7 @@ namespace MastodonClientLib.Models {
 #else
         public MastodonClientLib.Models.Card Card { get; set; }
 #endif
-        /// <summary>The content property</summary>
+        /// <summary>HTML content of the status</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? Content { get; set; }
@@ -33,7 +33,7 @@ namespace MastodonClientLib.Models {
 #else
         public string Content { get; set; }
 #endif
-        /// <summary>The created_at property</summary>
+        /// <summary>Date and time when the status was created</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? CreatedAt { get; set; }
@@ -53,7 +53,7 @@ namespace MastodonClientLib.Models {
         public bool? Favourited { get; set; }
         /// <summary>The favourites_count property</summary>
         public int? FavouritesCount { get; set; }
-        /// <summary>The id property</summary>
+        /// <summary>Idenfier for a status message</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? Id { get; set; }
@@ -85,7 +85,7 @@ namespace MastodonClientLib.Models {
 #else
         public string Language { get; set; }
 #endif
-        /// <summary>The media_attachments property</summary>
+        /// <summary>Media attachments for the status</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public List<MediaAttachment>? MediaAttachments { get; set; }
@@ -93,7 +93,7 @@ namespace MastodonClientLib.Models {
 #else
         public List<MediaAttachment> MediaAttachments { get; set; }
 #endif
-        /// <summary>The mentions property</summary>
+        /// <summary>Mentions for the status</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public List<Mention>? Mentions { get; set; }
@@ -105,7 +105,7 @@ namespace MastodonClientLib.Models {
         public bool? Muted { get; set; }
         /// <summary>The pinned property</summary>
         public bool? Pinned { get; set; }
-        /// <summary>The poll property</summary>
+        /// <summary>{id}: Id of the poll{expires_at}: Date and time when the poll expires{expired}: Whether the poll has expired{multiple}: Whether the poll allows multiple choices{votes_count}: Number of votes for the poll{voters_count}: Number of voters for the poll{options}: Options for the poll{emojis}: Emojis for the poll{voted}: Whether the authorized user has voted for the poll{own_votes}: Indexes of options voted for by the authorized user</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public MastodonClientLib.Models.Poll? Poll { get; set; }
@@ -127,9 +127,9 @@ namespace MastodonClientLib.Models {
         public int? ReblogsCount { get; set; }
         /// <summary>The replies_count property</summary>
         public int? RepliesCount { get; set; }
-        /// <summary>The sensitive property</summary>
+        /// <summary>Whether the status is marked as sensitive</summary>
         public bool? Sensitive { get; set; }
-        /// <summary>The spoiler_text property</summary>
+        /// <summary>Text to be shown as a warning before the actual content</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? SpoilerText { get; set; }
@@ -137,7 +137,7 @@ namespace MastodonClientLib.Models {
 #else
         public string SpoilerText { get; set; }
 #endif
-        /// <summary>The tags property</summary>
+        /// <summary>Tags for the status</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public List<Tag>? Tags { get; set; }
@@ -153,7 +153,7 @@ namespace MastodonClientLib.Models {
 #else
         public string Text { get; set; }
 #endif
-        /// <summary>The uri property</summary>
+        /// <summary>URI for a status message</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? Uri { get; set; }
@@ -169,7 +169,7 @@ namespace MastodonClientLib.Models {
 #else
         public string Url { get; set; }
 #endif
-        /// <summary>The visibility property</summary>
+        /// <summary>Visibility of the status</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? Visibility { get; set; }
@@ -196,7 +196,7 @@ namespace MastodonClientLib.Models {
         /// </summary>
         public IDictionary<string, Action<IParseNode>> GetFieldDeserializers() {
             return new Dictionary<string, Action<IParseNode>> {
-                {"account", n => { Account = n.GetObjectValue<MastodonClientLib.Models.Account>(MastodonClientLib.Models.Account.CreateFromDiscriminatorValue); } },
+                {"account", n => { Account = n.GetObjectValue<Status_account>(Status_account.CreateFromDiscriminatorValue); } },
                 {"bookmarked", n => { Bookmarked = n.GetBoolValue(); } },
                 {"card", n => { Card = n.GetObjectValue<MastodonClientLib.Models.Card>(MastodonClientLib.Models.Card.CreateFromDiscriminatorValue); } },
                 {"content", n => { Content = n.GetStringValue(); } },
@@ -232,7 +232,7 @@ namespace MastodonClientLib.Models {
         /// <param name="writer">Serialization writer to use to serialize this model</param>
         public void Serialize(ISerializationWriter writer) {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
-            writer.WriteObjectValue<MastodonClientLib.Models.Account>("account", Account);
+            writer.WriteObjectValue<Status_account>("account", Account);
             writer.WriteBoolValue("bookmarked", Bookmarked);
             writer.WriteObjectValue<MastodonClientLib.Models.Card>("card", Card);
             writer.WriteStringValue("content", Content);
