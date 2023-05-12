@@ -43,14 +43,14 @@ interface AccountsService {
   @route("relationships")
   @get
   getRelationships(
-    @query id: string[]
+    @query({format: "csv"}) id: string[]
   ): Relationship[] | UnauthorizedResponse | UnprocessableContentError;
 
   // Find familiar followers
   @route("familiar_followers")
   @get
   getFamiliarFollowers(
-    @query id: string[]
+    @query({format: "csv"}) id: string[]
   ): FamiliarFollowers[] | UnauthorizedResponse | UnprocessableContentError;
 }
 

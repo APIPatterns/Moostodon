@@ -1,10 +1,10 @@
 {
-  "name": "KiotaCadl",
+  "name": "kiotatypespec",
   "dependencies": {
     "package": "^1.0.1",
-    "@typespec/compiler": "0.42.0",
-    "@typespec/openapi3": "0.42.0",
-    "@typespec/http": "0.42.0"
+    "@typespec/compiler": "0.44.0",
+    "@typespec/openapi3": "0.44.0",
+    "@typespec/http": "0.44.0"
   },
   "private": true
 }
