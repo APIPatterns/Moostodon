@@ -16,7 +16,7 @@ apis:
         properties:
             - 
                 type: X-openapi
-                url: 'https://raw.githubusercontent.com/APIPatterns/Moostodon/spec/tsp-output/@typespec/openapi3/openapi.yaml'
+                url: 'https://raw.githubusercontent.com/APIPatterns/Moostodon/main/spec/tsp-output/%40typespec/openapi3/openapi.yaml'
 
 maintainers:
     - 
