@@ -40,17 +40,17 @@ model Status {
 
   }
 
-  @@doc(Status.id, "Idenfier for a status message")
-  @@doc(Status.uri, "URI for a status message")
-  @@doc(Status.created_at, "Date and time when the status was created")
-  @@doc(Status.account, "Account that posted the status")
-  @@doc(Status.content, "HTML content of the status")
-  @@doc(Status.visibility, "Visibility of the status")
-  @@doc(Status.sensitive, "Whether the status is marked as sensitive")
-  @@doc(Status.spoiler_text, "Text to be shown as a warning before the actual content")
-  @@doc(Status.media_attachments, "Media attachments for the status")
-  @@doc(Status.mentions, "Mentions for the status")
-  @@doc(Status.tags, "Tags for the status")
+  @@doc(Status.id, "Idenfier for a status message");
+  @@doc(Status.uri, "URI for a status message");
+  @@doc(Status.created_at, "Date and time when the status was created");
+  @@doc(Status.account, "Account that posted the status");
+  @@doc(Status.content, "HTML content of the status");
+  @@doc(Status.visibility, "Visibility of the status");
+  @@doc(Status.sensitive, "Whether the status is marked as sensitive");
+  @@doc(Status.spoiler_text, "Text to be shown as a warning before the actual content");
+  @@doc(Status.media_attachments, "Media attachments for the status");
+  @@doc(Status.mentions, "Mentions for the status");
+  @@doc(Status.tags, "Tags for the status");
 
 
   @doc("""

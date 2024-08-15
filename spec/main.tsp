@@ -16,7 +16,6 @@ using TypeSpec.Http;
 @service({
   title: "Mastodon",
   description: "Mastodon API",
-  version: "1.0.0",
   termsOfService: "https://docs.joinmastodon.org/api/",
   contact: {
     name: "Mastodon",

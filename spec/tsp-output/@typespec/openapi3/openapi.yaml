@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Mastodon
-  version: 1.0.0
+  version: 0.0.0
 tags: []
 paths:
   /api/v1/accounts:
@@ -20,7 +20,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               $ref: '#/components/schemas/Mastodon.CreateAccountForm'
   /api/v1/accounts/familiar_followers:
@@ -29,12 +29,12 @@ paths:
       parameters:
         - name: id
           in: query
-          style: simple
           required: true
           schema:
             type: array
             items:
               type: string
+          explode: false
       responses:
         '200':
           description: The request has succeeded.
@@ -44,15 +44,14 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.FamiliarFollowers'
-                x-typespec-name: Mastodon.FamiliarFollowers[]
         '401':
           description: Access is unauthorized.
         '422':
-          description: Client Error
+          description: Client error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnprocessableContentError'
+                $ref: '#/components/schemas/Mastodon.Error'
   /api/v1/accounts/lookup:
     get:
       operationId: AccountsResource_lookup
@@ -62,11 +61,13 @@ paths:
           required: true
           schema:
             type: string
+          explode: false
         - name: skip_webfinger
           in: query
           required: true
           schema:
             type: boolean
+          explode: false
       responses:
         '200':
           description: The request has succeeded.
@@ -82,12 +83,12 @@ paths:
       parameters:
         - name: id
           in: query
-          style: simple
           required: true
           schema:
             type: array
             items:
               type: string
+          explode: false
       responses:
         '200':
           description: The request has succeeded.
@@ -97,15 +98,14 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Relationship'
-                x-typespec-name: Mastodon.Relationship[]
         '401':
           description: Access is unauthorized.
         '422':
-          description: Client Error
+          description: Client error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnprocessableContentError'
+                $ref: '#/components/schemas/Mastodon.Error'
   /api/v1/accounts/search:
     get:
       operationId: AccountsResource_search
@@ -115,22 +115,26 @@ paths:
           required: true
           schema:
             type: string
+          explode: false
         - name: limit
           in: query
           required: true
           schema:
             type: integer
             format: int32
+          explode: false
         - name: following
           in: query
           required: true
           schema:
             type: boolean
+          explode: false
         - name: resolve
           in: query
           required: true
           schema:
             type: boolean
+          explode: false
       responses:
         '200':
           description: The request has succeeded.
@@ -140,7 +144,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Account'
-                x-typespec-name: Mastodon.Account[]
         '401':
           description: Access is unauthorized.
   /api/v1/accounts/update_credentials:
@@ -157,15 +160,15 @@ paths:
         '401':
           description: Access is unauthorized.
         '422':
-          description: Client Error
+          description: Client error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnprocessableContentError'
+                $ref: '#/components/schemas/Mastodon.Error'
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               $ref: '#/components/schemas/Mastodon.UpdateCredentialsForm'
   /api/v1/accounts/verify_credentials:
@@ -202,7 +205,7 @@ paths:
         '404':
           description: The server cannot find the requested resource.
         '410':
-          description: Client Error
+          description: Client error
     patch:
       operationId: AccountResource_updateAccount
       parameters:
@@ -221,7 +224,7 @@ paths:
         '401':
           description: Access is unauthorized.
         '403':
-          description: Access is forbidden
+          description: Access is forbidden.
         '404':
           description: The server cannot find the requested resource.
       requestBody:
@@ -249,11 +252,11 @@ paths:
         '401':
           description: Access is unauthorized.
         '422':
-          description: Client Error
+          description: Client error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnprocessableContentError'
+                $ref: '#/components/schemas/Mastodon.Error'
   /api/v1/accounts/{id}/featured_tags:
     get:
       operationId: AccountResource_getFeaturedTags
@@ -272,13 +275,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.FeaturedTag'
-                x-typespec-name: Mastodon.FeaturedTag[]
         '401':
           description: Access is unauthorized.
         '404':
           description: The server cannot find the requested resource.
         '410':
-          description: Client Error
+          description: Client error
   /api/v1/accounts/{id}/follow:
     post:
       operationId: AccountResource_follow
@@ -300,13 +302,13 @@ paths:
         '404':
           description: The server cannot find the requested resource.
         '410':
-          description: Client Error
+          description: Client error
         '422':
-          description: Client Error
+          description: Client error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnprocessableContentError'
+                $ref: '#/components/schemas/Mastodon.Error'
       requestBody:
         required: true
         content:
@@ -335,13 +337,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Account'
-                x-typespec-name: Mastodon.Account[]
         '401':
           description: Access is unauthorized.
         '404':
           description: The server cannot find the requested resource.
         '410':
-          description: Client Error
+          description: Client error
   /api/v1/accounts/{id}/following:
     get:
       operationId: AccountResource_getFollowing
@@ -364,13 +365,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Account'
-                x-typespec-name: Mastodon.Account[]
         '401':
           description: Access is unauthorized.
         '404':
           description: The server cannot find the requested resource.
         '410':
-          description: Client Error
+          description: Client error
   /api/v1/accounts/{id}/lists:
     get:
       operationId: AccountResource_getLists
@@ -389,19 +389,18 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.AccountList'
-                x-typespec-name: Mastodon.AccountList[]
         '401':
           description: Access is unauthorized.
         '404':
           description: The server cannot find the requested resource.
         '410':
-          description: Client Error
+          description: Client error
         '422':
-          description: Client Error
+          description: Client error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnprocessableContentError'
+                $ref: '#/components/schemas/Mastodon.Error'
   /api/v1/accounts/{id}/mute:
     post:
       operationId: AccountResource_mute
@@ -421,15 +420,15 @@ paths:
         '401':
           description: Access is unauthorized.
         '422':
-          description: Client Error
+          description: Client error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnprocessableContentError'
+                $ref: '#/components/schemas/Mastodon.Error'
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               $ref: '#/components/schemas/Mastodon.MuteForm'
   /api/v1/accounts/{id}/note:
@@ -451,15 +450,15 @@ paths:
         '401':
           description: Access is unauthorized.
         '422':
-          description: Client Error
+          description: Client error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnprocessableContentError'
+                $ref: '#/components/schemas/Mastodon.Error'
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               $ref: '#/components/schemas/Mastodon.SetNoteForm'
   /api/v1/accounts/{id}/pin:
@@ -481,13 +480,13 @@ paths:
         '401':
           description: Access is unauthorized.
         '403':
-          description: Access is forbidden
+          description: Access is forbidden.
         '422':
-          description: Client Error
+          description: Client error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnprocessableContentError'
+                $ref: '#/components/schemas/Mastodon.Error'
   /api/v1/accounts/{id}/remove_from_followers:
     post:
       operationId: AccountResource_removeFromFollowers
@@ -507,11 +506,11 @@ paths:
         '401':
           description: Access is unauthorized.
         '422':
-          description: Client Error
+          description: Client error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnprocessableContentError'
+                $ref: '#/components/schemas/Mastodon.Error'
   /api/v1/accounts/{id}/statuses:
     get:
       operationId: AccountResource_getStatuses
@@ -530,11 +529,13 @@ paths:
           required: true
           schema:
             type: boolean
+          explode: false
         - name: tagged
           in: query
           required: true
           schema:
             type: string
+          explode: false
       responses:
         '200':
           description: The request has succeeded.
@@ -544,13 +545,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Status'
-                x-typespec-name: Mastodon.Status[]
         '401':
           description: Access is unauthorized.
         '404':
           description: The server cannot find the requested resource.
         '410':
-          description: Client Error
+          description: Client error
   /api/v1/accounts/{id}/unblock:
     post:
       operationId: AccountResource_unblock
@@ -570,11 +570,11 @@ paths:
         '401':
           description: Access is unauthorized.
         '422':
-          description: Client Error
+          description: Client error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnprocessableContentError'
+                $ref: '#/components/schemas/Mastodon.Error'
   /api/v1/accounts/{id}/unfollow:
     post:
       operationId: AccountResource_unfollow
@@ -594,11 +594,11 @@ paths:
         '401':
           description: Access is unauthorized.
         '422':
-          description: Client Error
+          description: Client error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnprocessableContentError'
+                $ref: '#/components/schemas/Mastodon.Error'
   /api/v1/accounts/{id}/unmute:
     post:
       operationId: AccountResource_unmute
@@ -618,11 +618,11 @@ paths:
         '401':
           description: Access is unauthorized.
         '422':
-          description: Client Error
+          description: Client error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnprocessableContentError'
+                $ref: '#/components/schemas/Mastodon.Error'
   /api/v1/accounts/{id}/unpin:
     post:
       operationId: AccountResource_unpin
@@ -642,13 +642,13 @@ paths:
         '401':
           description: Access is unauthorized.
         '403':
-          description: Access is forbidden
+          description: Access is forbidden.
         '422':
-          description: Client Error
+          description: Client error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnprocessableContentError'
+                $ref: '#/components/schemas/Mastodon.Error'
   /api/v1/apps:
     post:
       operationId: appResource_createApp
@@ -661,15 +661,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/Mastodon.Application'
         '422':
-          description: Client Error
+          description: Client error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnprocessableContentError'
+                $ref: '#/components/schemas/Mastodon.Error'
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               $ref: '#/components/schemas/CreateAppForm'
   /api/v1/apps/verify_credentials:
@@ -688,7 +688,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnauthorizedError'
+                $ref: '#/components/schemas/Mastodon.Error'
   /api/v1/blocks:
     get:
       operationId: BlocksResource_items
@@ -706,7 +706,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Account'
-                x-typespec-name: Mastodon.Account[]
   /api/v1/bookmarks:
     get:
       operationId: BookmarksResource_items
@@ -724,7 +723,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Status'
-                x-typespec-name: Mastodon.Status[]
   /api/v1/domain_blocks:
     get:
       operationId: DomainBlocksResource_getDomainBlocks
@@ -742,7 +740,6 @@ paths:
                 type: array
                 items:
                   type: string
-                x-typespec-name: string[]
         '401':
           description: Access is unauthorized.
     post:
@@ -758,15 +755,15 @@ paths:
         '401':
           description: Access is unauthorized.
         '422':
-          description: Client Error
+          description: Client error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnprocessableContentError'
+                $ref: '#/components/schemas/Mastodon.Error'
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               $ref: '#/components/schemas/BlockDomainBody'
     delete:
@@ -777,6 +774,7 @@ paths:
           required: true
           schema:
             type: string
+          explode: false
       responses:
         '200':
           description: The request has succeeded.
@@ -787,11 +785,11 @@ paths:
         '401':
           description: Access is unauthorized.
         '422':
-          description: Client Error
+          description: Client error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnprocessableContentError'
+                $ref: '#/components/schemas/Mastodon.Error'
   /api/v1/endorsements:
     get:
       operationId: EndorsementsResource_items
@@ -809,7 +807,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Account'
-                x-typespec-name: Mastodon.Account[]
   /api/v1/favourites:
     get:
       operationId: FavouritesResource_items
@@ -827,7 +824,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Status'
-                x-typespec-name: Mastodon.Status[]
   /api/v1/instance:
     get:
       operationId: InstanceResource_getInstance
@@ -856,7 +852,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Account'
-                x-typespec-name: Mastodon.Account[]
   /api/v1/statuses:
     post:
       operationId: StatusesResource_publishStatus
@@ -871,7 +866,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               $ref: '#/components/schemas/CreateStatusForm'
   /api/v1/statuses/{id}:
@@ -935,7 +930,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               $ref: '#/components/schemas/EditStatusForm'
   /api/v1/statuses/{id}/bookmark:
@@ -1014,7 +1009,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Account'
-                x-typespec-name: Mastodon.Account[]
         '404':
           description: The server cannot find the requested resource.
   /api/v1/statuses/{id}/history:
@@ -1035,7 +1029,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/StatusEdit'
-                x-typespec-name: StatusEdit[]
         '401':
           description: Access is unauthorized.
         '404':
@@ -1118,7 +1111,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Account'
-                x-typespec-name: Mastodon.Account[]
         '404':
           description: The server cannot find the requested resource.
   /api/v1/statuses/{id}/source:
@@ -1258,7 +1250,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Status'
-                x-typespec-name: Mastodon.Status[]
         '401':
           description: Access is unauthorized.
         '404':
@@ -1285,7 +1276,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Status'
-                x-typespec-name: Mastodon.Status[]
         '404':
           description: The server cannot find the requested resource.
   /api/v1/timelines/public:
@@ -1297,11 +1287,13 @@ paths:
           required: true
           schema:
             type: boolean
+          explode: false
         - name: only_media
           in: query
           required: true
           schema:
             type: boolean
+          explode: false
         - $ref: '#/components/parameters/RangeParameters.max_Id'
         - $ref: '#/components/parameters/RangeParameters.sinceId'
         - $ref: '#/components/parameters/RangeParameters.min_Id'
@@ -1315,7 +1307,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Status'
-                x-typespec-name: Mastodon.Status[]
   /api/v1/timelines/tag/{tag}:
     get:
       operationId: TimelinesResource_getStatusByTag
@@ -1330,11 +1321,13 @@ paths:
           required: true
           schema:
             type: boolean
+          explode: false
         - name: only_media
           in: query
           required: true
           schema:
             type: boolean
+          explode: false
         - $ref: '#/components/parameters/RangeParameters.max_Id'
         - $ref: '#/components/parameters/RangeParameters.sinceId'
         - $ref: '#/components/parameters/RangeParameters.min_Id'
@@ -1348,7 +1341,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Mastodon.Status'
-                x-typespec-name: Mastodon.Status[]
         '404':
           description: The server cannot find the requested resource.
   /api/v2/search:
@@ -1360,15 +1352,13 @@ paths:
           required: true
           schema:
             type: string
+          explode: false
         - name: type
           in: query
           required: true
           schema:
-            type: string
-            enum:
-              - accounts
-              - hashtags
-              - statuses
+            $ref: '#/components/schemas/SearchType'
+          explode: false
       responses:
         '200':
           description: The request has succeeded.
@@ -1385,31 +1375,37 @@ paths:
           required: true
           schema:
             type: string
+          explode: false
         - name: client_id
           in: query
           required: true
           schema:
             type: string
+          explode: false
         - name: redirect_uri
           in: query
           required: true
           schema:
             type: string
+          explode: false
         - name: scope
           in: query
           required: true
           schema:
             type: string
+          explode: false
         - name: force_login
           in: query
           required: true
           schema:
             type: boolean
+          explode: false
         - name: lang
           in: query
           required: true
           schema:
             type: string
+          explode: false
       responses:
         '200':
           description: The request has succeeded.
@@ -1428,11 +1424,11 @@ paths:
         '200':
           description: The request has succeeded.
         '403':
-          description: Access is forbidden
+          description: Access is forbidden.
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               $ref: '#/components/schemas/RevokeForm'
   /oauth/token:
@@ -1453,7 +1449,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               $ref: '#/components/schemas/TokenForm'
 components:
@@ -1465,51 +1461,68 @@ components:
       schema:
         type: integer
         format: int32
+      explode: false
     RangeParameters.max_Id:
       name: max_Id
       in: query
       required: false
       schema:
         type: string
+      explode: false
     RangeParameters.min_Id:
       name: min_Id
       in: query
       required: false
       schema:
         type: string
+      explode: false
     RangeParameters.sinceId:
       name: sinceId
       in: query
       required: false
       schema:
         type: string
+      explode: false
   schemas:
     BlockDomainBody:
       type: object
+      required:
+        - contentType
+        - domain
       properties:
+        contentType:
+          type: string
+          enum:
+            - application/x-www-form-urlencoded
         domain:
           type: string
-      required:
-        - domain
     Context:
       type: object
+      required:
+        - ancestors
+        - descendants
       properties:
         ancestors:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Status'
-          x-typespec-name: Mastodon.Status[]
         descendants:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Status'
-          x-typespec-name: Mastodon.Status[]
-      required:
-        - ancestors
-        - descendants
     CreateAppForm:
       type: object
+      required:
+        - contentType
+        - client_name
+        - redirect_uris
+        - scopes
+        - website
       properties:
+        contentType:
+          type: string
+          enum:
+            - application/x-www-form-urlencoded
         client_name:
           type: string
         redirect_uris:
@@ -1518,14 +1531,25 @@ components:
           type: string
         website:
           type: string
-      required:
-        - client_name
-        - redirect_uris
-        - scopes
-        - website
     CreateStatusForm:
       type: object
+      required:
+        - contentType
+        - status
+        - poll[expires_in]
+        - poll[multiple]
+        - poll[hide_totals]
+        - in_reply_to_id
+        - sensitive
+        - spoiler_text
+        - visibility
+        - language
+        - scheduled_at
       properties:
+        contentType:
+          type: string
+          enum:
+            - application/x-www-form-urlencoded
         status:
           type: string
         poll[expires_in]:
@@ -1547,20 +1571,21 @@ components:
           type: string
         scheduled_at:
           type: string
+    EditStatusForm:
+      type: object
       required:
+        - contentType
         - status
+        - spoiler_text
+        - sensitive
         - poll[expires_in]
         - poll[multiple]
         - poll[hide_totals]
-        - in_reply_to_id
-        - sensitive
-        - spoiler_text
-        - visibility
-        - language
-        - scheduled_at
-    EditStatusForm:
-      type: object
       properties:
+        contentType:
+          type: string
+          enum:
+            - application/x-www-form-urlencoded
         status:
           type: string
         spoiler_text:
@@ -1574,15 +1599,33 @@ components:
           type: boolean
         poll[hide_totals]:
           type: boolean
-      required:
-        - status
-        - spoiler_text
-        - sensitive
-        - poll[expires_in]
-        - poll[multiple]
-        - poll[hide_totals]
     Mastodon.Account:
       type: object
+      required:
+        - id
+        - username
+        - acct
+        - url
+        - display_name
+        - note
+        - avatar
+        - avatar_static
+        - header
+        - header_static
+        - locked
+        - emojis
+        - discoverable
+        - created_at
+        - last_status_at
+        - statuses_count
+        - followers_count
+        - following_count
+        - moved
+        - fields
+        - bot
+        - souce
+        - suspended
+        - mute_expires_at
       properties:
         id:
           type: string
@@ -1610,7 +1653,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Emoji'
-          x-typespec-name: Mastodon.Emoji[]
         discoverable:
           type: boolean
         created_at:
@@ -1632,7 +1674,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Field'
-          x-typespec-name: Mastodon.Field[]
         bot:
           type: boolean
         souce:
@@ -1641,41 +1682,16 @@ components:
           type: boolean
         mute_expires_at:
           type: string
-      required:
-        - id
-        - username
-        - acct
-        - url
-        - display_name
-        - note
-        - avatar
-        - avatar_static
-        - header
-        - header_static
-        - locked
-        - emojis
-        - discoverable
-        - created_at
-        - last_status_at
-        - statuses_count
-        - followers_count
-        - following_count
-        - moved
-        - fields
-        - bot
-        - souce
-        - suspended
-        - mute_expires_at
     Mastodon.AccountList:
       type: object
+      required:
+        - id
+        - title
       properties:
         id:
           type: string
         title:
           type: string
-      required:
-        - id
-        - title
     Mastodon.AccountUpdate:
       type: object
       properties:
@@ -1705,7 +1721,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Emoji'
-          x-typespec-name: Mastodon.Emoji[]
         discoverable:
           type: boolean
         created_at:
@@ -1727,7 +1742,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Field'
-          x-typespec-name: Mastodon.Field[]
         bot:
           type: boolean
         souce:
@@ -1738,6 +1752,14 @@ components:
           type: string
     Mastodon.Application:
       type: object
+      required:
+        - id
+        - name
+        - website
+        - redirect_uri
+        - client_id
+        - client_secret
+        - vapid_key
       properties:
         id:
           type: string
@@ -1753,16 +1775,13 @@ components:
           type: string
         vapid_key:
           type: string
-      required:
-        - id
-        - name
-        - website
-        - redirect_uri
-        - client_id
-        - client_secret
-        - vapid_key
     Mastodon.Card:
       type: object
+      required:
+        - url
+        - title
+        - description
+        - image
       properties:
         url:
           type: string
@@ -1776,13 +1795,15 @@ components:
         {url2}: URL of the card
         {title}: Title of the card
         {description}: Description of the card
-      required:
-        - url
-        - title
-        - description
-        - image
     Mastodon.Configuration:
       type: object
+      required:
+        - urls
+        - accounts
+        - statuses
+        - media_attachments
+        - polls
+        - translation
       properties:
         urls:
           $ref: '#/components/schemas/Mastodon.ConfigurationUrls'
@@ -1796,23 +1817,22 @@ components:
           $ref: '#/components/schemas/Mastodon.ConfigurationPolls'
         translation:
           $ref: '#/components/schemas/Mastodon.ConfigurationTranslation'
-      required:
-        - urls
-        - accounts
-        - statuses
-        - media_attachments
-        - polls
-        - translation
     Mastodon.ConfigurationAccounts:
       type: object
+      required:
+        - max_feature_tags
       properties:
         max_feature_tags:
           type: integer
           format: int32
-      required:
-        - max_feature_tags
     Mastodon.ConfigurationMediaAttachments:
       type: object
+      required:
+        - image_size_limit
+        - supported_mime_types
+        - image_matrix_limit
+        - video_size_limit
+        - video_matrix_limit
       properties:
         image_size_limit:
           type: integer
@@ -1821,7 +1841,6 @@ components:
           type: array
           items:
             type: string
-          x-typespec-name: string[]
         image_matrix_limit:
           type: integer
           format: int32
@@ -1831,14 +1850,13 @@ components:
         video_matrix_limit:
           type: integer
           format: int32
-      required:
-        - image_size_limit
-        - supported_mime_types
-        - image_matrix_limit
-        - video_size_limit
-        - video_matrix_limit
     Mastodon.ConfigurationPolls:
       type: object
+      required:
+        - max_options
+        - max_characters_per_option
+        - min_expiration
+        - max_expiration
       properties:
         max_options:
           type: integer
@@ -1852,13 +1870,12 @@ components:
         max_expiration:
           type: integer
           format: int32
-      required:
-        - max_options
-        - max_characters_per_option
-        - min_expiration
-        - max_expiration
     Mastodon.ConfigurationStatuses:
       type: object
+      required:
+        - max_characters
+        - max_media_attachments
+        - characters_reserved_per_url
       properties:
         max_characters:
           type: integer
@@ -1869,37 +1886,45 @@ components:
         characters_reserved_per_url:
           type: integer
           format: int32
-      required:
-        - max_characters
-        - max_media_attachments
-        - characters_reserved_per_url
     Mastodon.ConfigurationTranslation:
       type: object
+      required:
+        - enabled
       properties:
         enabled:
           type: boolean
-      required:
-        - enabled
     Mastodon.ConfigurationUrls:
       type: object
+      required:
+        - streaming_api
       properties:
         streaming_api:
           type: string
-      required:
-        - streaming_api
     Mastodon.Contact:
       type: object
+      required:
+        - email
+        - account
       properties:
         email:
           type: string
         account:
           $ref: '#/components/schemas/Mastodon.Account'
-      required:
-        - email
-        - account
     Mastodon.CreateAccountForm:
       type: object
+      required:
+        - contentType
+        - username
+        - email
+        - password
+        - agreement
+        - locale
+        - reason
       properties:
+        contentType:
+          type: string
+          enum:
+            - application/x-www-form-urlencoded
         username:
           type: string
         email:
@@ -1912,15 +1937,13 @@ components:
           type: string
         reason:
           type: string
-      required:
-        - username
-        - email
-        - password
-        - agreement
-        - locale
-        - reason
     Mastodon.Emoji:
       type: object
+      required:
+        - shortcode
+        - static_url
+        - url
+        - visible_in_picker
       properties:
         shortcode:
           type: string
@@ -1935,13 +1958,21 @@ components:
         {static_url}: Static URL for the emoji
         {url}: URL for the emoji
         {visible_in_picker}: Whether the emoji is visible in the picker
+    Mastodon.Error:
+      type: object
       required:
-        - shortcode
-        - static_url
-        - url
-        - visible_in_picker
+        - error
+        - error_description
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
     Mastodon.FamiliarFollowers:
       type: object
+      required:
+        - id
+        - followers
       properties:
         id:
           type: string
@@ -1949,12 +1980,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Account'
-          x-typespec-name: Mastodon.Account[]
-      required:
-        - id
-        - followers
     Mastodon.FeaturedTag:
       type: object
+      required:
+        - id
+        - name
+        - url
+        - statuses_count
+        - last_status_at
       properties:
         id:
           type: string
@@ -1967,14 +2000,12 @@ components:
           format: int32
         last_status_at:
           type: string
-      required:
-        - id
-        - name
-        - url
-        - statuses_count
-        - last_status_at
     Mastodon.FederationUsage:
       type: object
+      required:
+        - active
+        - receiving
+        - sending
       properties:
         active:
           type: integer
@@ -1985,12 +2016,12 @@ components:
         sending:
           type: integer
           format: int64
-      required:
-        - active
-        - receiving
-        - sending
     Mastodon.Field:
       type: object
+      required:
+        - name
+        - value
+        - verified_at
       properties:
         name:
           type: string
@@ -1998,12 +2029,12 @@ components:
           type: string
         verified_at:
           type: string
-      required:
-        - name
-        - value
-        - verified_at
     Mastodon.FollowBody:
       type: object
+      required:
+        - reblogs
+        - notify
+        - lanuages
       properties:
         reblogs:
           type: boolean
@@ -2013,13 +2044,12 @@ components:
           type: array
           items:
             type: string
-          x-typespec-name: string[]
-      required:
-        - reblogs
-        - notify
-        - lanuages
     Mastodon.HistoryItem:
       type: object
+      required:
+        - day
+        - uses
+        - accounts
       properties:
         day:
           type: string
@@ -2027,12 +2057,21 @@ components:
           type: string
         accounts:
           type: string
-      required:
-        - day
-        - uses
-        - accounts
     Mastodon.Instance:
       type: object
+      required:
+        - domain
+        - title
+        - version
+        - source_url
+        - description
+        - usage
+        - thumbnail
+        - languages
+        - configuration
+        - registrations
+        - contact
+        - rules
       properties:
         domain:
           type: string
@@ -2052,7 +2091,6 @@ components:
           type: array
           items:
             type: string
-          x-typespec-name: string[]
         configuration:
           $ref: '#/components/schemas/Mastodon.Configuration'
         registrations:
@@ -2063,22 +2101,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Rule'
-          x-typespec-name: Mastodon.Rule[]
-      required:
-        - domain
-        - title
-        - version
-        - source_url
-        - description
-        - usage
-        - thumbnail
-        - languages
-        - configuration
-        - registrations
-        - contact
-        - rules
     Mastodon.MediaAttachment:
       type: object
+      required:
+        - id
+        - type
+        - url
+        - preview_url
+        - remote_url
+        - text_url
+        - meta
+        - description
       properties:
         id:
           type: string
@@ -2096,27 +2129,23 @@ components:
           $ref: '#/components/schemas/Mastodon.MediaAttachmentMeta'
         description:
           type: string
-      required:
-        - id
-        - type
-        - url
-        - preview_url
-        - remote_url
-        - text_url
-        - meta
-        - description
     Mastodon.MediaAttachmentMeta:
       type: object
+      required:
+        - original
+        - small
       properties:
         original:
           $ref: '#/components/schemas/Mastodon.MediaAttachmentMetaOriginal'
         small:
           $ref: '#/components/schemas/Mastodon.MediaAttachmentMetaSmall'
-      required:
-        - original
-        - small
     Mastodon.MediaAttachmentMetaOriginal:
       type: object
+      required:
+        - width
+        - height
+        - size
+        - aspect
       properties:
         width:
           type: integer
@@ -2129,13 +2158,13 @@ components:
         aspect:
           type: number
           format: float
-      required:
-        - width
-        - height
-        - size
-        - aspect
     Mastodon.MediaAttachmentMetaSmall:
       type: object
+      required:
+        - width
+        - height
+        - size
+        - aspect
       properties:
         width:
           type: integer
@@ -2148,13 +2177,13 @@ components:
         aspect:
           type: number
           format: float
-      required:
-        - width
-        - height
-        - size
-        - aspect
     Mastodon.Mention:
       type: object
+      required:
+        - id
+        - url
+        - username
+        - acct
       properties:
         id:
           type: string
@@ -2164,24 +2193,35 @@ components:
           type: string
         acct:
           type: string
-      required:
-        - id
-        - url
-        - username
-        - acct
     Mastodon.MuteForm:
       type: object
+      required:
+        - contentType
+        - notifications
+        - duration
       properties:
+        contentType:
+          type: string
+          enum:
+            - application/x-www-form-urlencoded
         notifications:
           type: boolean
         duration:
           type: integer
           format: int32
-      required:
-        - notifications
-        - duration
     Mastodon.Poll:
       type: object
+      required:
+        - id
+        - expires_at
+        - expired
+        - multiple
+        - votes_count
+        - voters_count
+        - options
+        - emojis
+        - voted
+        - own_votes
       properties:
         id:
           type: string
@@ -2201,12 +2241,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.PollOption'
-          x-typespec-name: Mastodon.PollOption[]
         emojis:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Emoji'
-          x-typespec-name: Mastodon.Emoji[]
         voted:
           type: boolean
         own_votes:
@@ -2214,7 +2252,6 @@ components:
           items:
             type: integer
             format: int32
-          x-typespec-name: int32[]
       description: |-
         {id}: Id of the poll
         {expires_at}: Date and time when the poll expires
@@ -2226,19 +2263,11 @@ components:
         {emojis}: Emojis for the poll
         {voted}: Whether the authorized user has voted for the poll
         {own_votes}: Indexes of options voted for by the authorized user
-      required:
-        - id
-        - expires_at
-        - expired
-        - multiple
-        - votes_count
-        - voters_count
-        - options
-        - emojis
-        - voted
-        - own_votes
     Mastodon.PollOption:
       type: object
+      required:
+        - title
+        - votes_count
       properties:
         title:
           type: string
@@ -2248,11 +2277,12 @@ components:
       description: |2-
           {title}: Title of the poll option
           {votes_count}: Number of votes for the poll option
-      required:
-        - title
-        - votes_count
     Mastodon.Registrations:
       type: object
+      required:
+        - enabled
+        - approval_required
+        - message
       properties:
         enabled:
           type: boolean
@@ -2260,12 +2290,23 @@ components:
           type: boolean
         message:
           type: string
-      required:
-        - enabled
-        - approval_required
-        - message
     Mastodon.Relationship:
       type: object
+      required:
+        - id
+        - following
+        - showing_reblogs
+        - notifying
+        - languages
+        - followed_by
+        - blocking
+        - blocked_by
+        - muting
+        - muting_notifications
+        - requested
+        - domain_blocking
+        - endorsed
+        - note
       properties:
         id:
           type: string
@@ -2279,7 +2320,6 @@ components:
           type: array
           items:
             type: string
-          x-typespec-name: string[]
         followed_by:
           type: boolean
         blocking:
@@ -2298,40 +2338,37 @@ components:
           type: boolean
         note:
           type: string
-      required:
-        - id
-        - following
-        - showing_reblogs
-        - notifying
-        - languages
-        - followed_by
-        - blocking
-        - blocked_by
-        - muting
-        - muting_notifications
-        - requested
-        - domain_blocking
-        - endorsed
-        - note
     Mastodon.Rule:
       type: object
+      required:
+        - id
+        - text
       properties:
         id:
           type: string
         text:
           type: string
-      required:
-        - id
-        - text
     Mastodon.SetNoteForm:
       type: object
+      required:
+        - contentType
+        - comment
       properties:
+        contentType:
+          type: string
+          enum:
+            - application/x-www-form-urlencoded
         comment:
           type: string
-      required:
-        - comment
     Mastodon.Source:
       type: object
+      required:
+        - privacy
+        - sensitive
+        - language
+        - note
+        - fields
+        - follower_requests_count
       properties:
         privacy:
           type: string
@@ -2345,17 +2382,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Field'
-          x-typespec-name: Mastodon.Field[]
         follower_requests_count:
           type: integer
           format: int32
-      required:
-        - privacy
-        - sensitive
-        - language
-        - note
-        - fields
-        - follower_requests_count
     Mastodon.SourceUpdate:
       type: object
       properties:
@@ -2371,12 +2400,32 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Field'
-          x-typespec-name: Mastodon.Field[]
         follower_requests_count:
           type: integer
           format: int32
     Mastodon.Status:
       type: object
+      required:
+        - id
+        - uri
+        - created_at
+        - account
+        - content
+        - visibility
+        - sensitive
+        - spoiler_text
+        - media_attachments
+        - mentions
+        - tags
+        - emojis
+        - reblogs_count
+        - favourites_count
+        - replies_count
+        - favourited
+        - reblogged
+        - muted
+        - bookmarked
+        - pinned
       properties:
         id:
           type: string
@@ -2407,25 +2456,21 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.MediaAttachment'
-          x-typespec-name: Mastodon.MediaAttachment[]
           description: Media attachments for the status
         mentions:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Mention'
-          x-typespec-name: Mastodon.Mention[]
           description: Mentions for the status
         tags:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Tag'
-          x-typespec-name: Mastodon.Tag[]
           description: Tags for the status
         emojis:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Emoji'
-          x-typespec-name: Mastodon.Emoji[]
         reblogs_count:
           type: integer
           format: int32
@@ -2461,29 +2506,13 @@ components:
           type: boolean
         pinned:
           type: boolean
-      required:
-        - id
-        - uri
-        - created_at
-        - account
-        - content
-        - visibility
-        - sensitive
-        - spoiler_text
-        - media_attachments
-        - mentions
-        - tags
-        - emojis
-        - reblogs_count
-        - favourites_count
-        - replies_count
-        - favourited
-        - reblogged
-        - muted
-        - bookmarked
-        - pinned
     Mastodon.Tag:
       type: object
+      required:
+        - name
+        - url
+        - history
+        - following
       properties:
         name:
           type: string
@@ -2493,16 +2522,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.HistoryItem'
-          x-typespec-name: Mastodon.HistoryItem[]
         following:
           type: boolean
-      required:
-        - name
-        - url
-        - history
-        - following
     Mastodon.Thumbnail:
       type: object
+      required:
+        - url
+        - blurhash
+        - versions
       properties:
         url:
           type: string
@@ -2510,23 +2537,23 @@ components:
           type: string
         versions:
           $ref: '#/components/schemas/Mastodon.ThumnailVersion'
-      required:
-        - url
-        - blurhash
-        - versions
     Mastodon.ThumnailVersion:
       type: object
+      required:
+        - '@1x'
+        - '@2x'
       properties:
         '@1x':
           type: string
         '@2x':
           type: string
-      required:
-        - '@1x'
-        - '@2x'
     Mastodon.UpdateCredentialsForm:
       type: object
       properties:
+        contentType:
+          type: string
+          enum:
+            - application/x-www-form-urlencoded
         discoverable:
           type: boolean
         bot:
@@ -2549,6 +2576,10 @@ components:
           type: string
     Mastodon.Usage:
       type: object
+      required:
+        - users
+        - local_posts
+        - federation
       properties:
         users:
           $ref: '#/components/schemas/Mastodon.UserUsage'
@@ -2557,12 +2588,12 @@ components:
           format: int64
         federation:
           $ref: '#/components/schemas/Mastodon.FederationUsage'
-      required:
-        - users
-        - local_posts
-        - federation
     Mastodon.UserUsage:
       type: object
+      required:
+        - total
+        - active_halfyear
+        - active_month
       properties:
         total:
           type: integer
@@ -2573,47 +2604,60 @@ components:
         active_month:
           type: integer
           format: int64
-      required:
-        - total
-        - active_halfyear
-        - active_month
     RevokeForm:
       type: object
+      required:
+        - contentType
+        - client_id
+        - client_secret
+        - token
       properties:
+        contentType:
+          type: string
+          enum:
+            - application/x-www-form-urlencoded
         client_id:
           type: string
         client_secret:
           type: string
         token:
           type: string
-      required:
-        - client_id
-        - client_secret
-        - token
     SearchResult:
       type: object
+      required:
+        - accounts
+        - hashtags
+        - statuses
       properties:
         accounts:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Account'
-          x-typespec-name: Mastodon.Account[]
         hashtags:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Tag'
-          x-typespec-name: Mastodon.Tag[]
         statuses:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Status'
-          x-typespec-name: Mastodon.Status[]
-      required:
+    SearchType:
+      type: string
+      enum:
         - accounts
         - hashtags
         - statuses
     StatusEdit:
       type: object
+      required:
+        - content
+        - spoiler_text
+        - sensitive
+        - created_at
+        - account
+        - poll
+        - media_attachments
+        - emojis
       properties:
         content:
           type: string
@@ -2631,23 +2675,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.MediaAttachment'
-          x-typespec-name: Mastodon.MediaAttachment[]
         emojis:
           type: array
           items:
             $ref: '#/components/schemas/Mastodon.Emoji'
-          x-typespec-name: Mastodon.Emoji[]
-      required:
-        - content
-        - spoiler_text
-        - sensitive
-        - created_at
-        - account
-        - poll
-        - media_attachments
-        - emojis
     StatusSource:
       type: object
+      required:
+        - id
+        - text
+        - spoiler_text
       properties:
         id:
           type: string
@@ -2655,13 +2692,21 @@ components:
           type: string
         spoiler_text:
           type: string
-      required:
-        - id
-        - text
-        - spoiler_text
     TokenForm:
       type: object
+      required:
+        - contentType
+        - grant_type
+        - code
+        - client_id
+        - client_secret
+        - redirect_uri
+        - scopes
       properties:
+        contentType:
+          type: string
+          enum:
+            - application/x-www-form-urlencoded
         grant_type:
           type: string
         code:
@@ -2674,15 +2719,13 @@ components:
           type: string
         scopes:
           type: string
-      required:
-        - grant_type
-        - code
-        - client_id
-        - client_secret
-        - redirect_uri
-        - scopes
     TokenResponse:
       type: object
+      required:
+        - access_token
+        - token_type
+        - scope
+        - created_at
       properties:
         access_token:
           type: string
@@ -2693,31 +2736,6 @@ components:
         created_at:
           type: integer
           format: int32
-      required:
-        - access_token
-        - token_type
-        - scope
-        - created_at
-    UnauthorizedError:
-      type: object
-      properties:
-        error:
-          type: string
-        error_description:
-          type: string
-      required:
-        - error
-        - error_description
-    UnprocessableContentError:
-      type: object
-      properties:
-        error:
-          type: string
-        error_description:
-          type: string
-      required:
-        - error
-        - error_description
     Visibility:
       type: string
       enum:

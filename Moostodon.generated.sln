@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "clients", "clients", "{26442F18-1B80-4657-8658-E96E61E5095C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mastodonConsole", "clients\csharp\mastodonConsole.csproj", "{6704527D-81BF-4BF4-978D-31E31F852A0D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6704527D-81BF-4BF4-978D-31E31F852A0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6704527D-81BF-4BF4-978D-31E31F852A0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6704527D-81BF-4BF4-978D-31E31F852A0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6704527D-81BF-4BF4-978D-31E31F852A0D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6704527D-81BF-4BF4-978D-31E31F852A0D} = {26442F18-1B80-4657-8658-E96E61E5095C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4E4397F1-11E6-4A4F-8B5E-DF63C1774B44}
+	EndGlobalSection
+EndGlobal
